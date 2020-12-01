@@ -2,24 +2,19 @@ import mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 
 let UserSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    unique: true,
-    required: true,
-  },
-  enabled: {
-    type: Boolean,
-    required: false
-  },
   fullName: {
     type: String,
     required: true
+  },
+  password: {
+    type: String,
+    required: true,
   },
   state: {
     type: String,
     required: true
   },
-  mobileNumber: {
+  phoneNumber: {
     type: Number,
     unique: true,
     required: true,
@@ -28,35 +23,22 @@ let UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  reference: {
+    type: Number,
+  },
   planId: {
     type: Number,
-    required: true
   },
   agentId: {
     type: Number,
-    required: true
   },
   expiryDate: {
     type: Number,
-    required: true
-  },
-  createdTimeStamp: {
-    type: Date,
-    required: false
-  },
-  lastLogin: {
-    type: Date,
-    required: false
   },
   isMobileVerified: {
     type: Boolean,
     default: false
   },
-  createdBy: {
-    type: Number,
-    default: 0,
-    required: true
-  }
 });
 
 //hashing a password before saving it to the database

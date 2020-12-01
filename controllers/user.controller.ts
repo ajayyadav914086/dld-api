@@ -23,24 +23,23 @@ export default class UserController {
             var firebasetoken = req.body.firebasetoken;
             if (
                 req.body.fullName &&
-                req.body.email &&
+                req.body.state &&
                 req.body.password &&
                 req.body.phoneNumber &&
-                req.body.imei
+                req.body.city
 
             ) {
                 var userData = {
-                    email: req.body.email,
+                    state: req.body.state,
                     password: req.body.password,
                     phoneNumber: req.body.phoneNumber,
                     fullName: req.body.fullName,
-                    imei: req.body.imei,
+                    city: req.body.city,
                 }
 
                 User.aggregate([{
                     $match: {
-                        $or: [{ email: req.body.email },
-                        { phoneNumber: req.body.phoneNumber }]
+                        phoneNumber: req.body.phoneNumber
                     }
                 }]).exec(function (error: any, user: any) {
                     if (user.length == 0) {
@@ -62,7 +61,7 @@ export default class UserController {
                     }
                     else {
                         return res.send({
-                            message: 'Email Or PhoneNumber Already Exists',
+                            message: 'PhoneNumber Already Exists',
                             responseCode: 700,
                             status: 200,
                             error: error
