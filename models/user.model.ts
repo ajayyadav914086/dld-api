@@ -42,16 +42,16 @@ let UserSchema = new mongoose.Schema({
 });
 
 //hashing a password before saving it to the database
-// UserSchema.pre('save', function (next) {
-//   var user: any = this;
-//   bcrypt.hash(user.password, 10, function (err: any, hash: any) {
-//     if (err) {
-//       return next(err);
-//     }
-//     user.password = hash;
-//     next();
-//   })
-// });
+UserSchema.pre('save', function (next) {
+  var user: any = this;
+  bcrypt.hash(user.password, 10, function (err: any, hash: any) {
+    if (err) {
+      return next(err);
+    }
+    user.password = hash;
+    next();
+  })
+});
 
 // UserSchema.index({ email: "text" });
 // Export the model
