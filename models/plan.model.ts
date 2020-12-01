@@ -11,6 +11,9 @@ let PlanSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    type: {
+        type: String
+    },
     discount: {
         type: String,
     },
