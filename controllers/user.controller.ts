@@ -203,16 +203,14 @@ export default class UserController {
     token = function (req: any, res: any, next: any) {
         if (req.body.firebasetoken) {
             var firebasetoken = req.body.firebasetoken;
-            if (req.body.email &&
+            if (req.body.phoneNumber &&
                 req.body.password) {
                 var userData = {
                     email: req.body.email,
                 }
                 User.aggregate([{
                     $match: {
-
-                        $or: [{ email: req.body.email },
-                        { phoneNumber: parseInt(req.body.email) }]
+                        phoneNumber: parseInt(req.body.email)
                     }
                 },]).exec(function (error: any, user: any) {
                     if (error) {
@@ -225,7 +223,7 @@ export default class UserController {
                     }
                     else if (user.length == 0) {
                         return res.send({
-                            message: 'Incorrect Email or password',
+                            message: 'Incorrect Phone Number or password',
                             responseCode: 4000,
                             status: 200,
                         });
@@ -242,7 +240,7 @@ export default class UserController {
                                 });
                             } else {
                                 res.send({
-                                    error: 'Incorrect Email or password.',
+                                    error: 'Incorrect Phone Number or password.',
                                     responseCode: "4000",
                                     status: "200"
                                 });
