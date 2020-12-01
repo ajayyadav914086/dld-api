@@ -42,7 +42,7 @@ let UserSchema = new mongoose.Schema({
 });
 
 //hashing a password before saving it to the database
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function (next: any) {
   var user: any = this;
   bcrypt.hash(user.password, 10, function (err: any, hash: any) {
     if (err) {

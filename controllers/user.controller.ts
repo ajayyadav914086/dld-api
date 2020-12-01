@@ -144,7 +144,7 @@ export default class UserController {
                         error: err
                     });
                 } else {
-                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { fullName: req.body.fullName, email: req.body.email } }, { new: true, returnOriginal: false }, (error: any, result: any) => {
+                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { fullName: req.body.fullName } }, { new: true, returnOriginal: false }, (error: any, result: any) => {
                         if (error) {
                             return res.send({
                                 message: 'Unauthorized DB Error',
@@ -205,9 +205,6 @@ export default class UserController {
             var firebasetoken = req.body.firebasetoken;
             if (req.body.phoneNumber &&
                 req.body.password) {
-                var userData = {
-                    phoneNumber: req.body.phoneNumber,
-                }
                 User.aggregate([{
                     $match: {
                         phoneNumber: parseInt(req.body.phoneNumber)
