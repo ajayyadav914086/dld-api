@@ -1,0 +1,21 @@
+{
+  "name": "dailylawdigest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/algoocean-technologies-pvt-ltd/dailylawdigest-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/algoocean-technologies-pvt-ltd/dailylawdigest-api/issues"
+  },
+  "homepage": "https://github.com/algoocean-technologies-pvt-ltd/dailylawdigest-api#readme"
+}
