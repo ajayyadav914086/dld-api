@@ -781,7 +781,7 @@ export default class UserController {
                             User.updateOne({
                                 _id: mongoose.Types.ObjectId(user._id)
                             },
-                                { isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(1, 'months') }, function (error: any, updatedUser: any) {
+                                { isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
                                     if (err) {
                                         return res.send({
                                             message: 'unauthorized access',
