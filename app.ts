@@ -1,6 +1,7 @@
 import express from 'express';
 import FirebaseNotification from './config/firebase.config';
 import DataController from './controllers/data.controller';
+import AdminRoute from './routes/admin.route';
 import DataRoute from './routes/data.route';
 import OTPRoute from './routes/otp.route';
 import UserRoute from './routes/user.route';
@@ -32,6 +33,8 @@ const dataRoute = new DataRoute();
 dataRoute.dataRoute(app);
 const otpRoute = new OTPRoute()
 otpRoute.otpRoute(app);
+const adminRoute = new AdminRoute();
+adminRoute.adminRoute(app);
 
 // cron.schedule("00 08 * * *", () => {
 //     DataController.dailyInternalData();

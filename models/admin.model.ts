@@ -29,18 +29,6 @@ let AdminSchema = new mongoose.Schema({
     roleId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
-    },
-    createdTimeStamp: {
-        type: Date,
-        required: true
-    },
-    lastLogin: {
-        type: Date,
-        required: true
-    },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
     }
 });
 

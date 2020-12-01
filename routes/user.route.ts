@@ -146,7 +146,7 @@ export default class UserRoute {
 
     @post
     @route('/v1/verifypassword')
-    @summary('Verify OTP and change Password')
+    @summary('Verify OTP and change Password') 
     @param({
         in: 'body',
         name: 'user',

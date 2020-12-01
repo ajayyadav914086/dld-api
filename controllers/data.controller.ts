@@ -333,7 +333,7 @@ export default class DataController {
 
                                         }
                                     }
-
+  
                                 });
                             } else {
                                 if (isNewAdded) {
@@ -344,7 +344,7 @@ export default class DataController {
                                     });
                                 } else {
                                     CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5e8f760e1c9d44000094bb09') }, { $set: { 'sync': false } }, { new: true }, (err: any, user: any) => {
-                                        Mail.adminMail('admin@bauktion.com', 'Sync Complete | Bauktion', 'Hi Admin,<br/>Action sync is complete with following details:<br/>New Added: ' + total + '<br/>' + 'Total: ' + (posts + total)).then(() => {
+                                        Mail.adminMail('  n@bauktion.com', 'Sync Complete | Bauktion', 'Hi Admin,<br/>Action sync is complete with following details:<br/>New Added: ' + total + '<br/>' + 'Total: ' + (posts + total)).then(() => {
                                             console.log('mail send');
                                         });
                                     });

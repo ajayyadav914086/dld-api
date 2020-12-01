@@ -1,21 +1,34 @@
 import mongoose from 'mongoose';
 
 let PlanSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: true
+    name: {
+        type: String,
     },
-    enabled: {
-        type: Boolean,
-        required: false
+    months: {
+        type: Number
     },
     language: {
         type: String,
         required: true
     },
-    type: {
+    discount: {
         type: String,
-        required: true
+    },
+    total: {
+        type: Number,
+    },
+    cost: {
+        type: Number,
+    }, 
+    order: {
+        type: Number,
+    },
+    planExpiry: {
+        type: Date
+    },
+    enabled: {
+        type: Boolean,
+        default: true,
     }
 });
 
