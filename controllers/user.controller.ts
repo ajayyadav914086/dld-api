@@ -206,11 +206,11 @@ export default class UserController {
             if (req.body.phoneNumber &&
                 req.body.password) {
                 var userData = {
-                    email: req.body.email,
+                    phoneNumber: req.body.phoneNumber,
                 }
                 User.aggregate([{
                     $match: {
-                        phoneNumber: parseInt(req.body.email)
+                        phoneNumber: parseInt(req.body.phoneNumber)
                     }
                 },]).exec(function (error: any, user: any) {
                     if (error) {
