@@ -63,7 +63,7 @@ export default class DataRoute {
     }
 
     getPostById(app: Express) {
-        app.get('/v1/getPostById', dataController1.getPostById);
+        app.post('/v1/getPostById', dataController1.getPostById);
     }
 
     addPlan(app: Express) {
