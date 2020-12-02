@@ -3,7 +3,7 @@ import UserRoute from '../routes/user.route';
 const docs = new DocBuilder();
 const docFactory = new Doc();
 docs.set('title', 'DLD API Documation');
-docs.set('version', '1.1.7');
+docs.set('version', '1.1.8');
 docs.set('description', 'DLD RESTful API with Docs');
 docs.set('basePath', '/');
 docs.add('/swagger', docFactory.get()
