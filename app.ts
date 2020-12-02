@@ -36,6 +36,7 @@ otpRoute.otpRoute(app);
 const adminRoute = new AdminRoute();
 adminRoute.adminRoute(app);
 
+
 // cron.schedule("00 08 * * *", () => {
 //     DataController.dailyInternalData();
 //     console.log('running a task every at 10:00');

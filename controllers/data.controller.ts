@@ -1235,7 +1235,7 @@ export default class DataController {
         }
     }
 
-    addPost = function (req: any, res: any, next: any) {
+     addPost = function (req: any, res: any, next: any) {
         if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
             var data = req.body.data;
             data['auctionStartDateTimeDate'] = new Date(data['auctionStartDateTime']).toISOString();

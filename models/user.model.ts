@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import * as bcrypt from 'bcryptjs';
+import mongoose from "mongoose";
+import * as bcrypt from "bcryptjs";
 
 let UserSchema = new mongoose.Schema({
   fullName: {
     type: String,
-    required: true
+    required: true,
   },
   password: {
     type: String,
@@ -12,7 +12,7 @@ let UserSchema = new mongoose.Schema({
   },
   state: {
     type: String,
-    required: true
+    required: true,
   },
   phoneNumber: {
     type: Number,
@@ -21,7 +21,7 @@ let UserSchema = new mongoose.Schema({
   },
   city: {
     type: String,
-    required: true
+    required: true,
   },
   reference: {
     type: Number,
@@ -35,14 +35,26 @@ let UserSchema = new mongoose.Schema({
   expiryDate: {
     type: Number,
   },
-  isMobileVerified: {
+  isFreePlanUsed: {
     type: Boolean,
     default: false
+  },
+  isPlanActivied: {
+    type: Boolean,
+    default: false
+  },
+  planExpiryDate: {
+    type: Date,
+    default: Date.now
+  },
+  isMobileVerified: {
+    type: Boolean,
+    default: false,
   },
 });
 
 //hashing a password before saving it to the database
-UserSchema.pre('save', function (next: any) {
+UserSchema.pre("save", function (next: any) {
   var user: any = this;
   bcrypt.hash(user.password, 10, function (err: any, hash: any) {
     if (err) {
@@ -50,10 +62,10 @@ UserSchema.pre('save', function (next: any) {
     }
     user.password = hash;
     next();
-  })
+  });
 });
 
 // UserSchema.index({ email: "text" });
 // Export the model
-var User = mongoose.model('User', UserSchema);
+var User = mongoose.model("User", UserSchema);
 module.exports = User;

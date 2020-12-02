@@ -1,29 +1,5 @@
 import mongoose from 'mongoose';
 let DataEntrySchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: true
-    },
-    enabled: {
-        type: Boolean,
-        required: false
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    year: {
-        type: String,
-        required: true
-    },
-    numbering: {
-        type: Number,
-        required: true
-    },
-    partyName: {
-        type: String,
-        required: true
-    },
     respondentName: {
         type: String,
         required: true
@@ -68,7 +44,7 @@ let DataEntrySchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    resuts: {
+    result: {
         type: String,
         required: true
     },
@@ -84,7 +60,7 @@ let DataEntrySchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    fullTextJudgement: {
+    fullJudgement: {
         type: String,
         required: true
     },

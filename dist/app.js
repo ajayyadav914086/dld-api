@@ -1,0 +1,46 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = __importDefault(require("express"));
+var firebase_config_1 = __importDefault(require("./config/firebase.config"));
+var admin_route_1 = __importDefault(require("./routes/admin.route"));
+var data_route_1 = __importDefault(require("./routes/data.route"));
+var otp_route_1 = __importDefault(require("./routes/otp.route"));
+var user_route_1 = __importDefault(require("./routes/user.route"));
+var port = process.env.PORT || 3005;
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var mongoose = require('mongoose');
+var cookieParser = require('cookie-parser');
+var mangoos = require('./config/mongoose.config');
+var swagger = require('./routes/swagger');
+var cors = require('cors');
+var cron = require('node-cron');
+var app = express_1.default();
+app.use(express_1.default.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use('/', swagger);
+// app.use(cors({ origin: 'https://dev.bauktion.com' }));
+firebase_config_1.default.initFirebaseConfig();
+app.use(cors());
+app.options('*', cors());
+var userRoute = new user_route_1.default();
+userRoute.userRoute(app);
+var dataRoute = new data_route_1.default();
+dataRoute.dataRoute(app);
+var otpRoute = new otp_route_1.default();
+otpRoute.otpRoute(app);
+var adminRoute = new admin_route_1.default();
+adminRoute.adminRoute(app);
+// cron.schedule("00 08 * * *", () => {
+//     DataController.dailyInternalData();
+//     console.log('running a task every at 10:00');
+// });
+app.listen(port, function () {
+    console.log('Server is up and running on port numner ' + port);
+});

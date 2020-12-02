@@ -71,7 +71,7 @@ export default class UserController {
 
 
 
-            } else {
+             } else {
                 return res.send({
                     message: 'All fields required',
                     responseCode: 600,

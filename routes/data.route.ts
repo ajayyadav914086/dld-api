@@ -1,6 +1,7 @@
 import { group, get, route, param, response, Doc, post, summary, SchemaBuilder, put, del } from 'doctopus';
 import { Express } from 'express';
 import { dataController } from '../controllers/data.controller';
+import { dataController1 } from '../controllers/data1.controller';
 
 
 @group('User')
@@ -54,7 +55,15 @@ export default class DataRoute {
     }
 
     addPost(app: Express) {
-        app.post('/v1/addPost', dataController.addPost);
+        app.post('/v1/addPost', dataController1.addPost);
+    }
+
+    getAllPost(app: Express) {
+        app.get('/v1/getAllPost', dataController1.getAllPost);
+    }
+
+    getPostById(app: Express) {
+        app.get('/v1/getPostById', dataController1.getPostById);
     }
 
     addPlan(app: Express) {
@@ -120,5 +129,7 @@ export default class DataRoute {
         this.updateLastId(app);
         this.searchDataByStatus(app);
         this.uploadAndConvertExcel(app);
+        this.getAllPost(app);
+        this.getPostById(app);
     }
 }

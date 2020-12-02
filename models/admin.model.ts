@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
 let AdminSchema = new mongoose.Schema({
-    fullName: {
-        type: String,
-        required: true
-    },
     enabled: {
         type: Boolean,
+        required: true
+    },
+    fullName: {
+        type: String,
         required: true
     },
     email: {
@@ -26,8 +26,8 @@ let AdminSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    roleId: {
-        type: mongoose.Schema.Types.ObjectId,
+    role: {
+        type: String,
         required: true
     }
 });
