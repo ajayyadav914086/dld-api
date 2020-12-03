@@ -5,6 +5,7 @@ var Admin = require("../models/admin.model");
 export default class AdminController {
   createAdmin = function (req: any, res: any) {
     var schema = {
+      enabled: req.body.enabled,
       fullName: req.body.fullName,
       email: req.body.email,
       mobile: req.body.mobile,
