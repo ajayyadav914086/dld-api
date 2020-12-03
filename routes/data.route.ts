@@ -29,10 +29,6 @@ export default class DataRoute {
         app.get('/v1/data', dataController1.getData);
     }
 
-    getDataByStatus(app: Express) {
-        app.get('/v1/databystatus', dataController.getDataByStatus);
-    }
-
     getAllData(app: Express) {
         app.post('/v1/alldata', dataController1.getAllData);
     }
@@ -41,10 +37,6 @@ export default class DataRoute {
     }
     searchData(app: Express) {
         app.get('/v1/search', dataController.searchData);
-    }
-
-    searchDataByStatus(app: Express) {
-        app.get('/v1/searchbystatus', dataController.searchDataByStatus);
     }
 
     statatics(app: Express) {
@@ -125,9 +117,7 @@ export default class DataRoute {
         this.checkForLogin(app);
         this.login(app);
         this.getAllpayments(app);
-        this.getDataByStatus(app);
         this.updateLastId(app);
-        this.searchDataByStatus(app);
         this.uploadAndConvertExcel(app);
         this.getAllPost(app);
         this.getPostById(app);
