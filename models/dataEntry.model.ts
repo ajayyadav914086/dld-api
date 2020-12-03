@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 let DataEntrySchema = new mongoose.Schema({
+    pid: {
+        type: Number,
+        required: true
+    },
     respondentName: {
         type: String,
         required: true

@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var Admin = require("../models/admin.model");
 
 export default class AdminController {
-  createAdminRoles = function (req: any, res: any) {
+  createAdmin = function (req: any, res: any) {
     var schema = {
       fullName: req.body.fullName,
       email: req.body.email,
@@ -23,7 +23,7 @@ export default class AdminController {
       } else {
         var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
         return res.send({
-          message: "Role Created",
+          message: "Admin Created",
           responseCode: 20000,
           status: 200,
           result: result,

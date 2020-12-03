@@ -15,11 +15,11 @@ import { Express } from "express";
 import { adminController } from "../controllers/admin.controller";
 
 export default class AdminRoute {
-  createAdminRole(app: Express) {
-    app.post("/v1/admin-role", adminController.createAdminRoles);
+  createAdmin(app: Express) {
+    app.post("/v1/admin", adminController.createAdmin);
   }
 
   adminRoute(app: Express) {
-    this.createAdminRole(app);
+    this.createAdmin(app);
   }
 }
