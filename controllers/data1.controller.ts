@@ -21,57 +21,57 @@ var dateformat = require("dateformat");
 export default class Data1Controller {
   addPost = function (req: any, res: any) {
     var token = req.headers.token;
-    if (token) {
-      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
-        if (err) {
-          return res.send({
-            message: "unauthorized access",
-            responseCode: 700,
-            status: 200,
-            error: err,
-          });
-        } else {
-          var schema = {
-            pid: req.body.pid,
-            respondentName: req.body.respondentName,
-            judges: req.body.judges,
-            decidedDate: req.body.decidedDate,
-            importantPoints: req.body.importantPoints,
-            importantPointsHindi: req.body.importantPointHindi,
-            importantPointsMarathi: req.body.importantPointMarathi,
-            importantPointsGujrati: req.body.importantPointGujrati,
-            appelentName: req.body.appelentName,
-            headNote: req.body.headNote,
-            headNoteHindi: req.body.headNoteHindi,
-            headNoteGujrati: req.body.headNoteGujrati,
-            headNoteMarathi: req.body.headNoteMarathi,
-            result: req.body.result,
-            links: req.body.links,
-            caseReffered: req.body.caseReffered,
-            actsReffered: req.body.actsReffered,
-            fullJudgement: req.body.fullJudgement,
-          };
+    // if (token) {
+    //   jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+    //     if (err) {
+    //       return res.send({
+    //         message: "unauthorized access",
+    //         responseCode: 700,
+    //         status: 200,
+    //         error: err,
+    //       });
+    //     } else {
+    var schema = {
+      pid: req.body.pid,
+      respondentName: req.body.respondentName,
+      judges: req.body.judges,
+      decidedDate: req.body.decidedDate,
+      importantPoints: req.body.importantPoints,
+      importantPointsHindi: req.body.importantPointHindi,
+      importantPointsMarathi: req.body.importantPointMarathi,
+      importantPointsGujrati: req.body.importantPointGujrati,
+      appelentName: req.body.appelentName,
+      headNote: req.body.headNote,
+      headNoteHindi: req.body.headNoteHindi,
+      headNoteGujrati: req.body.headNoteGujrati,
+      headNoteMarathi: req.body.headNoteMarathi,
+      result: req.body.result,
+      links: req.body.links,
+      caseReffered: req.body.caseReffered,
+      actsReffered: req.body.actsReffered,
+      fullJudgement: req.body.fullJudgement,
+    };
 
-          DataEntry.create(schema, (error: any, result: any) => {
-            if (error) {
-              return res.send({
-                message: "Unauthorized DB error",
-                responseCode: 700,
-                status: 200,
-                error: error,
-              });
-            } else {
-              return res.send({
-                message: "Data post added successfully",
-                responseCode: 2000,
-                status: 200,
-                result: result,
-              });
-            }
-          });
-        }
-      });
-    }
+    DataEntry.create(schema, (error: any, result: any) => {
+      if (error) {
+        return res.send({
+          message: "Unauthorized DB error",
+          responseCode: 700,
+          status: 200,
+          error: error,
+        });
+      } else {
+        return res.send({
+          message: "Data post added successfully",
+          responseCode: 2000,
+          status: 200,
+          result: result,
+        });
+      }
+    });
+    //     }
+    //   });
+    // }
   };
 
   getAllPost = function (req: any, res: any) {
