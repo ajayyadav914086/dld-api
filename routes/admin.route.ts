@@ -19,7 +19,12 @@ export default class AdminRoute {
     app.post("/v1/admin", adminController.createAdmin);
   }
 
+  adminLogin(app: Express) {
+    app.post('/v1/admin-login', adminController.adminLogin)
+  }
+
   adminRoute(app: Express) {
     this.createAdmin(app);
+    this.adminLogin(app);
   }
 }
