@@ -45,14 +45,22 @@ export default class AdminController {
           error: error,
         });
       } else {
-        var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
-        return res.send({
-          message: "Admin Logged In",
-          responseCode: 2000,
-          status: 200,
-          result: result,
-          token: token,
-        });
+        if (result != null) {
+          var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
+          return res.send({
+            message: "Admin Logged In",
+            responseCode: 2000,
+            status: 200,
+            result: result,
+            token: token,
+          });
+        } else {
+          return res.send({
+            message: "Admin Dont exist",
+            responseCode: 500,
+            status: 200
+          });
+        }
       }
     })
   };
