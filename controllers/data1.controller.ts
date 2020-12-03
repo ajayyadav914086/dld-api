@@ -39,6 +39,7 @@ export default class Data1Controller {
             importantPointHindi: req.body.importantPointHindi,
             importantPointMarathi: req.body.importantPointMarathi,
             importantPointGujrati: req.body.importantPointGujrati,
+            appelentName: req.body.appelentName,
             headNote: req.body.headNote,
             headNoteHindi: req.body.headNoteHindi,
             headNoteGujrati: req.body.headNoteGujrati,
