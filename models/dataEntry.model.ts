@@ -1,5 +1,10 @@
 import mongoose from 'mongoose';
 let DataEntrySchema = new mongoose.Schema({
+    enabled: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
     pid: {
         type: Number,
         required: true

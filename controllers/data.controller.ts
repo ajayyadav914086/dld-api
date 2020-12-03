@@ -1468,7 +1468,7 @@ export default class DataController {
     }
 
     getAllData = function (req: any, res: any, next: any) {
-        if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
+        // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
             const pageSize = parseInt(req.body.pageSize);
             const pageIndex = parseInt(req.body.pageIndex);
             if (pageIndex > 0) {
@@ -1527,13 +1527,13 @@ export default class DataController {
                     responseCode: 600
                 })
             }
-        } else {
-            return res.send({
-                message: "Invalid Username and Password",
-                responseCode: 100,
-                status: 200
-            })
-        }
+        // } else {
+        //     return res.send({
+        //         message: "Invalid Username and Password",
+        //         responseCode: 100,
+        //         status: 200
+        //     })
+        // }
     }
     camelize = function (str: any) {
         return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word: any, index: any) {
