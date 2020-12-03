@@ -46,8 +46,8 @@ export default class Data1Controller {
             headNoteMarathi: req.body.headNoteMarathi,
             result: req.body.result,
             links: req.body.links,
-            caseReferred: req.body.caseReferred,
-            actsRefered: req.body.actsRefered,
+            caseReffered: req.body.caseReffered,
+            actsReffered: req.body.actsReffered,
             fullJudgement: req.body.fullJudgement,
           };
 

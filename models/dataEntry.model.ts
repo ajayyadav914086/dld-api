@@ -60,11 +60,11 @@ let DataEntrySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    caseReferred: {
+    caseReffered: {
         type: String,
         required: false
     },
-    actsRefered: {
+    actsReffered: {
         type: String,
         required: false
     },
