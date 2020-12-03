@@ -145,10 +145,7 @@ export default class Data1Controller {
         } else {
           if (pageIndex > 0) {
             DataEntry.aggregate(
-              [
-                {
-                  $match: { enabled: true },
-                },
+              [                
                 {
                   $sort: { pid: -1 },
                 },
