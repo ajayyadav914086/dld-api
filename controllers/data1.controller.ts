@@ -129,6 +129,75 @@ export default class Data1Controller {
     }
   };
 
+  getAllData = function (req: any, res: any, next: any) {
+    // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
+        const pageSize = parseInt(req.body.pageSize);
+        const pageIndex = parseInt(req.body.pageIndex);
+        if (pageIndex > 0) {
+            DataEntry.aggregate(
+                [
+                    {
+                        "$facet": {
+                            "totalData": [
+                                { "$match": { enabled: true } },
+                                { "$sort": { pid: -1 } },
+                                { "$skip": pageSize * (pageIndex - 1) },
+                                { "$limit": pageSize }
+                            ],
+                            "totalCount": [
+                                { "$count": "count" }
+                            ]
+                        }
+                    }
+                ],
+                // [
+                // {
+                //     $sort: { pid: -1 }
+                // },
+                // { $skip: pageSize * (pageIndex - 1) },
+                // { $limit: pageSize },
+                // {
+                //     $facet: {
+                //         Alldata: [{ $match: {} }],
+                //         total: { $count: 'total' }
+                //     }
+                // }
+                //],
+                function (error: any, data: any) {
+                    if (error) {
+                        return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                        });
+                    } else {
+                        return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            status: 200,
+                            result: data
+
+                        });
+
+                    }
+                }).collation({ locale: "en_US", numericOrdering: true });
+        } else {
+            return res.send({
+                message: "Page Index should pe greater the 0",
+                status: 200,
+                responseCode: 600
+            })
+        }
+    // } else {
+    //     return res.send({
+    //         message: "Invalid Username and Password",
+    //         responseCode: 100,
+    //         status: 200
+    //     })
+    // }
+}
+
   getData = function (req: any, res: any, next: any) {
     const pageSize = parseInt(req.query.pageSize);
     const pageIndex = parseInt(req.query.pageIndex);
