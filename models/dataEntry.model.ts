@@ -8,6 +8,10 @@ let DataEntrySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    appelentName: {
+        type: String,
+        required: true
+    },
     judges: {
         type: String,
         required: true
