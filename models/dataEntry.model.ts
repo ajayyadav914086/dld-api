@@ -27,19 +27,15 @@ let DataEntrySchema = new mongoose.Schema({
     },
     importantPoints: {
         type: String,
-        required: false
     },
     importantPointsHindi: {
-        type: String,
-        required: false
+        type: String
     },
     importantPointsMarathi: {
         type: String,
-        required: false
     },
     importantPointsGujrati: {
         type: String,
-        required: false
     },
     headNote: {
         type: String,
