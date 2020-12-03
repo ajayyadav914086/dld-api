@@ -26,7 +26,7 @@ export default class DataRoute {
         app.post('/v1/data', dataController.copyData);
     }
     getData(app: Express) {
-        app.get('/v1/data', dataController.getData);
+        app.get('/v1/data', dataController1.getData);
     }
 
     getDataByStatus(app: Express) {

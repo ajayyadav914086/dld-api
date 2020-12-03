@@ -126,6 +126,81 @@ export default class Data1Controller {
       });
     }
   };
+
+  getData = function (req: any, res: any, next: any) {
+    const pageSize = parseInt(req.query.pageSize);
+    const pageIndex = parseInt(req.query.pageIndex);
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: 'unauthorized access',
+            responseCode: 700,
+            status: 200,
+            error: err
+          });
+        } else {
+          if (pageIndex > 0) {
+            DataEntry.aggregate([
+              {
+                $match: { enabled: true }
+              },
+              {
+                $sort: { pid: -1 }
+              },
+              { $skip: pageSize * (pageIndex - 1) },
+              { $limit: pageSize },
+              {
+                $lookup: {
+                  from: 'bookmarks',
+                  as: 'bookmark',
+                  let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                  pipeline: [
+                    {
+                      $match: {
+                        $expr: {
+                          $and: [
+                            { $eq: ["$pid", "$$userObjId"] },
+                            { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+            ], function (error: any, data: any) {
+              if (error) {
+                return res.send({
+                  message: 'Unauthorized DB Error',
+                  responseCode: 700,
+                  status: 200,
+                  error: error
+                });
+              } else {
+                return res.send({
+                  message: 'All Data',
+                  responseCode: 200,
+                  status: 200,
+                  result: data
+                });
+
+              }
+            }).collation({ locale: "en_US", numericOrdering: true });
+          }
+        }
+      })
+    }
+
+    else {
+      return res.send({
+        message: "Page Index should pe greater the 0",
+        status: 200,
+        responseCode: 600
+      })
+    }
+  }
 }
 
 export const dataController1 = new Data1Controller();
