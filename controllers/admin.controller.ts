@@ -37,33 +37,70 @@ export default class AdminController {
   adminLogin = function (req: any, res: any) {
     var email = req.body.email;
     var password = req.body.password;
-    Admin.findOne({ email: email, password: password }, (error: any, result: any) => {
-      if (error) {
-        return res.send({
-          message: "Unauthorized DB Error",
-          responseCode: 700,
-          status: 200,
-          error: error,
-        });
-      } else {
-        if (result != null) {
-          var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
+    Admin.findOne(
+      { email: email, password: password },
+      (error: any, result: any) => {
+        if (error) {
           return res.send({
-            message: "Admin Logged In",
-            responseCode: 2000,
+            message: "Unauthorized DB Error",
+            responseCode: 700,
             status: 200,
-            result: result,
-            token: token,
+            error: error,
           });
         } else {
-          return res.send({
-            message: "Admin Dont exist",
-            responseCode: 500,
-            status: 200
-          });
+          if (result != null) {
+            var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
+            return res.send({
+              message: "Admin Logged In",
+              responseCode: 2000,
+              status: 200,
+              result: result,
+              token: token,
+            });
+          } else {
+            return res.send({
+              message: "Admin Dont exist",
+              responseCode: 500,
+              status: 200,
+            });
+          }
         }
       }
-    })
+    );
+  };
+
+  getAdmin = function (req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          Admin.find().exec((err: any, result: any) => {
+            if (err) {
+              res.send({
+                message: "Unauthorized DB error",
+                responseCode: 100,
+                status: 200,
+                error: err,
+              });
+            } else {
+              res.send({
+                message: "Admins",
+                responseCode: 300,
+                status: 200,
+                result: result,
+              });
+            }
+          });
+        }
+      });
+    }
   };
 }
 
