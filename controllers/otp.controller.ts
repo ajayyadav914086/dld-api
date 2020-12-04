@@ -46,7 +46,7 @@ export default class OTPController {
                         }
                     });
                 } else {
-                    Otp.findOneAndUpdate({ _id: userOtp[0]._id }, { $set: { otp: otp } }, function (error: any, otp: any) {
+                    Otp.findOneAndUpdate({ _id: userOtp._id }, { $set: { otp: otp } }, function (error: any, otp: any) {
                         if (error) {
                             return res.send({
                                 message: 'Unauthorized DB Error',

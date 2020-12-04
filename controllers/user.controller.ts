@@ -1231,7 +1231,7 @@ export default class UserController {
                                     status: 200
                                 });
                             } else {
-                                User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { phoneNumber: req.body.phoneNumber } }, { new: true, returnOriginal: false }, (error: any, result: any) => {
+                                User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { phoneNumber: req.body.phoneNumber } }, { new: true }, (error: any, result: any) => {
                                     if (error) {
                                         return res.send({
                                             message: 'unauthorized access',
@@ -1240,7 +1240,7 @@ export default class UserController {
                                             error: err
                                         });
                                     } else {
-                                        otpController.generateOtpViaId(user, res);
+                                        otpController.generateOtp(token, res);
                                     }
                                 })
                             }
