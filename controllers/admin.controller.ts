@@ -144,7 +144,6 @@ export default class AdminController {
           );
         }
       });
-    } else {
     }
   };
 }
