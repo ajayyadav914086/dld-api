@@ -29,6 +29,14 @@ let AdminSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true
+    },
+    discountValue: {
+        type: Number,
+        required: true
+    },
+    agentId: {
+        type: String,
+        required: true
     }
 });
 

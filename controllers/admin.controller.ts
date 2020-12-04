@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 var mongoose = require("mongoose");
 var Admin = require("../models/admin.model");
-
+var User = require("../models/user.model");
 export default class AdminController {
   createAdmin = function (req: any, res: any) {
     var schema = {
@@ -98,6 +98,50 @@ export default class AdminController {
               });
             }
           });
+        }
+      });
+    }
+  };
+
+  getDiscountValue = function (req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          Admin.findOne(
+            { agentId: req.body.agentId },
+            (error: any, result: any) => {
+              if (error) {
+                res.send({
+                  message: "Unauthorized DB error",
+                  error: error,
+                  responseCode: 700,
+                });
+              } else {
+                if (result != null) {
+                  res.send({
+                    message: "Discount Value",
+                    responseCode: 2000,
+                    statusCode: 200,
+                    discount: result.discountValue,
+                  });
+                } else {
+                  res.send({
+                    message: "Agent id not found",
+                    responseCode: 800,
+                    statusCode: 200,
+                  });
+                }
+              }
+            }
+          );
         }
       });
     }

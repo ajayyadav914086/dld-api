@@ -46,6 +46,7 @@
     "express-session": "^1.16.2",
     "express-validator": "^5.3.1",
     "firebase-admin": "^7.3.0",
+    "generate-password": "^1.5.1",
     "jsonwebtoken": "^8.5.1",
     "mailer": "^0.6.7",
     "moment": "^2.24.0",
