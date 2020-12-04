@@ -206,6 +206,107 @@ export default class Data1Controller {
     }
   }
 
+  searchData = function (req: any, res: any, next: any) {
+    const pageSize = parseInt(req.query.pageSize);
+    const pageIndex = parseInt(req.query.pageIndex);
+    var token = req.headers.token;
+    var search = new RegExp(req.query.search, 'i');
+    if (token) {
+      jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: 'unauthorized access',
+            responseCode: 700,
+            status: 200,
+            error: err
+          });
+        } else {
+          if (pageIndex > 0) {
+            DataEntry.aggregate([
+              {
+                $match: {
+                  $and: [
+                    {
+                      enabled: true
+                    },
+                    {
+                      $or: [
+                        { respondentName: search },
+                        { appelentName: search },
+                        { judges: search },
+                        { decidedDate: search },
+                        { importantPoints: search },
+                        { importantPointsHindi: search },
+                        { importantPointsMarathi: search },
+                        { importantPointsGujrati: search },
+                        { headNote: search },
+                        { headNoteGujrati: search },
+                        { headNoteMarathi: search },
+                        { result: search },
+                        { caseReffered: search },
+                        { actsReffered: search },
+                        { fullJudgement: search },
+                      ],
+                    },
+                  ]
+                }
+              },
+              {
+                $lookup: {
+                  from: 'bookmarks',
+                  as: 'bookmark',
+                  let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                  pipeline: [
+                    {
+                      $match: {
+                        $expr: {
+                          $and: [
+                            { $eq: ["$pid", "$$userObjId"] },
+                            { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                $sort: { pid: -1 }
+              },
+              { $skip: pageSize * (pageIndex - 1) },
+              { $limit: pageSize }], function (error: any, data: any) {
+                if (error) {
+                  return res.send({
+                    message: 'Unauthorized DB Error',
+                    responseCode: 700,
+                    status: 200,
+                    error: error
+                  });
+                } else {
+                  return res.send({
+                    message: 'All Data',
+                    responseCode: 200,
+                    status: 200,
+                    result: data
+
+                  });
+
+                }
+              }).collation({ locale: "en_US", numericOrdering: true });
+          }
+        }
+      })
+    }
+
+    else {
+      return res.send({
+        message: "Page Index should pe greater the 0",
+        status: 200,
+        responseCode: 600
+      })
+    }
+  }
+
   getData = function (req: any, res: any, next: any) {
     const pageSize = parseInt(req.query.pageSize);
     const pageIndex = parseInt(req.query.pageIndex);

@@ -36,7 +36,7 @@ export default class DataRoute {
         app.post('/v1/allofflinedata', dataController.getAllOfflineData);
     }
     searchData(app: Express) {
-        app.get('/v1/search', dataController.searchData);
+        app.get('/v1/search', dataController1.searchData);
     }
 
     statatics(app: Express) {

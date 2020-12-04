@@ -71,7 +71,7 @@ export default class UserController {
 
 
 
-             } else {
+            } else {
                 return res.send({
                     message: 'All fields required',
                     responseCode: 600,
@@ -601,19 +601,19 @@ export default class UserController {
         }
     }
     viewAllBookmark = function (req: any, res: any, next: any) {
-        // const pageSize = parseInt(req.query.pageSize);
-        // const pageIndex = parseInt(req.query.pageIndex);
-        if (!(req.body.username == 'bauktion' && req.body.password == "bauktion@2019")) {
-            return res.send({
-                message: 'unauthorized access',
-                responseCode: 700,
-                status: 200,
-            });
-        } else {
+        const pageSize = parseInt(req.query.pageSize);
+        const pageIndex = parseInt(req.query.pageIndex);
+        // if (!(req.body.username == 'bauktion' && req.body.password == "bauktion@2019")) {
+        //     return res.send({
+        //         message: 'unauthorized access',
+        //         responseCode: 700,
+        //         status: 200,
+        //     });
+        // } else {
             Bookmark.aggregate([
                 {
                     $lookup: {
-                        from: 'datas',
+                        from: 'dataentries',
                         as: 'post',
                         localField: "pid",
                         foreignField: "_id",
@@ -629,8 +629,8 @@ export default class UserController {
                 },
                 { $unwind: "$post" },
                 { $unwind: "$user" },
-                // { $skip: pageSize * (pageIndex - 1) },
-                // { $limit: pageSize }
+                { $skip: pageSize * (pageIndex - 1) },
+                { $limit: pageSize }
             ]).exec(function (err: any, bookmarks: any) {
                 if (err) {
                     return res.send({
@@ -649,7 +649,7 @@ export default class UserController {
                 }
             })
 
-        }
+        // }
     }
 
     viewBookmark = function (req: any, res: any, next: any) {

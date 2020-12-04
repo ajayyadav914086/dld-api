@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+var mongoosastic = require('mongoosastic');
+
 let DataEntrySchema = new mongoose.Schema({
     enabled: {
         type: Boolean,
@@ -75,5 +77,6 @@ let DataEntrySchema = new mongoose.Schema({
     },
 })
 
+DataEntrySchema.plugin(mongoosastic);
 var DataEntry = mongoose.model('DataEntry', DataEntrySchema);
 module.exports = DataEntry;
