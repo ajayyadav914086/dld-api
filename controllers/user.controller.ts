@@ -603,53 +603,66 @@ export default class UserController {
     viewAllBookmark = function (req: any, res: any, next: any) {
         const pageSize = parseInt(req.query.pageSize);
         const pageIndex = parseInt(req.query.pageIndex);
-        // if (!(req.body.username == 'bauktion' && req.body.password == "bauktion@2019")) {
-        //     return res.send({
-        //         message: 'unauthorized access',
-        //         responseCode: 700,
-        //         status: 200,
-        //     });
-        // } else {
-            Bookmark.aggregate([
-                {
-                    $lookup: {
-                        from: 'dataentries',
-                        as: 'post',
-                        localField: "pid",
-                        foreignField: "_id",
-                    },
-                },
-                {
-                    $lookup: {
-                        from: 'users',
-                        as: 'user',
-                        localField: "uid",
-                        foreignField: "_id",
-                    },
-                },
-                { $unwind: "$post" },
-                { $unwind: "$user" },
-                { $skip: pageSize * (pageIndex - 1) },
-                { $limit: pageSize }
-            ]).exec(function (err: any, bookmarks: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
                 if (err) {
                     return res.send({
-                        message: 'unauthorized db error',
-                        responseCode: 800,
+                        message: 'unauthorized access',
+                        responseCode: 700,
                         status: 200,
                         error: err
                     });
                 } else {
-                    return res.send({
-                        message: 'user bookmarks',
-                        responseCode: 300,
-                        status: 200,
-                        result: bookmarks
-                    });
+                    if (pageIndex > 0) {
+                        Bookmark.aggregate([
+                            {
+                                $lookup: {
+                                    from: 'dataentries',
+                                    as: 'post',
+                                    localField: "pid",
+                                    foreignField: "_id",
+                                },
+                            },
+                            {
+                                $lookup: {
+                                    from: 'users',
+                                    as: 'user',
+                                    localField: "uid",
+                                    foreignField: "_id",
+                                },
+                            },
+                            { $unwind: "$post" },
+                            { $unwind: "$user" },
+                            { $skip: pageSize * (pageIndex - 1) },
+                            { $limit: pageSize }
+                        ]).exec(function (err: any, bookmarks: any) {
+                            if (err) {
+                                return res.send({
+                                    message: 'unauthorized db error',
+                                    responseCode: 800,
+                                    status: 200,
+                                    error: err
+                                });
+                            } else {
+                                return res.send({
+                                    message: 'user bookmarks',
+                                    responseCode: 300,
+                                    status: 200,
+                                    result: bookmarks
+                                });
+                            }
+                        })
+                    } else {
+                        return res.send({
+                            message: "Page Index should pe greater the 0",
+                            status: 200,
+                            responseCode: 600
+                        })
+                    }
                 }
             })
-
-        // }
+        }
     }
 
     viewBookmark = function (req: any, res: any, next: any) {
