@@ -12,6 +12,8 @@ export default class AdminController {
       gender: req.body.gender,
       password: req.body.password,
       role: req.body.role,
+      agentId: req.body.agentId,
+      discountValue: req.body.discountValue,
     };
     Admin.create(schema, (error: any, result: any) => {
       if (error) {
@@ -47,13 +49,18 @@ export default class AdminController {
           });
         } else {
           Admin.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(req.body.adminId) },
+            { _id: mongoose.Types.ObjectId(admin._id) },
             {
               fullName: req.body.fullName,
               email: req.body.email,
               mobile: req.body.mobile,
               gender: req.body.gender,
               role: req.body.role,
+              agentId: req.body.agentId,
+              discountValue: req.body.discountValue,
+            },
+            {
+              returnOriginal: false,
             },
             (err: any, admin: any) => {
               if (err) {
@@ -77,6 +84,49 @@ export default class AdminController {
       });
     }
   };
+
+  updateAdminEnable = function(req: any, res: any){
+    var token = req.headers.token;
+    if(token){
+      jwt.verify(token, 'your_jwt_secret', (err: any, admin: any) => {
+        if(err){
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          Admin.findOneAndUpdate(
+            { _id: mongoose.Types.ObjectId(req.body.adminId) },
+            {
+              enabled: req.body.enabled
+            },
+            {
+              returnOriginal: false,
+            },
+            (err: any, admin: any) => {
+              if (err) {
+                return res.send({
+                  message: "Unauthorized DB Error",
+                  responseCode: 700,
+                  status: 200,
+                  error: err,
+                });
+              } else {
+                return res.send({
+                  message: "Admin enabled updated Successfully",
+                  responseCode: 200,
+                  status: 200,
+                  admin: admin,
+                });
+              }
+            }
+          );
+        }
+      })
+    }
+  }
 
   deleteAdmin = function (req: any, res: any) {
     var token = req.headers.token;

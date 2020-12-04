@@ -31,10 +31,15 @@ export default class AdminRoute {
     app.post('/v1/updateAdmin', adminController.updateAdmin)
   }
 
+  updateAdminEnable(app: Express){
+    app.post('/v1/updateAdminEnable', adminController.updateAdminEnable)
+  }
+
   adminRoute(app: Express) {
     this.createAdmin(app);
     this.adminLogin(app);
     this.getAdmin(app);
     this.updateAdmin(app);
+    this.updateAdminEnable(app);
   }
 }
