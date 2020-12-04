@@ -1215,7 +1215,7 @@ export default class UserController {
                         error: err
                     });
                 } else {
-                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { phoneNumber: req.body.phoneNumber } }, { new: true, returnOriginal: false }, (error: any, result: any) => {
+                    User.findOne({ phoneNumber: req.body.phoneNumber }, (error: any, result: any) => {
                         if (error) {
                             return res.send({
                                 message: 'unauthorized access',
@@ -1224,7 +1224,26 @@ export default class UserController {
                                 error: err
                             });
                         } else {
-                            otpController.generateOtpViaId(user, res);
+                            if (result != null) {
+                                return res.send({
+                                    message: 'Phone Number already exists',
+                                    responseCode: 800,
+                                    status: 200
+                                });
+                            } else {
+                                User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { phoneNumber: req.body.phoneNumber } }, { new: true, returnOriginal: false }, (error: any, result: any) => {
+                                    if (error) {
+                                        return res.send({
+                                            message: 'unauthorized access',
+                                            responseCode: 700,
+                                            status: 200,
+                                            error: err
+                                        });
+                                    } else {
+                                        otpController.generateOtpViaId(user, res);
+                                    }
+                                })
+                            }
                         }
                     })
                 }
