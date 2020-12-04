@@ -6,7 +6,7 @@ let DataEntrySchema = new mongoose.Schema({
         default: true
     },
     pid: {
-        type: Number,
+        type: String,
         required: true
     },
     respondentName: {
