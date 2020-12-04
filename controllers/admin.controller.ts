@@ -34,6 +34,87 @@ export default class AdminController {
     });
   };
 
+  updateAdmin = function (req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, admin: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          Admin.findOneAndUpdate(
+            { _id: mongoose.Types.ObjectId(req.body.adminId) },
+            {
+              fullName: req.body.fullName,
+              email: req.body.email,
+              mobile: req.body.mobile,
+              gender: req.body.gender,
+              role: req.body.role,
+            },
+            (err: any, admin: any) => {
+              if (err) {
+                return res.send({
+                  message: "Unauthorized DB Error",
+                  responseCode: 700,
+                  status: 200,
+                  error: err,
+                });
+              } else {
+                return res.send({
+                  message: "Admin Updated Successfully",
+                  responseCode: 200,
+                  status: 200,
+                  admin: admin,
+                });
+              }
+            }
+          );
+        }
+      });
+    }
+  };
+
+  deleteAdmin = function (req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, result: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          Admin.delete(
+            { _id: mongoose.Types.ObjectId(req.body.adminId) },
+            (err: any, res: any) => {
+              if (err) {
+                return res.send({
+                  message: "Unauthorized DB Error",
+                  responseCode: 700,
+                  status: 200,
+                  error: err,
+                });
+              } else {
+                return res.send({
+                  message: "Admin deleted Successfully",
+                  responseCode: 200,
+                  status: 200,
+                  result: res,
+                });
+              }
+            }
+          );
+        }
+      });
+    }
+  };
+
   adminLogin = function (req: any, res: any) {
     var email = req.body.email;
     var password = req.body.password;
