@@ -31,28 +31,7 @@ export default class Data1Controller {
             error: err,
           });
         } else {
-          var schema = {
-            pid: req.body.pid,
-            respondentName: req.body.respondentName,
-            judges: req.body.judges,
-            decidedDate: req.body.decidedDate,
-            importantPoints: req.body.importantPoints,
-            importantPointsHindi: req.body.importantPointsHindi,
-            importantPointsMarathi: req.body.importantPointsMarathi,
-            importantPointsGujrati: req.body.importantPointsGujrati,
-            appelentName: req.body.appelentName,
-            headNote: req.body.headNote,
-            headNoteHindi: req.body.headNoteHindi,
-            headNoteGujrati: req.body.headNoteGujrati,
-            headNoteMarathi: req.body.headNoteMarathi,
-            result: req.body.result,
-            links: req.body.links,
-            caseReffered: req.body.caseReffered,
-            actsReffered: req.body.actsReffered,
-            fullJudgement: req.body.fullJudgement,
-          };
-
-          DataEntry.create(schema, (error: any, result: any) => {
+          DataEntry.find({}, (error: any, posts: any) => {
             if (error) {
               return res.send({
                 message: "Unauthorized DB error",
@@ -61,14 +40,45 @@ export default class Data1Controller {
                 error: error,
               });
             } else {
-              return res.send({
-                message: "Data post added successfully",
-                responseCode: 2000,
-                status: 200,
-                result: result,
+              var schema = {
+                pid: Number(posts[0].pid) + 1,
+                respondentName: req.body.respondentName,
+                judges: req.body.judges,
+                decidedDate: req.body.decidedDate,
+                importantPoints: req.body.importantPoints,
+                importantPointsHindi: req.body.importantPointsHindi,
+                importantPointsMarathi: req.body.importantPointsMarathi,
+                importantPointsGujrati: req.body.importantPointsGujrati,
+                appelentName: req.body.appelentName,
+                headNote: req.body.headNote,
+                headNoteHindi: req.body.headNoteHindi,
+                headNoteGujrati: req.body.headNoteGujrati,
+                headNoteMarathi: req.body.headNoteMarathi,
+                result: req.body.result,
+                links: req.body.links,
+                caseReffered: req.body.caseReffered,
+                actsReffered: req.body.actsReffered,
+                fullJudgement: req.body.fullJudgement,
+              };
+              DataEntry.create(schema, (error: any, result: any) => {
+                if (error) {
+                  return res.send({
+                    message: "Unauthorized DB error",
+                    responseCode: 700,
+                    status: 200,
+                    error: error,
+                  });
+                } else {
+                  return res.send({
+                    message: "Data post added successfully",
+                    responseCode: 2000,
+                    status: 200,
+                    result: result,
+                  });
+                }
               });
             }
-          });
+          }).sort({ 'pid': -1 }).limit(1).collation({ locale: "en_US", numericOrdering: true });
         }
       });
     }

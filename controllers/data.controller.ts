@@ -1141,7 +1141,9 @@ export default class DataController {
 
     updatePlan = function (req: any, res: any, next: any) {
         var plan = req.body.data;
-        Plan.findOneAndUpdate({ _id: mongoose.Types.ObjectId(plan.id) }, plan, { new: true }, (err: any, user: any) => {
+        Plan.findOneAndUpdate({ _id: mongoose.Types.ObjectId(plan.id) }, {
+            
+        }, { new: true }, (err: any, user: any) => {
             if (err) {
                 return res.send({
                     message: 'Unauthorized DB Error',
