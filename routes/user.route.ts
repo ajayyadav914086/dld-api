@@ -183,7 +183,7 @@ export default class UserRoute {
     }
 
     changePhoneNumber(app: Express) {
-        app.put('/v1/change-phone', userController.changePhoneNumber)
+        app.put('/v1/change-phone', userController.changePhoneNumber);
     }
 
     userRoute(app: Express) {
