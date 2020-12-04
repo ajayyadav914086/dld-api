@@ -1227,7 +1227,7 @@ export default class UserController {
                             if (result != null) {
                                 return res.send({
                                     message: 'Phone Number already exists',
-                                    responseCode: 800,
+                                    responseCode: 900,
                                     status: 200
                                 });
                             } else {
