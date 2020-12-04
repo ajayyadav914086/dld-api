@@ -674,7 +674,7 @@ export default class UserController {
                         },
                         {
                             $lookup: {
-                                from: 'datas',
+                                from: 'dataentries',
                                 as: 'post',
                                 localField: "pid",
                                 foreignField: "_id",
