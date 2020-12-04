@@ -46,7 +46,7 @@ export default class UserRoute {
         app.get('/v1/user', userController.getUser);
     }
 
-    updateUser(app: Express){
+    updateUser(app: Express) {
         app.put('/v1/user', userController.putUser);
     }
 
@@ -83,28 +83,28 @@ export default class UserRoute {
         app.post('/v1/mail', userController.mail);
     }
 
-    getNotification(app: Express){
+    getNotification(app: Express) {
         app.get('/v1/notification', userController.getNotifications);
     }
 
-    
+
     sendNotificationToAll(app: Express) {
         app.post('/v1/notificationtoall', userController.sendNotificationToAll);
     }
 
-    mailToAll(app:Express){
+    mailToAll(app: Express) {
         app.post('/v1/mailtoall', userController.mailToAll);
     }
 
-    sendNotificationToAllExpired(app: Express){
+    sendNotificationToAllExpired(app: Express) {
         app.post('/v1/notificationtoallexpired', userController.sendNotificationToAllExpired);
     }
 
-    adminLogin(app: Express){
+    adminLogin(app: Express) {
         app.post('/v1/adminlogin', userController.adminLogin);
     }
 
-    deleteUser(app: Express){
+    deleteUser(app: Express) {
         app.post('/v1/deleteuser', userController.deleteUser);
     }
 
@@ -146,7 +146,7 @@ export default class UserRoute {
 
     @post
     @route('/v1/verifypassword')
-    @summary('Verify OTP and change Password') 
+    @summary('Verify OTP and change Password')
     @param({
         in: 'body',
         name: 'user',
@@ -182,6 +182,10 @@ export default class UserRoute {
         app.get('/v1/token-user', userController.getTokenUser);
     }
 
+    changePhoneNumber(app: Express) {
+        app.put('/v1/change-phone', userController.changePhoneNumber)
+    }
+
     userRoute(app: Express) {
         this.addUser(app);
         this.getUser(app);
@@ -209,5 +213,6 @@ export default class UserRoute {
         this.changePassword(app);
         this.editAccount(app);
         this.getTokenUser(app);
+        this.changePhoneNumber(app);
     }
 }

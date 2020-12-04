@@ -1203,6 +1203,35 @@ export default class UserController {
         })
     }
 
+    changePhoneNumber(req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: 'unauthorized access',
+                        responseCode: 700,
+                        status: 200,
+                        error: err
+                    });
+                } else {
+                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { phoneNumber: req.body.phoneNumber } }, { new: true, returnOriginal: false }, (error: any, result: any) => {
+                        if (error) {
+                            return res.send({
+                                message: 'unauthorized access',
+                                responseCode: 700,
+                                status: 200,
+                                error: err
+                            });
+                        } else {
+                            otpController.generateOtp(token, res);
+                        }
+                    })
+                }
+            })
+        }
+    }
+
     verifyOTPAndChangePassword(req: any, res: any, next: any) {
         Otp.findOne({ userID: req.body.userID }, (error: any, result: any) => {
             if (error) {
