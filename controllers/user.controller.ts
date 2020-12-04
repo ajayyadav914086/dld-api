@@ -1224,7 +1224,7 @@ export default class UserController {
                                 error: err
                             });
                         } else {
-                            otpController.generateOtp(token, res);
+                            otpController.generateOtpViaId(user, res);
                         }
                     })
                 }
