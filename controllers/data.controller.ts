@@ -935,7 +935,7 @@ export default class DataController {
             },
             {
                 $lookup: {
-                    from: 'datas',
+                    from: 'dataentries',
                     let: {},
                     pipeline: [
                         { "$match": { enabled: true } },
@@ -996,7 +996,7 @@ export default class DataController {
             },
             {
                 $lookup: {
-                    from: 'datas',
+                    from: 'dataentries',
                     let: {},
                     pipeline: [
                         { "$match": { enabled: false } },
@@ -1042,7 +1042,7 @@ export default class DataController {
             },
             {
                 $unwind: {
-                    path: '$datas',
+                    path: '$dataentries',
                 }
             },
             {
@@ -1267,11 +1267,9 @@ export default class DataController {
     }
 
     updatePost = function (req: any, res: any, next: any) {
-        if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
+        // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
             var data = req.body.data;
-            data['auctionStartDateTimeDate'] = new Date(data['auctionStartDateTime']).toISOString();
-            data['price'] = parseFloat(data['priceReserve']);
-            Data.updateOne({ _id: data.id }, { $set: data }, { upsert: true }, (error: any, result: any) => {
+            Data.updateOne({ _id: mongoose.Types.ObjectId(data.id) }, { $set: data }, { upsert: true, new: true }, (error: any, result: any) => {
                 if (error) {
                     return res.send({
                         message: 'Unauthorized DB Error',
@@ -1287,13 +1285,13 @@ export default class DataController {
                     });
                 }
             });
-        } else {
-            return res.send({
-                message: "Invalid Username and Password",
-                responseCode: 100,
-                status: 200
-            })
-        }
+        // } else {
+        //     return res.send({
+        //         message: "Invalid Username and Password",
+        //         responseCode: 100,
+        //         status: 200
+        //     })
+        // }
     }
 
     updateLastId = function (req: any, res: any, next: any) {
@@ -1324,7 +1322,7 @@ export default class DataController {
     }
 
     deletePost = function (req: any, res: any, next: any) {
-        if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
+        // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
             var data = req.body.data;
             Data.deleteOne({ _id: mongoose.Types.ObjectId(data) }, (error: any, result: any) => {
                 if (error) {
@@ -1342,13 +1340,13 @@ export default class DataController {
                     });
                 }
             });
-        } else {
-            return res.send({
-                message: "Invalid Username and Password",
-                responseCode: 100,
-                status: 200
-            })
-        }
+        // } else {
+        //     return res.send({
+        //         message: "Invalid Username and Password",
+        //         responseCode: 100,
+        //         status: 200
+        //     })
+        // }
     }
     postLive = function (req: any, res: any, next: any) {
         const list = req.body.list;

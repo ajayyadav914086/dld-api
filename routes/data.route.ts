@@ -40,10 +40,10 @@ export default class DataRoute {
     }
 
     statatics(app: Express) {
-        app.get('/v1/statatics', dataController.statatics);
+        app.get('/v1/statatics', dataController1.statatics);
     }
     updatePost(app: Express) {
-        app.put('/v1/updatePost', dataController.updatePost);
+        app.put('/v1/updatePost', dataController1.updatePost);
     }
 
     addPost(app: Express) {
@@ -65,7 +65,7 @@ export default class DataRoute {
         app.put('/v1/updateplan', dataController.updatePlan);
     }
     deletePost(app: Express) {
-        app.post('/v1/deletePost', dataController.deletePost);
+        app.post('/v1/deletePost', dataController1.deletePost);
     }
 
     syncPost(app: Express) {

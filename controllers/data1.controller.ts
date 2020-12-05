@@ -317,6 +317,62 @@ export default class Data1Controller {
     }
   }
 
+  updatePost = function (req: any, res: any, next: any) {
+    // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
+    var data = req.body.data;
+    DataEntry.updateOne({ _id: mongoose.Types.ObjectId(data.id) }, { $set: data }, { upsert: true, new: true }, (error: any, result: any) => {
+      if (error) {
+        return res.send({
+          message: 'Unauthorized DB Error',
+          responseCode: 700,
+          status: 200,
+          error: error
+        });
+      } else {
+        return res.send({
+          responseCode: 200,
+          status: 200,
+          message: 'Successfully updated record'
+        });
+      }
+    });
+    // } else {
+    //     return res.send({
+    //         message: "Invalid Username and Password",
+    //         responseCode: 100,
+    //         status: 200
+    //     })
+    // }
+  }
+
+  deletePost = function (req: any, res: any, next: any) {
+    // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
+    var data = req.body.data;
+    DataEntry.deleteOne({ _id: mongoose.Types.ObjectId(data) }, (error: any, result: any) => {
+      if (error) {
+        return res.send({
+          message: 'Unauthorized DB Error',
+          responseCode: 700,
+          status: 200,
+          error: error
+        });
+      } else {
+        return res.send({
+          responseCode: 200,
+          status: 200,
+          message: 'Successfully Deleted record'
+        });
+      }
+    });
+    // } else {
+    //     return res.send({
+    //         message: "Invalid Username and Password",
+    //         responseCode: 100,
+    //         status: 200
+    //     })
+    // }
+  }
+
   getData = function (req: any, res: any, next: any) {
     const pageSize = parseInt(req.query.pageSize);
     const pageIndex = parseInt(req.query.pageIndex);
@@ -402,6 +458,155 @@ export default class Data1Controller {
       });
     }
   };
+
+  statatics = function (req: any, res: any, next: any) {
+    DataEntry.aggregate([
+      {
+        $group: {
+          '_id': 0
+        }
+      },
+      {
+        $lookup: {
+          from: 'dataentries',
+          let: {},
+          pipeline: [
+            { "$match": { enabled: true } },
+            {
+              $group: {
+                '_id': 0,
+                'count': { $sum: 1 }
+              }
+            }
+          ],
+          as: 'datas'
+        }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          let: {},
+          pipeline: [
+            {
+              $group: {
+                '_id': 0,
+                'count': { $sum: 1 }
+              }
+            }
+          ],
+          as: 'users'
+        }
+      },
+      {
+        $lookup: {
+          from: 'bookmarks',
+          let: {},
+          pipeline: [
+            {
+              $group: {
+                '_id': 0,
+                'count': { $sum: 1 }
+              }
+            }
+          ],
+          as: 'bookmarks'
+        }
+      },
+      // {
+      //   $lookup: {
+      //     from: 'mails',
+      //     let: {},
+      //     pipeline: [
+      //       {
+      //         $group: {
+      //           '_id': 0,
+      //           'count': { $sum: 1 }
+      //         }
+      //       }
+      //     ],
+      //     as: 'mails'
+      //   }
+      // },
+      {
+        $lookup: {
+          from: 'plans',
+          let: {},
+          pipeline: [
+            {
+              $group: {
+                '_id': 0,
+                'count': { $sum: 1 }
+              }
+            }
+          ],
+          as: 'plans'
+        }
+      },
+      {
+        $lookup: {
+          from: 'payments',
+          let: {},
+          pipeline: [
+            {
+              $group: {
+                '_id': 0,
+                'count': { $sum: 1 }
+              }
+            }
+          ],
+          as: 'payments'
+        }
+      },
+      {
+        $unwind: {
+          path: '$datas',
+        }
+      },
+      {
+        $unwind: {
+          path: '$users',
+        }
+      },
+      {
+        $unwind: {
+          path: '$bookmarks',
+        }
+      },
+      // {
+      //   $unwind: {
+      //     path: '$mails',
+      //   }
+      // },
+
+    ], function (error: any, data: any) {
+      if (error) {
+        return res.send({
+          message: 'Unauthorized DB Error',
+          responseCode: 700,
+          status: 200,
+          error: error
+        });
+      } else {
+        var url = `https://2factor.in/API/V1/47701b38-7a5b-11ea-9fa5-0200cd936042/BAL/SMS`;
+        request(url, function (error: any, response: any, body: any) {
+          if (!error && response.statusCode == 200) {
+            data['sms'] = JSON.parse(body).Details;
+            return res.send({
+              message: 'All Data',
+              responseCode: 200,
+              status: 200,
+              result: data,
+              counts: {
+                sms: JSON.parse(body).Details
+              }
+            });
+          } else {
+
+          }
+        })
+      }
+    });
+  }
 }
 
 export const dataController1 = new Data1Controller();
