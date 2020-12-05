@@ -41,7 +41,7 @@ export default class Data1Controller {
               });
             } else {
               var schema = {
-                pid: Number(posts[0].pid) + 1,
+                pid: posts[0] == null ? 1 : Number(posts[0].pid) + 1,
                 respondentName: req.body.respondentName,
                 judges: req.body.judges,
                 decidedDate: req.body.decidedDate,

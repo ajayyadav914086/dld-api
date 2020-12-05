@@ -2,8 +2,13 @@ const jwt = require("jsonwebtoken");
 var mongoose = require("mongoose");
 var Admin = require("../models/admin.model");
 var User = require("../models/user.model");
+var generator = require('generate-password');
 export default class AdminController {
   createAdmin = function (req: any, res: any) {
+    var agentId = generator.generate({
+      lenght: 8,
+      numbers: true
+    })
     var schema = {
       enabled: req.body.enabled,
       fullName: req.body.fullName,
@@ -12,7 +17,7 @@ export default class AdminController {
       gender: req.body.gender,
       password: req.body.password,
       role: req.body.role,
-      agentId: req.body.agentId,
+      agentId: agentId,
       discountValue: req.body.discountValue,
     };
     Admin.create(schema, (error: any, result: any) => {
@@ -85,11 +90,11 @@ export default class AdminController {
     }
   };
 
-  updateAdminEnable = function(req: any, res: any){
+  updateAdminEnable = function (req: any, res: any) {
     var token = req.headers.token;
-    if(token){
+    if (token) {
       jwt.verify(token, 'your_jwt_secret', (err: any, admin: any) => {
-        if(err){
+        if (err) {
           return res.send({
             message: "unauthorized access",
             responseCode: 700,

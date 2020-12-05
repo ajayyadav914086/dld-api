@@ -28,11 +28,11 @@ export default class AdminRoute {
   }
 
   updateAdmin(app: Express){
-    app.post('/v1/updateAdmin', adminController.updateAdmin)
+    app.put('/v1/updateAdmin', adminController.updateAdmin)
   }
 
   updateAdminEnable(app: Express){
-    app.post('/v1/updateAdminEnable', adminController.updateAdminEnable)
+    app.put('/v1/updateAdminEnable', adminController.updateAdminEnable)
   }
 
   adminRoute(app: Express) {
