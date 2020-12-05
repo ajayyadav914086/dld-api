@@ -1,9 +1,11 @@
 import * as bcrypt from 'bcryptjs';
-import { otpController } from './otp.controller';
+import { isNullOrUndefined } from 'util';
 import FirebaseNotification from '../config/firebase.config';
 import Mail from '../config/mail.config';
-import { isNullOrUndefined } from 'util';
+import upload from '../config/multer.config';
+import { otpController } from './otp.controller';
 const User = require('../models/user.model');
+const Reference = require('../models/reference.model');
 const Payment = require('../models/payment.model');
 const Bookmark = require('../models/bookmark.model');
 const Mails = require('../models/mail.model');
@@ -13,7 +15,6 @@ const jwt = require('jsonwebtoken');
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Notifications = require('../models/notifications.model');
-import upload from '../config/multer.config';
 import request = require('request');
 
 export default class UserController {
@@ -1431,6 +1432,119 @@ export default class UserController {
                                     });
                                 }
                             })
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+    referUser(req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: 'unauthorized access',
+                        responseCode: 700,
+                        status: 200,
+                        error: err
+                    });
+                } else {
+                    var schema = {
+                        mobile: Number(req.body.mobile),
+                        name: req.body.name,
+                        referredById: user._id,
+                    }
+                    Reference.findOne({ mobile: schema.mobile }, (error: any, result: any) => {
+                        if (err) {
+                            return res.send({
+                                message: 'unauthorized access',
+                                responseCode: 700,
+                                status: 200,
+                                error: error
+                            });
+                        } else {
+                            if (result != null) {
+                                return res.send({
+                                    message: 'User Already Referred by someone',
+                                    responseCode: 800,
+                                    status: 200
+                                });
+                            } else {
+                                Reference.create(schema, (error: any, reference: any) => {
+                                    if (err) {
+                                        return res.send({
+                                            message: 'unauthorized access',
+                                            responseCode: 700,
+                                            status: 200,
+                                            error: error
+                                        });
+                                    } else {
+                                        User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $inc: { reference: 1 } }, { new: true, returnOriginal: false }, (error: any, result: any) => {
+                                            if (err) {
+                                                return res.send({
+                                                    message: 'unauthorized access',
+                                                    responseCode: 700,
+                                                    status: 200,
+                                                    error: error
+                                                });
+                                            } else {
+                                                return res.send({
+                                                    message: 'User Reference done',
+                                                    responseCode: 2000,
+                                                    status: 200,
+                                                    reference: reference,
+                                                    user: result
+                                                });
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+    getAllReferences(req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: 'unauthorized access',
+                        responseCode: 700,
+                        status: 200,
+                        error: err
+                    });
+                } else {
+                    Reference.aggregate([
+                        {
+                            $lookup: {
+                                from: 'users',
+                                as: 'users',
+                                localField: "referredById",
+                                foreignField: "_id",
+                            }
+                        }
+                    ], (error: any, result: any) => {
+                        if (err) {
+                            return res.send({
+                                message: 'unauthorized access',
+                                responseCode: 700,
+                                status: 200,
+                                error: error
+                            });
+                        } else {
+                            return res.send({
+                                message: 'All References',
+                                responseCode: 200,
+                                status: 200,
+                                result: result
+                            });
                         }
                     })
                 }

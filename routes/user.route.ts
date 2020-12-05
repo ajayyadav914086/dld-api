@@ -186,6 +186,14 @@ export default class UserRoute {
         app.put('/v1/change-phone', userController.changePhoneNumber);
     }
 
+    referUser(app: Express) {
+        app.post('/v1/refer', userController.referUser);
+    }
+
+    getAllReferences(app: Express) {
+        app.get('/v1/references', userController.getAllReferences)
+    }
+
     userRoute(app: Express) {
         this.addUser(app);
         this.getUser(app);
@@ -214,5 +222,7 @@ export default class UserRoute {
         this.editAccount(app);
         this.getTokenUser(app);
         this.changePhoneNumber(app);
+        this.referUser(app);
+        this.getAllReferences(app);
     }
 }

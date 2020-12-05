@@ -59,6 +59,15 @@ let DataEntrySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    resultHindi: {
+        type: String,
+    },
+    resultMarathi: {
+        type: String,
+    },
+    resultGujrati: {
+        type: String,
+    },
     links: {
         type: String,
         required: true
