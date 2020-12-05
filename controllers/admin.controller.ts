@@ -9,18 +9,7 @@ export default class AdminController {
       lenght: 8,
       numbers: true
     })
-    var schema = {
-      enabled: req.body.enabled,
-      fullName: req.body.fullName,
-      email: req.body.email,
-      mobile: req.body.mobile,
-      gender: req.body.gender,
-      password: req.body.password,
-      role: req.body.role,
-      agentId: agentId,
-      discountValue: req.body.discountValue,
-    };
-    Admin.create(schema, (error: any, result: any) => {
+    Admin.findOne({ agentId: agentId }, (error: any, agent: any) => {
       if (error) {
         return res.send({
           message: "Unauthorized DB Error",
@@ -29,16 +18,64 @@ export default class AdminController {
           error: error,
         });
       } else {
-        var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
-        return res.send({
-          message: "Admin Created",
-          responseCode: 2000,
-          status: 200,
-          result: result,
-          token: token,
-        });
+        var schema = {
+          enabled: req.body.enabled,
+          fullName: req.body.fullName,
+          email: req.body.email,
+          mobile: req.body.mobile,
+          gender: req.body.gender,
+          password: req.body.password,
+          role: req.body.role,
+          agentId: agentId,
+          discountValue: req.body.discountValue,
+        };
+        if (agent == null) {
+          Admin.create(schema, (error: any, result: any) => {
+            if (error) {
+              return res.send({
+                message: "Unauthorized DB Error",
+                responseCode: 700,
+                status: 200,
+                error: error,
+              });
+            } else {
+              var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
+              return res.send({
+                message: "Admin Created",
+                responseCode: 2000,
+                status: 200,
+                result: result,
+                token: token,
+              });
+            }
+          });
+        } else {
+          var agentId = generator.generate({
+            lenght: 8,
+            numbers: true
+          })
+          Admin.create(schema, (error: any, result: any) => {
+            if (error) {
+              return res.send({
+                message: "Unauthorized DB Error",
+                responseCode: 700,
+                status: 200,
+                error: error,
+              });
+            } else {
+              var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
+              return res.send({
+                message: "Admin Created",
+                responseCode: 2000,
+                status: 200,
+                result: result,
+                token: token,
+              });
+            }
+          });
+        }
       }
-    });
+    })
   };
 
   updateAdmin = function (req: any, res: any) {
@@ -54,7 +91,7 @@ export default class AdminController {
           });
         } else {
           Admin.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(admin._id) },
+            { _id: mongoose.Types.ObjectId(req.body.id) },
             {
               fullName: req.body.fullName,
               email: req.body.email,
@@ -103,7 +140,7 @@ export default class AdminController {
           });
         } else {
           Admin.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(req.body.adminId) },
+            { _id: mongoose.Types.ObjectId(req.body.id) },
             {
               enabled: req.body.enabled
             },
