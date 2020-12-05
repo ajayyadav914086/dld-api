@@ -5,11 +5,11 @@ var User = require("../models/user.model");
 var generator = require('generate-password');
 export default class AdminController {
   createAdmin = function (req: any, res: any) {
-    var agentId = generator.generate({
+    req.body.agentId = generator.generate({
       lenght: 8,
       numbers: true
     })
-    Admin.findOne({ agentId: agentId }, (error: any, agent: any) => {
+    Admin.findOne({ agentId: req.body.agentId }, (error: any, agent: any) => {
       if (error) {
         return res.send({
           message: "Unauthorized DB Error",
@@ -18,18 +18,18 @@ export default class AdminController {
           error: error,
         });
       } else {
-        var schema = {
-          enabled: req.body.enabled,
-          fullName: req.body.fullName,
-          email: req.body.email,
-          mobile: req.body.mobile,
-          gender: req.body.gender,
-          password: req.body.password,
-          role: req.body.role,
-          agentId: agentId,
-          discountValue: req.body.discountValue,
-        };
         if (agent == null) {
+          var schema = {
+            enabled: req.body.enabled,
+            fullName: req.body.fullName,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            gender: req.body.gender,
+            password: req.body.password,
+            role: req.body.role,
+            agentId: req.body.agentId,
+            discountValue: req.body.discountValue,
+          };
           Admin.create(schema, (error: any, result: any) => {
             if (error) {
               return res.send({
@@ -50,10 +50,21 @@ export default class AdminController {
             }
           });
         } else {
-          var agentId = generator.generate({
+          req.body.agentId = generator.generate({
             lenght: 8,
             numbers: true
           })
+          var schema = {
+            enabled: req.body.enabled,
+            fullName: req.body.fullName,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            gender: req.body.gender,
+            password: req.body.password,
+            role: req.body.role,
+            agentId: req.body.agentId,
+            discountValue: req.body.discountValue,
+          };
           Admin.create(schema, (error: any, result: any) => {
             if (error) {
               return res.send({
@@ -146,6 +157,7 @@ export default class AdminController {
             },
             {
               returnOriginal: false,
+              new: true
             },
             (err: any, admin: any) => {
               if (err) {
