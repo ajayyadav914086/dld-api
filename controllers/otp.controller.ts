@@ -150,7 +150,7 @@ export default class OTPController {
         var message = otp;
         message = encodeURI(message);
 
-        Otp.find({ userID: data._id }, (function (error: any, userOtp: any) {
+        Otp.findOne({ userID: data._id }, (function (error: any, userOtp: any) {
             if (error) {
                 return res.send({
                     message: 'Unauthorized DB Error',

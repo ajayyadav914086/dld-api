@@ -51,6 +51,10 @@ let UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isDeleted: {
+    type: Boolean,
+    default: false
+  }
 });
 
 //hashing a password before saving it to the database
