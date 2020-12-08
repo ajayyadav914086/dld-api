@@ -55,6 +55,7 @@ export default class Data1Controller {
                 headNoteGujrati: req.body.headNoteGujrati,
                 headNoteMarathi: req.body.headNoteMarathi,
                 result: req.body.result,
+                type: req.body.type,
                 resultHindi: req.body.resultHindi,
                 resultMarathi: req.body.resultMarathi,
                 resultGujrati: req.body.resultGujrati,
