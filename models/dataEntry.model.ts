@@ -70,7 +70,6 @@ let DataEntrySchema = new mongoose.Schema({
     },
     links: {
         type: String,
-        required: true
     },
     caseReffered: {
         type: String,
