@@ -99,6 +99,10 @@ export default class DataRoute {
         app.post('/v1/excel-upload', dataController.uploadAndConvertExcel);
     }
 
+    translate(app: Express) {
+        app.post('/v1/translate', dataController1.translate);
+    }
+
     dataRoute(app: Express) {
         this.copyData(app);
         this.getData(app);
@@ -121,5 +125,6 @@ export default class DataRoute {
         this.uploadAndConvertExcel(app);
         this.getAllPost(app);
         this.getPostById(app);
+        this.translate(app);
     }
 }

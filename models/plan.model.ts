@@ -8,11 +8,11 @@ let PlanSchema = new mongoose.Schema({
         type: Number
     },
     language: {
-        type: String,
+        type: Number,
         required: true
     },
     type: {
-        type: String
+        type: Number
     },
     discount: {
         type: String,

@@ -5,10 +5,6 @@ var User = require("../models/user.model");
 var generator = require('generate-password');
 export default class AdminController {
   createAdmin = function (req: any, res: any) {
-    req.body.agentId = generator.generate({
-      lenght: 8,
-      numbers: true
-    })
     Admin.findOne({ agentId: req.body.agentId }, (error: any, agent: any) => {
       if (error) {
         return res.send({
@@ -50,39 +46,10 @@ export default class AdminController {
             }
           });
         } else {
-          req.body.agentId = generator.generate({
-            lenght: 8,
-            numbers: true
-          })
-          var schema = {
-            enabled: req.body.enabled,
-            fullName: req.body.fullName,
-            email: req.body.email,
-            mobile: req.body.mobile,
-            gender: req.body.gender,
-            password: req.body.password,
-            role: req.body.role,
-            agentId: req.body.agentId,
-            discountValue: req.body.discountValue,
-          };
-          Admin.create(schema, (error: any, result: any) => {
-            if (error) {
-              return res.send({
-                message: "Unauthorized DB Error",
-                responseCode: 700,
-                status: 200,
-                error: error,
-              });
-            } else {
-              var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
-              return res.send({
-                message: "Admin Created",
-                responseCode: 2000,
-                status: 200,
-                result: result,
-                token: token,
-              });
-            }
+          return res.send({
+            message: "Agent ID already exists",
+            responseCode: 800,
+            status: 200,
           });
         }
       }

@@ -17,7 +17,7 @@ var mongoose = require("mongoose");
 const download = require("download");
 var moment = require("moment");
 var dateformat = require("dateformat");
-
+import translate from 'google-translate-open-api';
 export default class Data1Controller {
   addPost = function (req: any, res: any) {
     var token = req.headers.token;
@@ -613,6 +613,17 @@ export default class Data1Controller {
         })
       }
     });
+  }
+
+  async translate(req: any, res: any) {
+    const result = await translate(`I'm fine.`, {
+      tld: "cn",
+      to: "zh-CN",
+    });
+    const data = result.data[0];
+    res.send({
+      data: data
+    })
   }
 }
 
