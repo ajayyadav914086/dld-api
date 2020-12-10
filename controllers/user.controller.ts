@@ -817,7 +817,7 @@ export default class UserController {
                                         User.updateOne({
                                             _id: mongoose.Types.ObjectId(user._id)
                                         },
-                                            { planType: planType, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
+                                            { planType: planType, isHindi: false, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
                                                 if (err) {
                                                     return res.send({
                                                         message: 'unauthorized access',
@@ -863,7 +863,7 @@ export default class UserController {
                                         User.updateOne({
                                             _id: mongoose.Types.ObjectId(user._id)
                                         },
-                                            { planType: planType, isHindi: true, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
+                                            { planType: planType, isHindi: true, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
                                                 if (err) {
                                                     return res.send({
                                                         message: 'unauthorized access',
@@ -909,7 +909,7 @@ export default class UserController {
                                         User.updateOne({
                                             _id: mongoose.Types.ObjectId(user._id)
                                         },
-                                            { planType: planType, isMarathi: true, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
+                                            { planType: planType, isMarathi: true, isHindi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
                                                 if (err) {
                                                     return res.send({
                                                         message: 'unauthorized access',
@@ -955,7 +955,7 @@ export default class UserController {
                                         User.updateOne({
                                             _id: mongoose.Types.ObjectId(user._id)
                                         },
-                                            { planType: planType, isGujarati: true, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
+                                            { planType: planType, isGujarati: true, isMarathi: false, isHindi: false, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
                                                 if (err) {
                                                     return res.send({
                                                         message: 'unauthorized access',
@@ -1016,7 +1016,7 @@ export default class UserController {
                                     User.updateOne({
                                         _id: mongoose.Types.ObjectId(user._id)
                                     },
-                                        { planType: planType, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
+                                        { planType: planType, isHindi: false, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
                                             if (err) {
                                                 return res.send({
                                                     message: 'unauthorized access',
@@ -1053,7 +1053,7 @@ export default class UserController {
                                     User.updateOne({
                                         _id: mongoose.Types.ObjectId(user._id)
                                     },
-                                        { planType: planType, isHindi: true, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
+                                        { planType: planType, isHindi: true, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
                                             if (err) {
                                                 return res.send({
                                                     message: 'unauthorized access',
@@ -1090,7 +1090,7 @@ export default class UserController {
                                     User.updateOne({
                                         _id: mongoose.Types.ObjectId(user._id)
                                     },
-                                        { planType: planType, isMarathi: true, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
+                                        { planType: planType, isMarathi: true, isHindi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
                                             if (err) {
                                                 return res.send({
                                                     message: 'unauthorized access',
@@ -1127,7 +1127,7 @@ export default class UserController {
                                     User.updateOne({
                                         _id: mongoose.Types.ObjectId(user._id)
                                     },
-                                        { planType: planType, isGujarati: true, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
+                                        { planType: planType, isGujarati: true, isMarathi: false, isHindi: false, isFreePlanUsed: true, isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
                                             if (err) {
                                                 return res.send({
                                                     message: 'unauthorized access',
