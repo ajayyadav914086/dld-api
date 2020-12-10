@@ -603,6 +603,16 @@ export default class Data1Controller {
       },
       {
         $lookup: {
+          from: 'counts',
+          let: {},
+          pipeline: [
+            { "$match": { _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') } },
+          ],
+          as: 'counts'
+        }
+      },
+      {
+        $lookup: {
           from: 'users',
           let: {},
           pipeline: [
@@ -689,6 +699,11 @@ export default class Data1Controller {
       {
         $unwind: {
           path: '$bookmarks',
+        }
+      },
+      {
+        $unwind: {
+          path: '$counts',
         }
       },
       // {
