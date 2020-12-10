@@ -1,6 +1,7 @@
 const DataEntry = require("../models/dataEntry.model");
 const Plan = require("../models/plan.model");
 const Payment = require("../models/payment.model");
+// const translate = require('google-translate-api');
 
 var pdf = require('html-pdf');
 const CountSchema = require("../models/counts.model");
@@ -18,7 +19,8 @@ var mongoose = require("mongoose");
 const download = require("download");
 var moment = require("moment");
 var dateformat = require("dateformat");
-import translate from 'google-translate-open-api';
+// import translate from 'google-translate-open-api';
+var translate = require('translate');
 export default class Data1Controller {
   addPost = function (req: any, res: any) {
     var token = req.headers.token;
@@ -136,8 +138,31 @@ export default class Data1Controller {
             error: err,
           });
         } else {
-          DataEntry.findOne(
-            { _id: mongoose.Types.ObjectId(req.body.postId) },
+          DataEntry.aggregate([
+            {
+              $match: {
+                _id: mongoose.Types.ObjectId(req.body.postId)
+              }
+            },
+            {
+              $lookup: {
+                from: 'bookmarks',
+                as: 'bookmark',
+                let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          { $eq: ["$pid", "$$userObjId"] },
+                          { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }],
             (error: any, result: any) => {
               if (error) {
                 res.send({
@@ -659,8 +684,16 @@ export default class Data1Controller {
   }
 
   async translate(req: any, res: any) {
-    var url = 'https://translate.googleapis.com/translate_a/t?client=te&format=html&v=1.0&sl=en&tl=hi&tk=590525.1037051'
-    request.post({ uri: url, headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36' }, body: { 'q': 'Hello World' } })
+    // var url = 'https://translate.googleapis.com/translate_a/t?client=te&format=html&v=1.0&sl=en&tl=hi&tk=590525.1037051'
+    // request.post({ uri: url, headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36' }, body: { 'q': 'Hello World' } })
+    await translate('I Speak English', { to: 'es' }).then((result: any) => {
+      console.log(result.text)
+      res.send({
+        data: result
+      })
+    }).catch((err: any) => {
+      console.error(err);
+    });
   }
 }
 
