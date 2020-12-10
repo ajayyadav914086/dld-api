@@ -174,7 +174,7 @@ export default class Data1Controller {
                 res.send({
                   message: "postById",
                   responseCode: 200,
-                  result: result,
+                  result: result[0],
                 });
               }
             }
