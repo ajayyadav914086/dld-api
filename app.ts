@@ -19,10 +19,8 @@ var cron = require('node-cron');
 
 var app = express();
 app.use('/public', express.static('public'));
-app.use('/pdf', express.static('pdf'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.text({ type: 'text/html' }));
 app.use(cookieParser());
 app.use('/', swagger);
 // app.use(cors({ origin: 'https://dev.bauktion.com' }));

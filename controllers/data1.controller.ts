@@ -348,7 +348,7 @@ export default class Data1Controller {
               });
             } else {
               var date = Date.now().toString();
-              pdf.create(data.fullJudgement).toFile('./pdf/' + String(date) + '.pdf', (error: any, result: any) => {
+              pdf.create(data.fullJudgement).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
                 if (error) return console.log(error);
                 res.send({
                   message: 'Created PDF',
