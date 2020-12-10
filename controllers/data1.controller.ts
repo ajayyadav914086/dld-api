@@ -349,6 +349,7 @@ export default class Data1Controller {
             } else {
               var date = Date.now().toString();
               var options = {
+                "format": "A4",
                 "border": "20"
               };
               pdf.create(data.fullJudgement, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
