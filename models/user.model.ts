@@ -27,7 +27,7 @@ let UserSchema = new mongoose.Schema({
     type: Number,
   },
   planId: {
-    type: Number,
+    type: mongoose.Types.ObjectId,
   },
   agentId: {
     type: Number,

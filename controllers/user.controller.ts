@@ -15,6 +15,7 @@ const jwt = require('jsonwebtoken');
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Notifications = require('../models/notifications.model');
+var Plans = require('../models/plan.model');
 import request = require('request');
 
 export default class UserController {
@@ -304,11 +305,21 @@ export default class UserController {
                                                 error: err
                                             });
                                         } else {
-                                            User.aggregate([{
-                                                $match: {
-                                                    _id: mongoose.Types.ObjectId(updatedUser._id)
+                                            User.aggregate([
+                                                {
+                                                    $match: {
+                                                        _id: mongoose.Types.ObjectId(updatedUser._id)
+                                                    }
+                                                },
+                                                {
+                                                    $lookup: {
+                                                        from: 'plans',
+                                                        as: 'plan',
+                                                        localField: "planId",
+                                                        foreignField: "_id",
+                                                    }
                                                 }
-                                            }]).exec(function (err: any, user: any) {
+                                            ]).exec(function (err: any, user: any) {
                                                 if (err) {
                                                     return res.send({
                                                         message: 'unauthorized db error',
