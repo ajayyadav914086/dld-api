@@ -6,7 +6,7 @@ import DataRoute from './routes/data.route';
 import OTPRoute from './routes/otp.route';
 import UserRoute from './routes/user.route';
 var port = process.env.PORT || 3005;
-var bodyParser = require('body-parser');
+import bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
@@ -18,9 +18,11 @@ var cron = require('node-cron');
 
 
 var app = express();
-app.use(express.static('public'));
+app.use('/public', express.static('public'));
+app.use('/pdf', express.static('pdf'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.text({ type: 'text/html' }));
 app.use(cookieParser());
 app.use('/', swagger);
 // app.use(cors({ origin: 'https://dev.bauktion.com' }));
@@ -41,6 +43,6 @@ adminRoute.adminRoute(app);
 //     DataController.dailyInternalData();
 //     console.log('running a task every at 10:00');
 // });
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log('Server is up and running on port numner ' + port);
 });

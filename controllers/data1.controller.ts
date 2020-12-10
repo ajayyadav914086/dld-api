@@ -2,6 +2,7 @@ const DataEntry = require("../models/dataEntry.model");
 const Plan = require("../models/plan.model");
 const Payment = require("../models/payment.model");
 
+var pdf = require('html-pdf');
 const CountSchema = require("../models/counts.model");
 import { body } from "express-validator/check";
 import request = require("request");
@@ -321,6 +322,43 @@ export default class Data1Controller {
         message: "Page Index should pe greater the 0",
         status: 200,
         responseCode: 600
+      })
+    }
+  }
+
+  htmlToPDF = function (req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          DataEntry.findOne({ _id: mongoose.Types.ObjectId(req.body.postId) }, (error: any, data: any) => {
+            if (err) {
+              return res.send({
+                message: "unauthorized access",
+                responseCode: 700,
+                status: 200,
+                error: err,
+              });
+            } else {
+              var date = Date.now().toString();
+              pdf.create(data.fullJudgement).toFile('./pdf/' + String(date) + '.pdf', (error: any, result: any) => {
+                if (error) return console.log(error);
+                res.send({
+                  message: 'Created PDF',
+                  url: 'http://api.dailylawdigest.com/pdf/' + String(date) + '.pdf',
+                  result: result
+                })
+              })
+            }
+          })
+        }
       })
     }
   }

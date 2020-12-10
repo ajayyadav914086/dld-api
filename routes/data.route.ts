@@ -103,6 +103,10 @@ export default class DataRoute {
         app.post('/v1/translate', dataController1.translate);
     }
 
+    htmlToPDF(app: Express) {
+        app.post('/v1/html-to-pdf', dataController1.htmlToPDF)
+    }
+
     dataRoute(app: Express) {
         this.copyData(app);
         this.getData(app);
@@ -126,5 +130,6 @@ export default class DataRoute {
         this.getAllPost(app);
         this.getPostById(app);
         this.translate(app);
+        this.htmlToPDF(app);
     }
 }

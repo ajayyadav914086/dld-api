@@ -1520,6 +1520,40 @@ export default class UserController {
         }
     }
 
+    getReferenceById(req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: 'unauthorized access',
+                        responseCode: 700,
+                        status: 200,
+                        error: err
+                    });
+                } else {
+                    Reference.find({ referredById: req.body.userId }, (error: any, result: any) => {
+                        if (err) {
+                            return res.send({
+                                message: 'unauthorized access',
+                                responseCode: 700,
+                                status: 200,
+                                error: err
+                            });
+                        } else {
+                            return res.send({
+                                message: 'References By User',
+                                responseCode: 2000,
+                                status: 200,
+                                result: result
+                            })
+                        }
+                    }).sort({ timestamp: -1 })
+                }
+            })
+        }
+    }
+
     getAllReferences(req: any, res: any) {
         var token = req.headers.token;
         if (token) {
@@ -1539,6 +1573,11 @@ export default class UserController {
                                 as: 'users',
                                 localField: "referredById",
                                 foreignField: "_id",
+                            }
+                        },
+                        {
+                            $sort: {
+                                timestamp: -1
                             }
                         }
                     ], (error: any, result: any) => {
