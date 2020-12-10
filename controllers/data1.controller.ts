@@ -4,7 +4,7 @@ const Payment = require("../models/payment.model");
 // const translate = require('google-translate-api');
 
 var pdf = require('html-pdf');
-const CountSchema = require("../models/counts.model");
+const CountSchema = require("../models/count.model");
 import { body } from "express-validator/check";
 import request = require("request");
 import FirebaseNotification from "../config/firebase.config";
@@ -43,32 +43,7 @@ export default class Data1Controller {
                 error: error,
               });
             } else {
-              var schema = {
-                pid: posts[0] == null ? 1 : Number(posts[0].pid) + 1,
-                respondentName: req.body.respondentName,
-                judges: req.body.judges,
-                decidedDate: req.body.decidedDate,
-                importantPoints: req.body.importantPoints,
-                importantPointsHindi: req.body.importantPointsHindi,
-                importantPointsMarathi: req.body.importantPointsMarathi,
-                importantPointsGujrati: req.body.importantPointsGujrati,
-                appelentName: req.body.appelentName,
-                headNote: req.body.headNote,
-                headNoteHindi: req.body.headNoteHindi,
-                headNoteGujrati: req.body.headNoteGujrati,
-                headNoteMarathi: req.body.headNoteMarathi,
-                result: req.body.result,
-                type: req.body.type,
-                resultHindi: req.body.resultHindi,
-                resultMarathi: req.body.resultMarathi,
-                resultGujrati: req.body.resultGujrati,
-                links: req.body.links,
-                caseReffered: req.body.caseReffered,
-                actsReffered: req.body.actsReffered,
-                fullJudgement: req.body.fullJudgement,
-                postType: req.body.postType,
-              };
-              DataEntry.create(schema, (error: any, result: any) => {
+              CountSchema.findOne({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, (error: any, count: any) => {
                 if (error) {
                   return res.send({
                     message: "Unauthorized DB error",
@@ -77,14 +52,83 @@ export default class Data1Controller {
                     error: error,
                   });
                 } else {
-                  return res.send({
-                    message: "Data post added successfully",
-                    responseCode: 2000,
-                    status: 200,
-                    result: result,
+                  var date = new Date();
+                  var schema = {
+                    pid: posts[0] == null ? 1 : Number(posts[0].pid) + 1,
+                    respondentName: req.body.respondentName,
+                    judges: req.body.judges,
+                    decidedDate: req.body.decidedDate,
+                    importantPoints: req.body.importantPoints,
+                    importantPointsHindi: req.body.importantPointsHindi,
+                    importantPointsMarathi: req.body.importantPointsMarathi,
+                    importantPointsGujrati: req.body.importantPointsGujrati,
+                    appelentName: req.body.appelentName,
+                    headNote: req.body.headNote,
+                    headNoteHindi: req.body.headNoteHindi,
+                    headNoteGujrati: req.body.headNoteGujrati,
+                    headNoteMarathi: req.body.headNoteMarathi,
+                    result: req.body.result,
+                    type: req.body.type,
+                    resultHindi: req.body.resultHindi,
+                    resultMarathi: req.body.resultMarathi,
+                    resultGujrati: req.body.resultGujrati,
+                    links: req.body.links,
+                    caseReffered: req.body.caseReffered,
+                    actsReffered: req.body.actsReffered,
+                    fullJudgement: req.body.fullJudgement,
+                    postType: req.body.postType,
+                    dldId: req.body.type == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
+                  };
+                  DataEntry.create(schema, (error: any, result: any) => {
+                    if (error) {
+                      return res.send({
+                        message: "Unauthorized DB error",
+                        responseCode: 700,
+                        status: 200,
+                        error: error,
+                      });
+                    } else {
+                      if (req.body.type == 0) {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                          if (error) {
+                            return res.send({
+                              message: "Unauthorized DB error",
+                              responseCode: 700,
+                              status: 200,
+                              error: error,
+                            });
+                          } else {
+                            return res.send({
+                              message: "Data post added successfully",
+                              responseCode: 2000,
+                              status: 200,
+                              result: result,
+                            });
+                          }
+                        })
+                      } else {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                          if (error) {
+                            return res.send({
+                              message: "Unauthorized DB error",
+                              responseCode: 700,
+                              status: 200,
+                              error: error,
+                            });
+                          } else {
+                            return res.send({
+                              message: "Data post added successfully",
+                              responseCode: 2000,
+                              status: 200,
+                              result: result,
+                            });
+                          }
+                        })
+                      }
+                    }
                   });
                 }
-              });
+              })
             }
           }).sort({ 'pid': -1 }).limit(1).collation({ locale: "en_US", numericOrdering: true });
         }
@@ -686,7 +730,7 @@ export default class Data1Controller {
   async translate(req: any, res: any) {
     // var url = 'https://translate.googleapis.com/translate_a/t?client=te&format=html&v=1.0&sl=en&tl=hi&tk=590525.1037051'
     // request.post({ uri: url, headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36' }, body: { 'q': 'Hello World' } })
-    await translate('I Speak English', { to: 'es' }).then((result: any) => {
+    await translate('I Speak English', { to: 'es', engine: 'google', key: '' }).then((result: any) => {
       console.log(result.text)
       res.send({
         data: result

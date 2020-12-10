@@ -54,7 +54,19 @@ let UserSchema = new mongoose.Schema({
   isDeleted: {
     type: Boolean,
     default: false
-  }
+  },
+  isHindi: {
+    type: Boolean
+  },
+  isMarathi: {
+    type: Boolean
+  },
+  isGujarati: {
+    type: Boolean
+  },
+  planType: {
+    type: Number
+  },
 });
 
 //hashing a password before saving it to the database

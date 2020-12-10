@@ -90,6 +90,10 @@ let DataEntrySchema = new mongoose.Schema({
     postType: {
         type: Number,
         required: true
+    },
+    dldId: {
+        type: String,
+        required: true
     }
 })
 
