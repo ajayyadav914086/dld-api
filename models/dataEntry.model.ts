@@ -87,6 +87,10 @@ let DataEntrySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    postType: {
+        type: Number,
+        required: true
+    }
 })
 
 DataEntrySchema.plugin(mongoosastic);

@@ -35,11 +35,16 @@ export default class AdminRoute {
     app.put('/v1/updateAdminEnable', adminController.updateAdminEnable)
   }
 
+  getDiscountValue(app: Express) {
+    app.post('/v1/discount', adminController.getDiscountValue)
+  }
+
   adminRoute(app: Express) {
     this.createAdmin(app);
     this.adminLogin(app);
     this.getAdmin(app);
     this.updateAdmin(app);
     this.updateAdminEnable(app);
+    this.getDiscountValue(app);
   }
 }

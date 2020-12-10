@@ -99,7 +99,7 @@ export default class DataRoute {
         app.post('/v1/excel-upload', dataController.uploadAndConvertExcel);
     }
 
-    translate(app: Express) {
+    async translate(app: Express) {
         app.post('/v1/translate', dataController1.translate);
     }
 

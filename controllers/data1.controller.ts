@@ -63,6 +63,7 @@ export default class Data1Controller {
                 caseReffered: req.body.caseReffered,
                 actsReffered: req.body.actsReffered,
                 fullJudgement: req.body.fullJudgement,
+                postType: req.body.postType,
               };
               DataEntry.create(schema, (error: any, result: any) => {
                 if (error) {
@@ -616,14 +617,8 @@ export default class Data1Controller {
   }
 
   async translate(req: any, res: any) {
-    const result = await translate(`I'm fine.`, {
-      tld: "cn",
-      to: "zh-CN",
-    });
-    const data = result.data[0];
-    res.send({
-      data: data
-    })
+    var url = 'https://translate.googleapis.com/translate_a/t?client=te&format=html&v=1.0&sl=en&tl=hi&tk=590525.1037051'
+    request.post({ uri: url, headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36' }, body: { 'q': 'Hello World' } })
   }
 }
 
