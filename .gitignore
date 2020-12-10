@@ -1,6 +1,6 @@
 #node modules
 /node_modules
-/pdf
+/public/pdf
 
 #build 
 /build

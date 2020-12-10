@@ -18,7 +18,8 @@ var cron = require('node-cron');
 
 
 var app = express();
-app.use('/public', express.static('public'));
+app.use(express.static('public'));
+app.use('/pdf', express.static('pdf'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
