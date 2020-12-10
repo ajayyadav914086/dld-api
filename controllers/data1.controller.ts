@@ -4,7 +4,7 @@ const Payment = require("../models/payment.model");
 // const translate = require('google-translate-api');
 
 var pdf = require('html-pdf');
-const CountSchema = require("../models/count.model");
+const Count = require("../models/count.model");
 import { body } from "express-validator/check";
 import request = require("request");
 import FirebaseNotification from "../config/firebase.config";
@@ -43,7 +43,7 @@ export default class Data1Controller {
                 error: error,
               });
             } else {
-              CountSchema.findOne({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, (error: any, count: any) => {
+              Count.findOne({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, (error: any, count: any) => {
                 if (error) {
                   return res.send({
                     message: "Unauthorized DB error",
@@ -89,7 +89,7 @@ export default class Data1Controller {
                       });
                     } else {
                       if (req.body.type == 0) {
-                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                        Count.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                           if (error) {
                             return res.send({
                               message: "Unauthorized DB error",
@@ -107,7 +107,7 @@ export default class Data1Controller {
                           }
                         })
                       } else {
-                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                        Count.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                           if (error) {
                             return res.send({
                               message: "Unauthorized DB error",

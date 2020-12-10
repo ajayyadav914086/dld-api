@@ -13,5 +13,5 @@ let CountSchema = new mongoose.Schema({
     },
 });
 
-var Count = mongoose.model('Count', CountSchema);
+var Count = mongoose.model('Counts', CountSchema);
 module.exports = Count;
