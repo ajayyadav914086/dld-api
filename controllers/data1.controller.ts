@@ -348,11 +348,14 @@ export default class Data1Controller {
               });
             } else {
               var date = Date.now().toString();
-              pdf.create(data.fullJudgement).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
+              var options = {
+                "border": "20"
+              };
+              pdf.create(data.fullJudgement, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
                 if (error) return console.log(error);
                 res.send({
                   message: 'Created PDF',
-                  url: 'http://api.dailylawdigest.com/pdf/' + String(date) + '.pdf',
+                  url: 'https://api.dailylawdigest.com/pdf/' + String(date) + '.pdf',
                   result: result
                 })
               })
