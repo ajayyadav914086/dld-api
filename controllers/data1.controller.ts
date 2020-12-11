@@ -3,6 +3,7 @@ const Plan = require("../models/plan.model");
 const Payment = require("../models/payment.model");
 // const translate = require('google-translate-api');
 
+const CountSchema = require('../models/counts.model');
 var pdf = require('html-pdf');
 const Count = require("../models/count.model");
 import { body } from "express-validator/check";
@@ -439,7 +440,7 @@ export default class Data1Controller {
   updatePost = function (req: any, res: any, next: any) {
     // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
     var data = req.body.data;
-    DataEntry.updateOne({ _id: mongoose.Types.ObjectId(data.id) }, { $set: data }, { upsert: true, new: true }, (error: any, result: any) => {
+    DataEntry.findOne({ _id: mongoose.Types.ObjectId(data.id) }, (error: any, datas: any) => {
       if (error) {
         return res.send({
           message: 'Unauthorized DB Error',
@@ -448,13 +449,83 @@ export default class Data1Controller {
           error: error
         });
       } else {
-        return res.send({
-          responseCode: 200,
-          status: 200,
-          message: 'Successfully updated record'
+        DataEntry.updateOne({ _id: mongoose.Types.ObjectId(data.id) }, { $set: data }, { upsert: true, new: true, returnOriginal: false }, (error: any, result: any) => {
+          if (error) {
+            return res.send({
+              message: 'Unauthorized DB Error',
+              responseCode: 700,
+              status: 200,
+              error: error
+            });
+          } else {
+            if (datas.postType == 0 && data.postType == 1) {
+              CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                if (error) {
+                  return res.send({
+                    message: 'Unauthorized DB Error',
+                    responseCode: 700,
+                    status: 200,
+                    error: error
+                  });
+                } else {
+                  CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                    if (error) {
+                      return res.send({
+                        message: 'Unauthorized DB Error',
+                        responseCode: 700,
+                        status: 200,
+                        error: error
+                      });
+                    } else {
+                      return res.send({
+                        message: 'Post Updated Successfully',
+                        responseCode: 200,
+                        status: 200,
+                      });
+                    }
+                  })
+                }
+              })
+            } else if (datas.type == 1 && result.type == 0) {
+              CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                if (error) {
+                  return res.send({
+                    message: 'Unauthorized DB Error',
+                    responseCode: 700,
+                    status: 200,
+                    error: error
+                  });
+                } else {
+                  CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                    if (error) {
+                      return res.send({
+                        message: 'Unauthorized DB Error',
+                        responseCode: 700,
+                        status: 200,
+                        error: error
+                      });
+                    } else {
+                      return res.send({
+                        message: 'Post Updated Successfully',
+                        responseCode: 200,
+                        status: 200,
+                      });
+                    }
+                  })
+                }
+              })
+            } else {
+              return res.send({
+                message: 'Post Updated Successfully',
+                responseCode: 200,
+                status: 200,
+              });
+            }
+          }
         });
       }
-    });
+    })
+
     // } else {
     //     return res.send({
     //         message: "Invalid Username and Password",

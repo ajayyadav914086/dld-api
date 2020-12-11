@@ -198,6 +198,10 @@ export default class UserRoute {
         app.post('/v1/user-references', userController.getReferenceById)
     }
 
+    addOnLanguage(app: Express) {
+        app.put('/v1/addOnLanguage', userController.addOnLanguage)
+    }
+
     userRoute(app: Express) {
         this.addUser(app);
         this.getUser(app);
@@ -229,5 +233,6 @@ export default class UserRoute {
         this.referUser(app);
         this.getAllReferences(app);
         this.getReferenceById(app);
+        this.addOnLanguage(app);
     }
 }

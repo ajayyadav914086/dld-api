@@ -333,7 +333,7 @@ export default class DataController {
 
                                         }
                                     }
-
+  
                                 });
                             } else {
                                 if (isNewAdded) {
@@ -1141,95 +1141,23 @@ export default class DataController {
 
     updatePlan = function (req: any, res: any, next: any) {
         var plan = req.body.data;
-        Plan.findOne({ _id: mongoose.Types.ObjectId(plan.id) }, (error: any, planData: any) => {
-            if (error) {
+        Plan.findOneAndUpdate({ _id: mongoose.Types.ObjectId(plan.id) }, plan, { new: true }, (err: any, user: any) => {
+            if (err) {
                 return res.send({
                     message: 'Unauthorized DB Error',
                     responseCode: 700,
                     status: 200,
-                    error: error
+                    error: err
                 });
             } else {
-                Plan.findOneAndUpdate({ _id: mongoose.Types.ObjectId(plan.id) }, plan, { new: true }, (err: any, user: any) => {
-                    if (err) {
-                        return res.send({
-                            message: 'Unauthorized DB Error',
-                            responseCode: 700,
-                            status: 200,
-                            error: err
-                        });
-                    } else {
-                        if (planData.type == 0 && plan.type == 1) {
-                            CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
-                                if (err) {
-                                    return res.send({
-                                        message: 'Unauthorized DB Error',
-                                        responseCode: 700,
-                                        status: 200,
-                                        error: err
-                                    });
-                                } else {
-                                    CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
-                                        if (err) {
-                                            return res.send({
-                                                message: 'Unauthorized DB Error',
-                                                responseCode: 700,
-                                                status: 200,
-                                                error: err
-                                            });
-                                        } else {
-                                            return res.send({
-                                                message: 'Plan Updated Successfully',
-                                                responseCode: 200,
-                                                status: 200,
-                                                result: user,
-                                            });
-                                        }
-                                    })
-                                }
-                            })
-                        } else if (planData.type == 1 && plan.type == 0) {
-                            CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
-                                if (err) {
-                                    return res.send({
-                                        message: 'Unauthorized DB Error',
-                                        responseCode: 700,
-                                        status: 200,
-                                        error: err
-                                    });
-                                } else {
-                                    CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
-                                        if (err) {
-                                            return res.send({
-                                                message: 'Unauthorized DB Error',
-                                                responseCode: 700,
-                                                status: 200,
-                                                error: err
-                                            });
-                                        } else {
-                                            return res.send({
-                                                message: 'Plan Updated Successfully',
-                                                responseCode: 200,
-                                                status: 200,
-                                                result: user,
-                                            });
-                                        }
-                                    })
-                                }
-                            })
-                        } else {
-                            return res.send({
-                                message: 'Plan Updated Successfully',
-                                responseCode: 200,
-                                status: 200,
-                                result: user,
-                            });
-                        }
-                    }
+                return res.send({
+                    message: 'Plan Updated Successfully',
+                    responseCode: 200,
+                    status: 200,
+                    result: user,
                 });
             }
-        })
-
+        });
     }
 
     getAllpayments = function (req: any, res: any, next: any) {
@@ -1307,7 +1235,7 @@ export default class DataController {
         }
     }
 
-    addPost = function (req: any, res: any, next: any) {
+     addPost = function (req: any, res: any, next: any) {
         if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
             var data = req.body.data;
             data['auctionStartDateTimeDate'] = new Date(data['auctionStartDateTime']).toISOString();
@@ -1340,23 +1268,23 @@ export default class DataController {
 
     updatePost = function (req: any, res: any, next: any) {
         // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
-        var data = req.body.data;
-        Data.updateOne({ _id: mongoose.Types.ObjectId(data.id) }, { $set: data }, { upsert: true, new: true }, (error: any, result: any) => {
-            if (error) {
-                return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: error
-                });
-            } else {
-                return res.send({
-                    responseCode: 200,
-                    status: 200,
-                    message: 'Successfully updated record'
-                });
-            }
-        });
+            var data = req.body.data;
+            Data.updateOne({ _id: mongoose.Types.ObjectId(data.id) }, { $set: data }, { upsert: true, new: true }, (error: any, result: any) => {
+                if (error) {
+                    return res.send({
+                        message: 'Unauthorized DB Error',
+                        responseCode: 700,
+                        status: 200,
+                        error: error
+                    });
+                } else {
+                    return res.send({
+                        responseCode: 200,
+                        status: 200,
+                        message: 'Successfully updated record'
+                    });
+                }
+            });
         // } else {
         //     return res.send({
         //         message: "Invalid Username and Password",
@@ -1395,23 +1323,23 @@ export default class DataController {
 
     deletePost = function (req: any, res: any, next: any) {
         // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
-        var data = req.body.data;
-        Data.deleteOne({ _id: mongoose.Types.ObjectId(data) }, (error: any, result: any) => {
-            if (error) {
-                return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: error
-                });
-            } else {
-                return res.send({
-                    responseCode: 200,
-                    status: 200,
-                    message: 'Successfully Deleted record'
-                });
-            }
-        });
+            var data = req.body.data;
+            Data.deleteOne({ _id: mongoose.Types.ObjectId(data) }, (error: any, result: any) => {
+                if (error) {
+                    return res.send({
+                        message: 'Unauthorized DB Error',
+                        responseCode: 700,
+                        status: 200,
+                        error: error
+                    });
+                } else {
+                    return res.send({
+                        responseCode: 200,
+                        status: 200,
+                        message: 'Successfully Deleted record'
+                    });
+                }
+            });
         // } else {
         //     return res.send({
         //         message: "Invalid Username and Password",
@@ -1539,64 +1467,64 @@ export default class DataController {
 
     getAllData = function (req: any, res: any, next: any) {
         // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
-        const pageSize = parseInt(req.body.pageSize);
-        const pageIndex = parseInt(req.body.pageIndex);
-        if (pageIndex > 0) {
-            Data.aggregate(
-                [
-                    {
-                        "$facet": {
-                            "totalData": [
-                                { "$match": { enabled: true } },
-                                { "$sort": { pid: -1 } },
-                                { "$skip": pageSize * (pageIndex - 1) },
-                                { "$limit": pageSize }
-                            ],
-                            "totalCount": [
-                                { "$count": "count" }
-                            ]
+            const pageSize = parseInt(req.body.pageSize);
+            const pageIndex = parseInt(req.body.pageIndex);
+            if (pageIndex > 0) {
+                Data.aggregate(
+                    [
+                        {
+                            "$facet": {
+                                "totalData": [
+                                    { "$match": { enabled: true } },
+                                    { "$sort": { pid: -1 } },
+                                    { "$skip": pageSize * (pageIndex - 1) },
+                                    { "$limit": pageSize }
+                                ],
+                                "totalCount": [
+                                    { "$count": "count" }
+                                ]
+                            }
                         }
-                    }
-                ],
-                // [
-                // {
-                //     $sort: { pid: -1 }
-                // },
-                // { $skip: pageSize * (pageIndex - 1) },
-                // { $limit: pageSize },
-                // {
-                //     $facet: {
-                //         Alldata: [{ $match: {} }],
-                //         total: { $count: 'total' }
-                //     }
-                // }
-                //],
-                function (error: any, data: any) {
-                    if (error) {
-                        return res.send({
-                            message: 'Unauthorized DB Error',
-                            responseCode: 700,
-                            status: 200,
-                            error: error
-                        });
-                    } else {
-                        return res.send({
-                            message: 'All Data',
-                            responseCode: 200,
-                            status: 200,
-                            result: data
+                    ],
+                    // [
+                    // {
+                    //     $sort: { pid: -1 }
+                    // },
+                    // { $skip: pageSize * (pageIndex - 1) },
+                    // { $limit: pageSize },
+                    // {
+                    //     $facet: {
+                    //         Alldata: [{ $match: {} }],
+                    //         total: { $count: 'total' }
+                    //     }
+                    // }
+                    //],
+                    function (error: any, data: any) {
+                        if (error) {
+                            return res.send({
+                                message: 'Unauthorized DB Error',
+                                responseCode: 700,
+                                status: 200,
+                                error: error
+                            });
+                        } else {
+                            return res.send({
+                                message: 'All Data',
+                                responseCode: 200,
+                                status: 200,
+                                result: data
 
-                        });
+                            });
 
-                    }
-                }).collation({ locale: "en_US", numericOrdering: true });
-        } else {
-            return res.send({
-                message: "Page Index should pe greater the 0",
-                status: 200,
-                responseCode: 600
-            })
-        }
+                        }
+                    }).collation({ locale: "en_US", numericOrdering: true });
+            } else {
+                return res.send({
+                    message: "Page Index should pe greater the 0",
+                    status: 200,
+                    responseCode: 600
+                })
+            }
         // } else {
         //     return res.send({
         //         message: "Invalid Username and Password",

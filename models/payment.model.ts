@@ -13,6 +13,12 @@ let PaymentSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
     },
+    agentId: {
+        type: String
+    },
+    discountValue: {
+        type: Number
+    },
     dateCreated: {
         type: Date,
         default: Date.now
