@@ -1487,7 +1487,7 @@ export default class UserController {
                         error: err
                     });
                 } else {
-                    if (language == 0) {
+                    if (language == 1) {
                         User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(userId) }, { $set: { isHindi: status } }, { new: true, returnOriginal: false }, (error: any, updatedUser: any) => {
                             if (err) {
                                 return res.send({
@@ -1505,7 +1505,7 @@ export default class UserController {
                                 });
                             }
                         })
-                    } else if (language == 1) {
+                    } else if (language == 2) {
                         User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(userId) }, { $set: { isMarathi: status } }, { new: true, returnOriginal: false }, (error: any, updatedUser: any) => {
                             if (err) {
                                 return res.send({
@@ -1523,7 +1523,7 @@ export default class UserController {
                                 });
                             }
                         })
-                    } else if (language == 2) {
+                    } else if (language == 3) {
                         User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(userId) }, { $set: { isGujarati: status } }, { new: true, returnOriginal: false }, (error: any, updatedUser: any) => {
                             if (err) {
                                 return res.send({
