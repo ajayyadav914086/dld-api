@@ -374,6 +374,40 @@ export default class AdminController {
     }
   }
 
+  getAllSuggestion = function (req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          Suggestion.find({}, (error: any, result: any) => {
+            if (err) {
+              return res.send({
+                message: "unauthorized access",
+                responseCode: 700,
+                status: 200,
+                error: err,
+              });
+            } else {
+              return res.send({
+                message: "Suggestions",
+                responseCode: 2000,
+                status: 200,
+                result: result
+              })
+            }
+          })
+        }
+      })
+    }
+  }
+
   deleteSuggestion = function (req: any, res: any) {
     var token = req.headers.token;
     if (token) {
