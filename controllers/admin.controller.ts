@@ -421,7 +421,7 @@ export default class AdminController {
           });
         } else {
           const schema = {
-            suggestion: req.body.suggestionId
+            _id: mongoose.Types.ObjectId(req.body.suggestionId)
           }
           Suggestion.remove(schema, (error: any, result: any) => {
             if (err) {
