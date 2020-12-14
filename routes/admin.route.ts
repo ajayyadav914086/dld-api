@@ -47,6 +47,10 @@ export default class AdminRoute {
     app.get('/v1/get-suggestion', adminController.getSuggestion);
   }
 
+  deleteSuggestion(app: Express) {
+    app.delete('/v1/delete-suggestion', adminController.deleteSuggestion)
+  }
+
   adminRoute(app: Express) {
     this.createAdmin(app);
     this.adminLogin(app);
@@ -56,5 +60,6 @@ export default class AdminRoute {
     this.getDiscountValue(app);
     this.addSuggestion(app);
     this.getSuggestion(app);
+    this.deleteSuggestion(app);
   }
 }
