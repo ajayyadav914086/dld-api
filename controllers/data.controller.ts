@@ -2,7 +2,7 @@ const Data = require('../models/data.model');
 const Plan = require('../models/plan.model');
 const Payment = require('../models/payment.model');
 
-const CountSchema = require('../models/counts.model');
+const CountSchema = require('../models/count.model');
 import request = require('request');
 import FirebaseNotification from '../config/firebase.config';
 import Mail from '../config/mail.config';

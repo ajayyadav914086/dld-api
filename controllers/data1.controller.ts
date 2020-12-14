@@ -3,7 +3,7 @@ const Plan = require("../models/plan.model");
 const Payment = require("../models/payment.model");
 // const translate = require('google-translate-api');
 
-const CountSchema = require('../models/counts.model');
+const CountSchema = require('../models/count.model');
 var pdf = require('html-pdf');
 const Count = require("../models/count.model");
 import { body } from "express-validator/check";
@@ -78,7 +78,7 @@ export default class Data1Controller {
                     actsReffered: req.body.actsReffered,
                     fullJudgement: req.body.fullJudgement,
                     postType: req.body.postType,
-                    dldId: req.body.type == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
+                    dldId: req.body.postType == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
                   };
                   DataEntry.create(schema, (error: any, result: any) => {
                     if (error) {
@@ -89,7 +89,7 @@ export default class Data1Controller {
                         error: error,
                       });
                     } else {
-                      if (req.body.type == 0) {
+                      if (req.body.postType == 0) {
                         Count.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                           if (error) {
                             return res.send({
@@ -308,12 +308,90 @@ export default class Data1Controller {
           });
         } else {
           if (pageIndex > 0) {
+            if(user.planType == 2){
+              DataEntry.aggregate([
+                {
+                  $match: {
+                    $and: [
+                      {
+                        enabled: true
+                      },
+                      {
+                        $or: [
+                          { respondentName: search },
+                          { appelentName: search },
+                          { judges: search },
+                          { decidedDate: search },
+                          { importantPoints: search },
+                          { importantPointsHindi: search },
+                          { importantPointsMarathi: search },
+                          { importantPointsGujrati: search },
+                          { headNote: search },
+                          { headNoteGujrati: search },
+                          { headNoteMarathi: search },
+                          { result: search },
+                          { resultHindi: search },
+                          { resultMarathi: search },
+                          { resultGujrati: search },
+                          { caseReffered: search },
+                          { actsReffered: search },
+                          { fullJudgement: search },
+                        ],
+                      },
+                    ]
+                  }
+                },
+                {
+                  $lookup: {
+                    from: 'bookmarks',
+                    as: 'bookmark',
+                    let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                    pipeline: [
+                      {
+                        $match: {
+                          $expr: {
+                            $and: [
+                              { $eq: ["$pid", "$$userObjId"] },
+                              { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  $sort: { pid: -1 }
+                },
+                { $skip: pageSize * (pageIndex - 1) },
+                { $limit: pageSize }], function (error: any, data: any) {
+                  if (error) {
+                    return res.send({
+                      message: 'Unauthorized DB Error',
+                      responseCode: 700,
+                      status: 200,
+                      error: error
+                    });
+                  } else {
+                    return res.send({
+                      message: 'All Data',
+                      responseCode: 200,
+                      status: 200,
+                      result: data
+  
+                    });
+  
+                  }
+                }).collation({ locale: "en_US", numericOrdering: true });
+            }else{
             DataEntry.aggregate([
               {
                 $match: {
                   $and: [
                     {
                       enabled: true
+                    },{
+                      postType: user.planType
                     },
                     {
                       $or: [
@@ -382,6 +460,7 @@ export default class Data1Controller {
 
                 }
               }).collation({ locale: "en_US", numericOrdering: true });
+            }
           }
         }
       })
