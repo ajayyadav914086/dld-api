@@ -12,5 +12,5 @@ let SuggestionSchema = new mongoose.Schema({
     }
 });
 
-var Suggestion = mongoose.model('Reference', SuggestionSchema);
+var Suggestion = mongoose.model('Suggestions', SuggestionSchema);
 module.exports = Suggestion;
