@@ -1213,33 +1213,36 @@ export default class DataController {
     }
 
     getAllPlans = function (req: any, res: any, next: any) {
-        // const pageSize = parseInt(req.query.pageSize);
-        // const pageIndex = parseInt(req.query.pageIndex);
-        if (false) {
-            return res.send({
-                message: 'unauthorized access',
-                responseCode: 700,
-                status: 200,
-            });
-        } else {
-            Plan.find().exec(function (err: any, plans: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
                 if (err) {
                     return res.send({
-                        message: 'unauthorized db error',
-                        responseCode: 800,
+                        message: "unauthorized access",
+                        responseCode: 700,
                         status: 200,
-                        error: err
+                        error: err,
                     });
                 } else {
-                    return res.send({
-                        message: 'plans',
-                        responseCode: 300,
-                        status: 200,
-                        result: plans
-                    });
+                    Plan.find().exec(function (err: any, plans: any) {
+                        if (err) {
+                            return res.send({
+                                message: 'unauthorized db error',
+                                responseCode: 800,
+                                status: 200,
+                                error: err
+                            });
+                        } else {
+                            return res.send({
+                                message: 'plans',
+                                responseCode: 300,
+                                status: 200,
+                                result: plans
+                            });
+                        }
+                    })
                 }
             })
-
         }
     }
 
