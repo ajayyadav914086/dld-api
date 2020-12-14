@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 var mongoose = require("mongoose");
 var Admin = require("../models/admin.model");
 var User = require("../models/user.model");
+var Suggestion = require("../models/suggestion.model");
 var generator = require('generate-password');
 export default class AdminController {
   createAdmin = function (req: any, res: any) {
@@ -298,6 +299,80 @@ export default class AdminController {
       });
     }
   };
+
+  addSuggestion = function (req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          const schema = {
+            suggestion: req.body.suggestion
+          }
+          Suggestion.create(schema, (error: any, result: any) => {
+            if (err) {
+              return res.send({
+                message: "unauthorized access",
+                responseCode: 700,
+                status: 200,
+                error: err,
+              });
+            } else {
+              return res.send({
+                message: "Suggestion Added",
+                responseCode: 2000,
+                status: 200,
+                result: result
+              })
+            }
+          })
+        }
+      })
+    }
+  }
+
+  getSuggestion = function (req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          const schema = {
+            suggestion: req.body.suggestion
+          }
+          Suggestion.find(schema, (error: any, result: any) => {
+            if (err) {
+              return res.send({
+                message: "unauthorized access",
+                responseCode: 700,
+                status: 200,
+                error: err,
+              });
+            } else {
+              return res.send({
+                message: "Suggestions",
+                responseCode: 2000,
+                status: 200,
+                result: result
+              })
+            }
+          })
+        }
+      })
+    }
+  }
 }
 
 export const adminController = new AdminController();

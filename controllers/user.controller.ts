@@ -70,9 +70,6 @@ export default class UserController {
                         })
                     }
                 });
-
-
-
             } else {
                 return res.send({
                     message: 'All fields required',
@@ -1551,93 +1548,20 @@ export default class UserController {
         var pageSize = parseInt(req.body.pageSize);
         var pageIndex = parseInt(req.body.pageIndex);
         var search = req.body.searchText;
-        if (req.body.username == 'bauktion' && req.body.password == 'bauktion@2019') {
-            if (pageIndex > 0) {
-                if (isNaN(search)) {
-                    User.find({ $or: [{ email: { $regex: search, $options: '$i' } }, { fullName: { $regex: search, $options: '$i' } }] }, function (err: any, users: any) {
-                        if (err) {
-                            return res.send({
-                                message: "db err",
-                                responseCode: 700,
-                                status: 200,
-                                error: err
-                            })
-                        } else {
-                            User.find({}, (error: any, totalUsers: any) => {
-                                if (err) {
-                                    return res.send({
-                                        message: "db err",
-                                        responseCode: 700,
-                                        status: 200,
-                                        error: err
-                                    })
-                                } else {
-                                    var usersList = Buffer.from(totalUsers);
-                                    var len = usersList.length;
-                                    if (users === null) {
-                                        return res.send({
-                                            message: "no user found",
-                                            responseCode: 300,
-                                            status: 200,
-                                            lenght: len,
-                                            users: users
-                                        })
-                                    } else {
-                                        return res.send({
-                                            message: "all users",
-                                            responseCode: 200,
-                                            status: 200,
-                                            lenght: len,
-                                            users: users
-                                        })
-                                    }
-                                }
-                            })
-                        }
-                    }).limit(pageSize).skip(pageSize * (pageIndex - 1)).sort({ _id: -1 })
-                } else if (!search || !search.trim() || search === null || search === '') {
-                    User.find({}, function (err: any, users: any) {
-                        if (err) {
-                            return res.send({
-                                message: "db err",
-                                responseCode: 700,
-                                status: 200,
-                                error: err
-                            })
-                        } else {
-                            User.find({}, (error: any, totalUsers: any) => {
-                                if (err) {
-                                    return res.send({
-                                        message: "db err",
-                                        responseCode: 700,
-                                        status: 200,
-                                        error: err
-                                    })
-                                } else {
-                                    var usersList = Buffer.from(totalUsers);
-                                    var len = usersList.length;
-                                    return res.send({
-                                        message: "all users",
-                                        responseCode: 200,
-                                        status: 200,
-                                        lenght: len,
-                                        users: users
-                                    })
-                                }
-                            })
-                        }
-                    }).limit(pageSize).skip(pageSize * (pageIndex - 1)).sort({ _id: -1 })
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
                 } else {
-                    User.find({ phoneNumber: Number(search) }, function (err: any, users: any) {
-                        if (err) {
-                            return res.send({
-                                message: "db err",
-                                responseCode: 700,
-                                status: 200,
-                                error: err
-                            })
-                        } else {
-                            User.find({}, (error: any, totalUsers: any) => {
+                    if (pageIndex > 0) {
+                        if (isNaN(search)) {
+                            User.find({ $or: [{ email: { $regex: search, $options: '$i' } }, { fullName: { $regex: search, $options: '$i' } }] }, function (err: any, users: any) {
                                 if (err) {
                                     return res.send({
                                         message: "db err",
@@ -1646,42 +1570,121 @@ export default class UserController {
                                         error: err
                                     })
                                 } else {
-                                    var usersList = Buffer.from(totalUsers);
-                                    var len = usersList.length;
-                                    if (users === null) {
-                                        return res.send({
-                                            message: "no user found",
-                                            responseCode: 300,
-                                            status: 200,
-                                            lenght: len,
-                                            users: users
-                                        })
-                                    } else {
-                                        return res.send({
-                                            message: "all users",
-                                            responseCode: 200,
-                                            status: 200,
-                                            lenght: len,
-                                            users: users
-                                        })
-                                    }
+                                    User.find({}, (error: any, totalUsers: any) => {
+                                        if (err) {
+                                            return res.send({
+                                                message: "db err",
+                                                responseCode: 700,
+                                                status: 200,
+                                                error: err
+                                            })
+                                        } else {
+                                            var usersList = Buffer.from(totalUsers);
+                                            var len = usersList.length;
+                                            if (users === null) {
+                                                return res.send({
+                                                    message: "no user found",
+                                                    responseCode: 300,
+                                                    status: 200,
+                                                    lenght: len,
+                                                    users: users
+                                                })
+                                            } else {
+                                                return res.send({
+                                                    message: "all users",
+                                                    responseCode: 200,
+                                                    status: 200,
+                                                    lenght: len,
+                                                    users: users
+                                                })
+                                            }
+                                        }
+                                    })
                                 }
-                            })
+                            }).limit(pageSize).skip(pageSize * (pageIndex - 1)).sort({ _id: -1 })
+                        } else if (!search || !search.trim() || search === null || search === '') {
+                            User.find({}, function (err: any, users: any) {
+                                if (err) {
+                                    return res.send({
+                                        message: "db err",
+                                        responseCode: 700,
+                                        status: 200,
+                                        error: err
+                                    })
+                                } else {
+                                    User.find({}, (error: any, totalUsers: any) => {
+                                        if (err) {
+                                            return res.send({
+                                                message: "db err",
+                                                responseCode: 700,
+                                                status: 200,
+                                                error: err
+                                            })
+                                        } else {
+                                            var usersList = Buffer.from(totalUsers);
+                                            var len = usersList.length;
+                                            return res.send({
+                                                message: "all users",
+                                                responseCode: 200,
+                                                status: 200,
+                                                lenght: len,
+                                                users: users
+                                            })
+                                        }
+                                    })
+                                }
+                            }).limit(pageSize).skip(pageSize * (pageIndex - 1)).sort({ _id: -1 })
+                        } else {
+                            User.find({ phoneNumber: Number(search) }, function (err: any, users: any) {
+                                if (err) {
+                                    return res.send({
+                                        message: "db err",
+                                        responseCode: 700,
+                                        status: 200,
+                                        error: err
+                                    })
+                                } else {
+                                    User.find({}, (error: any, totalUsers: any) => {
+                                        if (err) {
+                                            return res.send({
+                                                message: "db err",
+                                                responseCode: 700,
+                                                status: 200,
+                                                error: err
+                                            })
+                                        } else {
+                                            var usersList = Buffer.from(totalUsers);
+                                            var len = usersList.length;
+                                            if (users === null) {
+                                                return res.send({
+                                                    message: "no user found",
+                                                    responseCode: 300,
+                                                    status: 200,
+                                                    lenght: len,
+                                                    users: users
+                                                })
+                                            } else {
+                                                return res.send({
+                                                    message: "all users",
+                                                    responseCode: 200,
+                                                    status: 200,
+                                                    lenght: len,
+                                                    users: users
+                                                })
+                                            }
+                                        }
+                                    })
+                                }
+                            }).limit(pageSize).skip(pageSize * (pageIndex - 1)).sort({ _id: -1 })
                         }
-                    }).limit(pageSize).skip(pageSize * (pageIndex - 1)).sort({ _id: -1 })
+                    } else {
+                        return res.send({
+                            message: "Invalid Pages",
+                            responseCode: 101,
+                            status: 200
+                        })
+                    }
                 }
-            } else {
-                return res.send({
-                    message: "Invalid Pages",
-                    responseCode: 101,
-                    status: 200
-                })
-            }
-        } else {
-            return res.send({
-                message: "Invalid Username and Password",
-                responseCode: 100,
-                status: 200
             })
         }
     }

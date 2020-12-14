@@ -39,6 +39,14 @@ export default class AdminRoute {
     app.post('/v1/discount', adminController.getDiscountValue)
   }
 
+  addSuggestion(app: Express) {
+    app.post('/v1/add-suggestion', adminController.addSuggestion)
+  }
+
+  getSuggestion(app: Express) {
+    app.get('/v1/get-suggestion', adminController.getSuggestion);
+  }
+
   adminRoute(app: Express) {
     this.createAdmin(app);
     this.adminLogin(app);
@@ -46,5 +54,7 @@ export default class AdminRoute {
     this.updateAdmin(app);
     this.updateAdminEnable(app);
     this.getDiscountValue(app);
+    this.addSuggestion(app);
+    this.getSuggestion(app);
   }
 }
