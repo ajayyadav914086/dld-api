@@ -350,7 +350,7 @@ export default class AdminController {
           });
         } else {
           const schema = {
-            suggestion: req.body.suggestion
+            suggestion: req.query.suggestion
           }
           Suggestion.find(schema, (error: any, result: any) => {
             if (err) {
