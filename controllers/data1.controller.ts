@@ -308,7 +308,7 @@ export default class Data1Controller {
           });
         } else {
           if (pageIndex > 0) {
-            if(user.planType == 2){
+            if (user.planType == 2) {
               DataEntry.aggregate([
                 {
                   $match: {
@@ -378,88 +378,88 @@ export default class Data1Controller {
                       responseCode: 200,
                       status: 200,
                       result: data
-  
+
                     });
-  
+
                   }
                 }).collation({ locale: "en_US", numericOrdering: true });
-            }else{
-            DataEntry.aggregate([
-              {
-                $match: {
-                  $and: [
-                    {
-                      enabled: true
-                    },{
-                      postType: user.planType
-                    },
-                    {
-                      $or: [
-                        { respondentName: search },
-                        { appelentName: search },
-                        { judges: search },
-                        { decidedDate: search },
-                        { importantPoints: search },
-                        { importantPointsHindi: search },
-                        { importantPointsMarathi: search },
-                        { importantPointsGujrati: search },
-                        { headNote: search },
-                        { headNoteGujrati: search },
-                        { headNoteMarathi: search },
-                        { result: search },
-                        { resultHindi: search },
-                        { resultMarathi: search },
-                        { resultGujrati: search },
-                        { caseReffered: search },
-                        { actsReffered: search },
-                        { fullJudgement: search },
-                      ],
-                    },
-                  ]
-                }
-              },
-              {
-                $lookup: {
-                  from: 'bookmarks',
-                  as: 'bookmark',
-                  let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
-                  pipeline: [
-                    {
-                      $match: {
-                        $expr: {
-                          $and: [
-                            { $eq: ["$pid", "$$userObjId"] },
-                            { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
-                          ]
+            } else {
+              DataEntry.aggregate([
+                {
+                  $match: {
+                    $and: [
+                      {
+                        enabled: true
+                      }, {
+                        postType: user.planType
+                      },
+                      {
+                        $or: [
+                          { respondentName: search },
+                          { appelentName: search },
+                          { judges: search },
+                          { decidedDate: search },
+                          { importantPoints: search },
+                          { importantPointsHindi: search },
+                          { importantPointsMarathi: search },
+                          { importantPointsGujrati: search },
+                          { headNote: search },
+                          { headNoteGujrati: search },
+                          { headNoteMarathi: search },
+                          { result: search },
+                          { resultHindi: search },
+                          { resultMarathi: search },
+                          { resultGujrati: search },
+                          { caseReffered: search },
+                          { actsReffered: search },
+                          { fullJudgement: search },
+                        ],
+                      },
+                    ]
+                  }
+                },
+                {
+                  $lookup: {
+                    from: 'bookmarks',
+                    as: 'bookmark',
+                    let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                    pipeline: [
+                      {
+                        $match: {
+                          $expr: {
+                            $and: [
+                              { $eq: ["$pid", "$$userObjId"] },
+                              { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                            ]
+                          }
                         }
                       }
-                    }
-                  ]
-                }
-              },
-              {
-                $sort: { pid: -1 }
-              },
-              { $skip: pageSize * (pageIndex - 1) },
-              { $limit: pageSize }], function (error: any, data: any) {
-                if (error) {
-                  return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: error
-                  });
-                } else {
-                  return res.send({
-                    message: 'All Data',
-                    responseCode: 200,
-                    status: 200,
-                    result: data
+                    ]
+                  }
+                },
+                {
+                  $sort: { pid: -1 }
+                },
+                { $skip: pageSize * (pageIndex - 1) },
+                { $limit: pageSize }], function (error: any, data: any) {
+                  if (error) {
+                    return res.send({
+                      message: 'Unauthorized DB Error',
+                      responseCode: 700,
+                      status: 200,
+                      error: error
+                    });
+                  } else {
+                    return res.send({
+                      message: 'All Data',
+                      responseCode: 200,
+                      status: 200,
+                      result: data
 
-                  });
+                    });
 
-                }
-              }).collation({ locale: "en_US", numericOrdering: true });
+                  }
+                }).collation({ locale: "en_US", numericOrdering: true });
             }
           }
         }
@@ -729,167 +729,181 @@ export default class Data1Controller {
   };
 
   statatics = function (req: any, res: any, next: any) {
-    DataEntry.aggregate([
-      {
-        $group: {
-          '_id': 0
-        }
-      },
-      {
-        $lookup: {
-          from: 'dataentries',
-          let: {},
-          pipeline: [
-            { "$match": { enabled: true } },
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          DataEntry.aggregate([
             {
               $group: {
-                '_id': 0,
-                'count': { $sum: 1 }
+                '_id': 0
               }
-            }
-          ],
-          as: 'datas'
-        }
-      },
-      {
-        $lookup: {
-          from: 'counts',
-          let: {},
-          pipeline: [
-            { "$match": { _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') } },
-          ],
-          as: 'counts'
-        }
-      },
-      {
-        $lookup: {
-          from: 'users',
-          let: {},
-          pipeline: [
+            },
             {
-              $group: {
-                '_id': 0,
-                'count': { $sum: 1 }
+              $lookup: {
+                from: 'dataentries',
+                let: {},
+                pipeline: [
+                  { "$match": { enabled: true } },
+                  {
+                    $group: {
+                      '_id': 0,
+                      'count': { $sum: 1 }
+                    }
+                  }
+                ],
+                as: 'datas'
               }
-            }
-          ],
-          as: 'users'
-        }
-      },
-      {
-        $lookup: {
-          from: 'bookmarks',
-          let: {},
-          pipeline: [
+            },
             {
-              $group: {
-                '_id': 0,
-                'count': { $sum: 1 }
+              $lookup: {
+                from: 'counts',
+                let: {},
+                pipeline: [
+                  { "$match": { _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') } },
+                ],
+                as: 'counts'
               }
-            }
-          ],
-          as: 'bookmarks'
-        }
-      },
-      // {
-      //   $lookup: {
-      //     from: 'mails',
-      //     let: {},
-      //     pipeline: [
-      //       {
-      //         $group: {
-      //           '_id': 0,
-      //           'count': { $sum: 1 }
-      //         }
-      //       }
-      //     ],
-      //     as: 'mails'
-      //   }
-      // },
-      {
-        $lookup: {
-          from: 'plans',
-          let: {},
-          pipeline: [
+            },
             {
-              $group: {
-                '_id': 0,
-                'count': { $sum: 1 }
+              $lookup: {
+                from: 'users',
+                let: {},
+                pipeline: [
+                  {
+                    $group: {
+                      '_id': 0,
+                      'count': { $sum: 1 }
+                    }
+                  }
+                ],
+                as: 'users'
               }
-            }
-          ],
-          as: 'plans'
-        }
-      },
-      {
-        $lookup: {
-          from: 'payments',
-          let: {},
-          pipeline: [
+            },
             {
-              $group: {
-                '_id': 0,
-                'count': { $sum: 1 }
+              $lookup: {
+                from: 'bookmarks',
+                let: {},
+                pipeline: [
+                  {
+                    $group: {
+                      '_id': 0,
+                      'count': { $sum: 1 }
+                    }
+                  }
+                ],
+                as: 'bookmarks'
               }
-            }
-          ],
-          as: 'payments'
-        }
-      },
-      {
-        $unwind: {
-          path: '$datas',
-        }
-      },
-      {
-        $unwind: {
-          path: '$users',
-        }
-      },
-      {
-        $unwind: {
-          path: '$bookmarks',
-        }
-      },
-      {
-        $unwind: {
-          path: '$counts',
-        }
-      },
-      // {
-      //   $unwind: {
-      //     path: '$mails',
-      //   }
-      // },
+            },
+            // {
+            //   $lookup: {
+            //     from: 'mails',
+            //     let: {},
+            //     pipeline: [
+            //       {
+            //         $group: {
+            //           '_id': 0,
+            //           'count': { $sum: 1 }
+            //         }
+            //       }
+            //     ],
+            //     as: 'mails'
+            //   }
+            // },
+            {
+              $lookup: {
+                from: 'plans',
+                let: {},
+                pipeline: [
+                  {
+                    $group: {
+                      '_id': 0,
+                      'count': { $sum: 1 }
+                    }
+                  }
+                ],
+                as: 'plans'
+              }
+            },
+            {
+              $lookup: {
+                from: 'payments',
+                let: {},
+                pipeline: [
+                  {
+                    $group: {
+                      '_id': 0,
+                      'count': { $sum: 1 }
+                    }
+                  }
+                ],
+                as: 'payments'
+              }
+            },
+            {
+              $unwind: {
+                path: '$datas',
+              }
+            },
+            {
+              $unwind: {
+                path: '$users',
+              }
+            },
+            {
+              $unwind: {
+                path: '$bookmarks',
+              }
+            },
+            {
+              $unwind: {
+                path: '$counts',
+              }
+            },
+            // {
+            //   $unwind: {
+            //     path: '$mails',
+            //   }
+            // },
 
-    ], function (error: any, data: any) {
-      if (error) {
-        return res.send({
-          message: 'Unauthorized DB Error',
-          responseCode: 700,
-          status: 200,
-          error: error
-        });
-      } else {
-        var url = `https://2factor.in/API/V1/47701b38-7a5b-11ea-9fa5-0200cd936042/BAL/SMS`;
-        request(url, function (error: any, response: any, body: any) {
-          if (!error && response.statusCode == 200) {
-            data['sms'] = JSON.parse(body).Details;
-            return res.send({
-              message: 'All Data',
-              responseCode: 200,
-              status: 200,
-              result: data,
-              counts: {
-                sms: JSON.parse(body).Details
-              }
-            });
-          } else {
+          ], function (error: any, data: any) {
+            if (error) {
+              return res.send({
+                message: 'Unauthorized DB Error',
+                responseCode: 700,
+                status: 200,
+                error: error
+              });
+            } else {
+              var url = `https://2factor.in/API/V1/47701b38-7a5b-11ea-9fa5-0200cd936042/BAL/SMS`;
+              request(url, function (error: any, response: any, body: any) {
+                if (!error && response.statusCode == 200) {
+                  data['sms'] = JSON.parse(body).Details;
+                  return res.send({
+                    message: 'All Data',
+                    responseCode: 200,
+                    status: 200,
+                    result: data,
+                    counts: {
+                      sms: JSON.parse(body).Details
+                    }
+                  });
+                } else {
 
-          }
-        })
-      }
-    });
+                }
+              })
+            }
+          });
+        }
+      })
+    }
   }
 
   async translate(req: any, res: any) {
