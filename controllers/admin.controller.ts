@@ -349,10 +349,8 @@ export default class AdminController {
             error: err,
           });
         } else {
-          const schema = {
-            suggestion: req.query.suggestion
-          }
-          Suggestion.find(schema, (error: any, result: any) => {
+          var suggestion = req.query.suggestion
+          Suggestion.find({ suggestion: {'$regex': suggestion, '$options': 'i'} }, (error: any, result: any) => {
             if (err) {
               return res.send({
                 message: "unauthorized access",

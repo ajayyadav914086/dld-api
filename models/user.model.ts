@@ -47,6 +47,9 @@ let UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  planStartDate: {
+    type: Date
+  },
   isMobileVerified: {
     type: Boolean,
     default: false,
