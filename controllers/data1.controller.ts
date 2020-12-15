@@ -506,21 +506,40 @@ export default class Data1Controller {
               var importantPointsHindi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्वपूर्ण बिंदु:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsHindi + '</span></span></span></p>';
               var importantPointsMarathi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्त्वाचा मुद्दा:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsMarathi + '</span></span></span></p>';
               var importantPointsGujrati = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>મહત્વનો મુદ્દો:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsGujarati + '</span></span></span></p>';
-              var decidedDate = '';
-              var judges = '';
-              var headNote = '';
-              var headNoteHindi = '';
-              var headNoteMarathi = '';
-              var headNoteGujrati = '';
-              var type = '';
+              var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.decidedDate + '</strong></span></p>';
+              var soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>SUPREME COURT OF INDA</strong></span></p>';
+              var vs = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p>';
+              var appelentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.appelentName + '</strong></span></p>';
+              var judges = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.judges + '</strong></span></p>';
+              var headNote = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">Head Point:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNote + '</span></span></span></p>';
+              var headNoteHindi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">शीर्ष टिप्पणी:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteHindi + '</span></span></span></p>';
+              var headNoteMarathi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">मुख्य टीप:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteMarathi + '</span></span></span></p>';
+              var headNoteGujrati = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">મુખ્ય નોંધ:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteGujarati + '</span></span></span></p>';
               var respondentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.respondentName + '</strong></span></p>';
-              var result = '';
-              var links = '';
+              var result = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">Result:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.result + '</span></span></span></p>';
+              var resultHindi = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultHindi + '</span></span></span></p>';
+              var resultMarathi = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultMarathi + '</span></span></span></p>';
+              var resultGujrati = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">પરિણામ:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultGujarati + '</span></span></span></p>';
+              var caseRefferedText = '<p><span style="font-size:14px"><strong>Case Reffered:&nbsp;</strong></span></p>';
               var caseReffered = '';
-              var actsReffered = '';
-              var postType = '';
-              var html = data.fullJudgement;
-
+              for (var i = 0; i < data.caseReffered.lenght; i++) {
+                var caseRef = '<ul><li><span style="font-size:14px">' + data.caseReffered[i] + '</span></li></ul>';
+                caseReffered.concat(caseRef);
+              }
+              var postType = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.postType + '</strong></span></p>';
+              var fullJudgement = data.fullJudgement;
+              var html;
+              if (user.isHindi == true) {
+                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + headNote + headNoteHindi + result + resultHindi + caseReffered + fullJudgement;
+              } else if (user.isMarathi == true) {
+                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsMarathi + headNote + headNoteMarathi + result + resultMarathi + caseReffered + fullJudgement;
+              } else if (user.isGujarati == true) {
+                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsGujrati + headNote + headNoteGujrati + result + resultGujrati + caseReffered + fullJudgement;
+              } else if (user.isHindi == true && user.isMarathi == true && user.isGujarati == true) {
+                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + importantPointsMarathi + importantPointsGujrati + headNote + headNoteHindi + headNoteMarathi + headNoteGujrati + result + resultHindi + resultMarathi + resultGujrati + caseReffered + fullJudgement;
+              } else {
+                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + headNote + result + caseReffered + fullJudgement;
+              }
               pdf.create(html, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
                 if (error) return console.log(error);
                 res.send({
