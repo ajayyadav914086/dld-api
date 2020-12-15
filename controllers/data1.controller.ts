@@ -501,7 +501,27 @@ export default class Data1Controller {
                 "format": "A4",
                 "border": "20"
               };
-              pdf.create(data.fullJudgement, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
+              var dldId = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
+              var importantPoints = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>Important Point:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPoints + '</span></span></span></p>';
+              var importantPointsHindi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्वपूर्ण बिंदु:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsHindi + '</span></span></span></p>';
+              var importantPointsMarathi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्त्वाचा मुद्दा:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsMarathi + '</span></span></span></p>';
+              var importantPointsGujrati = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>મહત્વનો મુદ્દો:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsGujarati + '</span></span></span></p>';
+              var decidedDate = '';
+              var judges = '';
+              var headNote = '';
+              var headNoteHindi = '';
+              var headNoteMarathi = '';
+              var headNoteGujrati = '';
+              var type = '';
+              var respondentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.respondentName + '</strong></span></p>';
+              var result = '';
+              var links = '';
+              var caseReffered = '';
+              var actsReffered = '';
+              var postType = '';
+              var html = data.fullJudgement;
+
+              pdf.create(html, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
                 if (error) return console.log(error);
                 res.send({
                   message: 'Created PDF',

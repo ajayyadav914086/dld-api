@@ -2272,7 +2272,7 @@ export default class UserController {
                         error: err
                     });
                 } else {
-                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { planType: req.body.planType } }, { new: true, returnOriginal: false }, (error: any, updatedUser: any) => {
+                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.userId) }, { $set: { planType: req.body.planType } }, { new: true, returnOriginal: false }, (error: any, updatedUser: any) => {
                         if (err) {
                             return res.send({
                                 message: 'unauthorized access',
@@ -2281,7 +2281,7 @@ export default class UserController {
                                 error: err
                             });
                         } else {
-                            Plans.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user.planId) }, { $set: { type: req.body.planType } }, { new: true, returnOriginal: false }, (error: any, plan: any) => {
+                            Plans.findOneAndUpdate({ _id: mongoose.Types.ObjectId(updatedUser.planId) }, { $set: { type: req.body.planType } }, { new: true, returnOriginal: false }, (error: any, plan: any) => {
                                 if (err) {
                                     return res.send({
                                         message: 'unauthorized access',
