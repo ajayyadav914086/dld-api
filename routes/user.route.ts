@@ -202,6 +202,10 @@ export default class UserRoute {
         app.put('/v1/addOnLanguage', userController.addOnLanguage)
     }
 
+    planUpdate(app: Express) {
+        app.put('/v1/plan-update', userController.planUpdate)
+    }
+
     userRoute(app: Express) {
         this.addUser(app);
         this.getUser(app);
@@ -234,5 +238,6 @@ export default class UserRoute {
         this.getAllReferences(app);
         this.getReferenceById(app);
         this.addOnLanguage(app);
+        this.planUpdate(app);
     }
 }

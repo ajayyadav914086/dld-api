@@ -2259,5 +2259,51 @@ export default class UserController {
             })
         }
     }
+
+    planUpdate = function (req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: 'unauthorized access',
+                        responseCode: 700,
+                        status: 200,
+                        error: err
+                    });
+                } else {
+                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $set: { planType: req.body.planType } }, { new: true, returnOriginal: false }, (error: any, updatedUser: any) => {
+                        if (err) {
+                            return res.send({
+                                message: 'unauthorized access',
+                                responseCode: 700,
+                                status: 200,
+                                error: err
+                            });
+                        } else {
+                            Plans.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user.planId) }, { $set: { type: req.body.planType } }, { new: true, returnOriginal: false }, (error: any, plan: any) => {
+                                if (err) {
+                                    return res.send({
+                                        message: 'unauthorized access',
+                                        responseCode: 700,
+                                        status: 200,
+                                        error: err
+                                    });
+                                } else {
+                                    return res.send({
+                                        message: 'Plan Updated',
+                                        responseCode: 2000,
+                                        status: 200,
+                                        plan: plan,
+                                        user: updatedUser
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    }
 }
 export const userController = new UserController();
