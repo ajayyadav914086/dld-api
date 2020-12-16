@@ -2,6 +2,7 @@ const DataEntry = require("../models/dataEntry.model");
 const Plan = require("../models/plan.model");
 const Payment = require("../models/payment.model");
 // const translate = require('google-translate-api');
+const Users = require('../models/user.model');
 
 const CountSchema = require('../models/count.model');
 var pdf = require('html-pdf');
@@ -218,7 +219,7 @@ export default class Data1Controller {
               } else {
                 res.send({
                   message: "postById",
-                  responseCode: 200,
+                  responseCode: 2000,
                   result: result[0],
                 });
               }
@@ -487,7 +488,7 @@ export default class Data1Controller {
             error: err,
           });
         } else {
-          DataEntry.findOne({ _id: mongoose.Types.ObjectId(req.body.postId) }, (error: any, data: any) => {
+          Users.findOne({ _id: mongoose.Types.ObjectId(user._id) }, (error: any, userData: any) => {
             if (err) {
               return res.send({
                 message: "unauthorized access",
@@ -496,57 +497,77 @@ export default class Data1Controller {
                 error: err,
               });
             } else {
-              var date = Date.now().toString();
-              var options = {
-                "format": "A4",
-                "border": "20"
-              };
-              var dldId = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
-              var importantPoints = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>Important Point:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPoints + '</span></span></span></p>';
-              var importantPointsHindi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्वपूर्ण बिंदु:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsHindi + '</span></span></span></p>';
-              var importantPointsMarathi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्त्वाचा मुद्दा:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsMarathi + '</span></span></span></p>';
-              var importantPointsGujrati = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>મહત્વનો મુદ્દો:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsGujarati + '</span></span></span></p>';
-              var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.decidedDate + '</strong></span></p>';
-              var soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>SUPREME COURT OF INDA</strong></span></p>';
-              var vs = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p>';
-              var appelentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.appelentName + '</strong></span></p>';
-              var judges = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.judges + '</strong></span></p>';
-              var headNote = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">Head Point:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNote + '</span></span></span></p>';
-              var headNoteHindi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">शीर्ष टिप्पणी:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteHindi + '</span></span></span></p>';
-              var headNoteMarathi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">मुख्य टीप:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteMarathi + '</span></span></span></p>';
-              var headNoteGujrati = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">મુખ્ય નોંધ:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteGujarati + '</span></span></span></p>';
-              var respondentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.respondentName + '</strong></span></p>';
-              var result = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">Result:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.result + '</span></span></span></p>';
-              var resultHindi = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultHindi + '</span></span></span></p>';
-              var resultMarathi = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultMarathi + '</span></span></span></p>';
-              var resultGujrati = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">પરિણામ:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultGujarati + '</span></span></span></p>';
-              var caseRefferedText = '<p><span style="font-size:14px"><strong>Case Reffered:&nbsp;</strong></span></p>';
-              var caseReffered = '';
-              for (var i = 0; i < data.caseReffered.lenght; i++) {
-                var caseRef = '<ul><li><span style="font-size:14px">' + data.caseReffered[i] + '</span></li></ul>';
-                caseReffered.concat(caseRef);
-              }
-              var postType = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.postType + '</strong></span></p>';
-              var fullJudgement = data.fullJudgement;
-              var html;
-              if (user.isHindi == true) {
-                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + headNote + headNoteHindi + result + resultHindi + caseReffered + fullJudgement;
-              } else if (user.isMarathi == true) {
-                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsMarathi + headNote + headNoteMarathi + result + resultMarathi + caseReffered + fullJudgement;
-              } else if (user.isGujarati == true) {
-                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsGujrati + headNote + headNoteGujrati + result + resultGujrati + caseReffered + fullJudgement;
-              } else if (user.isHindi == true && user.isMarathi == true && user.isGujarati == true) {
-                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + importantPointsMarathi + importantPointsGujrati + headNote + headNoteHindi + headNoteMarathi + headNoteGujrati + result + resultHindi + resultMarathi + resultGujrati + caseReffered + fullJudgement;
-              } else {
-                html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + headNote + result + caseReffered + fullJudgement;
-              }
-              pdf.create(html, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
-                if (error) return console.log(error);
-                res.send({
-                  message: 'Created PDF',
-                  url: 'https://api.dailylawdigest.com/pdf/' + String(date) + '.pdf',
-                  result: result
-                })
+              DataEntry.findOne({ _id: mongoose.Types.ObjectId(req.body.postId) }, (error: any, data: any) => {
+                if (err) {
+                  return res.send({
+                    message: "unauthorized access",
+                    responseCode: 700,
+                    status: 200,
+                    error: err,
+                  });
+                } else {
+                  var date = Date.now().toString();
+                  var options = {
+                    "format": "A4",
+                    "border": "20"
+                  };
+                  var dldId = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
+                  var importantPoints = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>Important Point:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPoints + '</span></span></span></p>';
+                  var importantPointsHindi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्वपूर्ण बिंदु:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsHindi + '</span></span></span></p>';
+                  var importantPointsMarathi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्त्वाचा मुद्दा:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsMarathi + '</span></span></span></p>';
+                  var importantPointsGujrati = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>મહત્વનો મુદ્દો:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsGujarati + '</span></span></span></p>';
+                  var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>DECIDED ON: ' + data.decidedDate + '</strong></span></p>';
+                  var soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>SUPREME COURT OF INDA</strong></span></p>';
+                  var vs = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p>';
+                  var appelentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.appelentName + '-APPELLANT</strong></span></p>';
+                  var judges = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>( Before : ' + data.judges + ', JJ. )</strong></span></p>';
+                  var headNote = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">Head Point:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNote + '</span></span></span></p>';
+                  var headNoteHindi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">शीर्ष टिप्पणी:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteHindi + '</span></span></span></p>';
+                  var headNoteMarathi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">मुख्य टीप:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteMarathi + '</span></span></span></p>';
+                  var headNoteGujrati = '<p style="margin-left:-1px"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Calibri, sans-serif">મુખ્ય નોંધ:&nbsp;</span></strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.headNoteGujarati + '</span></span></span></p>';
+                  var respondentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.respondentName + '-RESPONDENT</strong></span></p>';
+                  var result = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">Result:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.result + '</span></span></span></p>';
+                  var resultHindi = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultHindi + '</span></span></span></p>';
+                  var resultMarathi = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultMarathi + '</span></span></span></p>';
+                  var resultGujrati = '<p style="margin-left:-1px"><strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">પરિણામ:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.resultGujarati + '</span></span></span></p>';
+                  var caseRefferedText = '<p><span style="font-size:14px"><strong>Case Reffered:&nbsp;</strong></span></p>';
+                  var caseReffered = '<ul>';
+                  var caseRefListTag = '<li><span style="font-size:14px"></span></li>'
+                  var caseRef = data.caseReffered.split('\n');
+                  var caseRefLenght = Buffer.from(caseRef).length;
+                  for (var i = 0; i < caseRefLenght; i++) {
+                    caseReffered = caseReffered + '<li><span style="font-size:14px">' + String(caseRef[i]) + '</span></li>';
+                  }
+                  var postType = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.postType + '</strong></span></p>';
+                  var type = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.type + '</strong></span></p>';
+                  var fullJudgement = data.fullJudgement;
+                  var html;
+                  if (userData.isHindi == true && userData.isMarathi == true && userData.isGujarati == true) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + importantPointsMarathi + importantPointsGujrati + headNote + headNoteHindi + headNoteMarathi + headNoteGujrati + result + resultHindi + resultMarathi + resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData.isHindi == true && userData.isMarathi == true) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + importantPointsMarathi + headNote + headNoteHindi + headNoteMarathi + result + resultHindi + resultMarathi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData.isHindi == true && userData.isGujarati == true) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + importantPointsGujrati + headNote + headNoteHindi + headNoteGujrati + result + resultHindi + resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData.isMarathi == true && userData.isGujarati == true) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsMarathi + importantPointsGujrati + headNote + headNoteMarathi + headNoteGujrati + result + resultMarathi + resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData.isMarathi == true) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsMarathi + headNote + headNoteMarathi + result + resultMarathi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData.isGujarati == true) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsGujrati + headNote + headNoteGujrati + result + resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData.isHindi == true) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + headNote + headNoteHindi + result + resultHindi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + headNote + result + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  }
+                  pdf.create(html, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
+                    if (error) return console.log(error);
+                    res.send({
+                      message: 'Created PDF',
+                      url: 'https://api.dailylawdigest.com/pdf/' + String(date) + '.pdf',
+                      result: result
+                    })
+                  })
+                }
               })
             }
           })
@@ -556,129 +577,140 @@ export default class Data1Controller {
   }
 
   updatePost = function (req: any, res: any, next: any) {
-    // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
-    var data = req.body.data;
-    DataEntry.findOne({ _id: mongoose.Types.ObjectId(data.id) }, (error: any, datas: any) => {
-      if (error) {
-        return res.send({
-          message: 'Unauthorized DB Error',
-          responseCode: 700,
-          status: 200,
-          error: error
-        });
-      } else {
-        DataEntry.updateOne({ _id: mongoose.Types.ObjectId(data.id) }, { $set: data }, { upsert: true, new: true, returnOriginal: false }, (error: any, result: any) => {
-          if (error) {
-            return res.send({
-              message: 'Unauthorized DB Error',
-              responseCode: 700,
-              status: 200,
-              error: error
-            });
-          } else {
-            if (datas.postType == 0 && data.postType == 1) {
-              CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
-                if (error) {
-                  return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: error
-                  });
-                } else {
-                  CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
-                    if (error) {
-                      return res.send({
-                        message: 'Unauthorized DB Error',
-                        responseCode: 700,
-                        status: 200,
-                        error: error
-                      });
-                    } else {
-                      return res.send({
-                        message: 'Post Updated Successfully',
-                        responseCode: 200,
-                        status: 200,
-                      });
-                    }
-                  })
-                }
-              })
-            } else if (datas.type == 1 && result.type == 0) {
-              CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
-                if (error) {
-                  return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: error
-                  });
-                } else {
-                  CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
-                    if (error) {
-                      return res.send({
-                        message: 'Unauthorized DB Error',
-                        responseCode: 700,
-                        status: 200,
-                        error: error
-                      });
-                    } else {
-                      return res.send({
-                        message: 'Post Updated Successfully',
-                        responseCode: 200,
-                        status: 200,
-                      });
-                    }
-                  })
-                }
-              })
-            } else {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          var data = req.body.data;
+          DataEntry.findOne({ _id: mongoose.Types.ObjectId(data.id) }, (error: any, datas: any) => {
+            if (error) {
               return res.send({
-                message: 'Post Updated Successfully',
-                responseCode: 200,
+                message: 'Unauthorized DB Error',
+                responseCode: 700,
                 status: 200,
+                error: error
+              });
+            } else {
+              DataEntry.updateOne({ _id: mongoose.Types.ObjectId(data.id) }, { $set: data }, { upsert: true, new: true, returnOriginal: false }, (error: any, result: any) => {
+                if (error) {
+                  return res.send({
+                    message: 'Unauthorized DB Error',
+                    responseCode: 700,
+                    status: 200,
+                    error: error
+                  });
+                } else {
+                  if (datas.postType == 0 && data.postType == 1) {
+                    CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                      if (error) {
+                        return res.send({
+                          message: 'Unauthorized DB Error',
+                          responseCode: 700,
+                          status: 200,
+                          error: error
+                        });
+                      } else {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                          if (error) {
+                            return res.send({
+                              message: 'Unauthorized DB Error',
+                              responseCode: 700,
+                              status: 200,
+                              error: error
+                            });
+                          } else {
+                            return res.send({
+                              message: 'Post Updated Successfully',
+                              responseCode: 2000,
+                              status: 200,
+                            });
+                          }
+                        })
+                      }
+                    })
+                  } else if (datas.type == 1 && result.type == 0) {
+                    CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                      if (error) {
+                        return res.send({
+                          message: 'Unauthorized DB Error',
+                          responseCode: 700,
+                          status: 200,
+                          error: error
+                        });
+                      } else {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                          if (error) {
+                            return res.send({
+                              message: 'Unauthorized DB Error',
+                              responseCode: 700,
+                              status: 200,
+                              error: error
+                            });
+                          } else {
+                            return res.send({
+                              message: 'Post Updated Successfully',
+                              responseCode: 200,
+                              status: 200,
+                            });
+                          }
+                        })
+                      }
+                    })
+                  } else {
+                    return res.send({
+                      message: 'Post Updated Successfully',
+                      responseCode: 2000,
+                      status: 200,
+                    });
+                  }
+                }
               });
             }
-          }
-        });
-      }
-    })
-
-    // } else {
-    //     return res.send({
-    //         message: "Invalid Username and Password",
-    //         responseCode: 100,
-    //         status: 200
-    //     })
-    // }
+          })
+        }
+      })
+    }
   }
 
   deletePost = function (req: any, res: any, next: any) {
-    // if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
-    var data = req.body.data;
-    DataEntry.deleteOne({ _id: mongoose.Types.ObjectId(data) }, (error: any, result: any) => {
-      if (error) {
-        return res.send({
-          message: 'Unauthorized DB Error',
-          responseCode: 700,
-          status: 200,
-          error: error
-        });
-      } else {
-        return res.send({
-          responseCode: 200,
-          status: 200,
-          message: 'Successfully Deleted record'
-        });
-      }
-    });
-    // } else {
-    //     return res.send({
-    //         message: "Invalid Username and Password",
-    //         responseCode: 100,
-    //         status: 200
-    //     })
-    // }
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          var data = req.body.data;
+          DataEntry.deleteOne({ _id: mongoose.Types.ObjectId(data) }, (error: any, result: any) => {
+            if (error) {
+              return res.send({
+                message: 'Unauthorized DB Error',
+                responseCode: 700,
+                status: 200,
+                error: error
+              });
+            } else {
+              return res.send({
+                responseCode: 2000,
+                status: 200,
+                message: 'Successfully Deleted record'
+              });
+            }
+          });
+        }
+      })
+    }
   }
 
   getData = function (req: any, res: any, next: any) {

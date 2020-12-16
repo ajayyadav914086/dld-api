@@ -88,47 +88,75 @@ export default class UserController {
 
 
     deleteUser = function (req: any, res: any, next: any) {
-        var user = req.body.data;
-        var value = req.body.value;
-        User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user) }, { 'isDeleted': value }, { new: true }, (err: any, user: any) => {
-            if (err) {
-                return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: err
-                });
-            } else {
-                return res.send({
-                    message: 'User Updated Successfully',
-                    responseCode: 200,
-                    status: 200,
-                    user: user
-                });
-            }
-        });
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
+                } else {
+                    var user = req.body.data;
+                    var value = req.body.value;
+                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user) }, { 'isDeleted': value }, { new: true }, (err: any, user: any) => {
+                        if (err) {
+                            return res.send({
+                                message: 'Unauthorized DB Error',
+                                responseCode: 700,
+                                status: 200,
+                                error: err
+                            });
+                        } else {
+                            return res.send({
+                                message: 'User Updated Successfully',
+                                responseCode: 2000,
+                                status: 200,
+                                user: user
+                            });
+                        }
+                    });
+                }
+            })
+        }
     }
 
     putUser = function (req: any, res: any, next: any) {
-        var user = req.body.data.user;
-        var planExpiryDate = req.body.data.planExpiryDate;
-        User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user.id) }, { 'planExpiryDate': planExpiryDate }, { new: true }, (err: any, user: any) => {
-            if (err) {
-                return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: err
-                });
-            } else {
-                return res.send({
-                    message: 'User Updated Successfully',
-                    responseCode: 200,
-                    status: 200,
-                    result: user,
-                });
-            }
-        });
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
+                } else {
+                    var user = req.body.data.user;
+                    var planExpiryDate = req.body.data.planExpiryDate;
+                    User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user.id) }, { 'planExpiryDate': planExpiryDate }, { new: true }, (err: any, user: any) => {
+                        if (err) {
+                            return res.send({
+                                message: 'Unauthorized DB Error',
+                                responseCode: 700,
+                                status: 200,
+                                error: err
+                            });
+                        } else {
+                            return res.send({
+                                message: 'User Updated Successfully',
+                                responseCode: 2000,
+                                status: 200,
+                                result: user,
+                            });
+                        }
+                    });
+                }
+            })
+        }
     }
 
     editAccount = function (req: any, res: any) {
@@ -237,7 +265,7 @@ export default class UserController {
                             } else {
                                 res.send({
                                     error: 'Incorrect Phone Number or password.',
-                                    responseCode: "4000",
+                                    responseCode: 4000,
                                     status: "200"
                                 });
                             }

@@ -94,7 +94,7 @@ export default class AdminController {
               } else {
                 return res.send({
                   message: "Admin Updated Successfully",
-                  responseCode: 200,
+                  responseCode: 2000,
                   status: 200,
                   admin: admin,
                 });
@@ -138,7 +138,7 @@ export default class AdminController {
               } else {
                 return res.send({
                   message: "Admin enabled updated Successfully",
-                  responseCode: 200,
+                  responseCode: 2000,
                   status: 200,
                   admin: admin,
                 });
@@ -350,7 +350,7 @@ export default class AdminController {
           });
         } else {
           var suggestion = req.query.suggestion
-          Suggestion.find({ suggestion: {'$regex': suggestion, '$options': 'i'} }, (error: any, result: any) => {
+          Suggestion.find({ suggestion: { '$regex': suggestion, '$options': 'i' } }, (error: any, result: any) => {
             if (err) {
               return res.send({
                 message: "unauthorized access",

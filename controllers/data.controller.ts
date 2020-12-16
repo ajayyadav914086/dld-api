@@ -1132,7 +1132,7 @@ export default class DataController {
                         } else {
                             return res.send({
                                 message: 'Added New Record',
-                                responseCode: 200,
+                                responseCode: 2000,
                                 status: 200,
                                 result: post
                             });
@@ -1145,24 +1145,38 @@ export default class DataController {
 
 
     updatePlan = function (req: any, res: any, next: any) {
-        var plan = req.body.data;
-        Plan.findOneAndUpdate({ _id: mongoose.Types.ObjectId(plan.id) }, plan, { new: true }, (err: any, user: any) => {
-            if (err) {
-                return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: err
-                });
-            } else {
-                return res.send({
-                    message: 'Plan Updated Successfully',
-                    responseCode: 200,
-                    status: 200,
-                    result: user,
-                });
-            }
-        });
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
+                } else {
+                    var plan = req.body.data;
+                    Plan.findOneAndUpdate({ _id: mongoose.Types.ObjectId(plan.id) }, plan, { new: true }, (err: any, user: any) => {
+                        if (err) {
+                            return res.send({
+                                message: 'Unauthorized DB Error',
+                                responseCode: 700,
+                                status: 200,
+                                error: err
+                            });
+                        } else {
+                            return res.send({
+                                message: 'Plan Updated Successfully',
+                                responseCode: 2000,
+                                status: 200,
+                                result: user,
+                            });
+                        }
+                    });
+                }
+            })
+        }
     }
 
     getAllpayments = function (req: any, res: any, next: any) {
