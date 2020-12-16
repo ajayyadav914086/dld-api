@@ -539,7 +539,7 @@ export default class Data1Controller {
                     caseReffered = caseReffered + '<li><span style="font-size:14px">' + String(caseRef[i]) + '</span></li>';
                   }
                   var postType = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.postType + '</strong></span></p>';
-                  var type = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.type + '</strong></span></p>';
+                  var type = '<p style="text-align:center"><span style="font-size:16px"><strong>' + data.type + '</strong></span></p>';
                   var fullJudgement = data.fullJudgement;
                   var html;
                   if (userData.isHindi == true && userData.isMarathi == true && userData.isGujarati == true) {
