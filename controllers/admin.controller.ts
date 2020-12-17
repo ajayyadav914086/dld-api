@@ -316,7 +316,7 @@ export default class AdminController {
             suggestion: req.body.suggestion
           }
           Suggestion.create(schema, (error: any, result: any) => {
-            if (err) {
+            if (error) {
               return res.send({
                 message: "unauthorized access",
                 responseCode: 700,
@@ -351,7 +351,7 @@ export default class AdminController {
         } else {
           var suggestion = req.query.suggestion
           Suggestion.find({ suggestion: { '$regex': suggestion, '$options': 'i' } }, (error: any, result: any) => {
-            if (err) {
+            if (error) {
               return res.send({
                 message: "unauthorized access",
                 responseCode: 700,
@@ -385,7 +385,7 @@ export default class AdminController {
           });
         } else {
           Suggestion.find({}, (error: any, result: any) => {
-            if (err) {
+            if (error) {
               return res.send({
                 message: "unauthorized access",
                 responseCode: 700,
@@ -422,7 +422,7 @@ export default class AdminController {
             _id: mongoose.Types.ObjectId(req.query.suggestionId)
           }
           Suggestion.remove(schema, (error: any, result: any) => {
-            if (err) {
+            if (error) {
               return res.send({
                 message: "unauthorized access",
                 responseCode: 700,

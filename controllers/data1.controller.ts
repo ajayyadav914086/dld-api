@@ -309,7 +309,7 @@ export default class Data1Controller {
           });
         } else {
           Users.findOne({ _id: mongoose.Types.ObjectId(user._id) }, (error: any, userData: any) => {
-            if (err) {
+            if (error) {
               return res.send({
                 message: "unauthorized access",
                 responseCode: 700,
@@ -499,7 +499,7 @@ export default class Data1Controller {
           });
         } else {
           Users.findOne({ _id: mongoose.Types.ObjectId(user._id) }, (error: any, userData: any) => {
-            if (err) {
+            if (error) {
               return res.send({
                 message: "unauthorized access",
                 responseCode: 700,
@@ -508,7 +508,7 @@ export default class Data1Controller {
               });
             } else {
               DataEntry.findOne({ _id: mongoose.Types.ObjectId(req.body.postId) }, (error: any, data: any) => {
-                if (err) {
+                if (error) {
                   return res.send({
                     message: "unauthorized access",
                     responseCode: 700,
@@ -883,21 +883,6 @@ export default class Data1Controller {
                 as: 'bookmarks'
               }
             },
-            // {
-            //   $lookup: {
-            //     from: 'mails',
-            //     let: {},
-            //     pipeline: [
-            //       {
-            //         $group: {
-            //           '_id': 0,
-            //           'count': { $sum: 1 }
-            //         }
-            //       }
-            //     ],
-            //     as: 'mails'
-            //   }
-            // },
             {
               $lookup: {
                 from: 'plans',
@@ -948,12 +933,6 @@ export default class Data1Controller {
                 path: '$counts',
               }
             },
-            // {
-            //   $unwind: {
-            //     path: '$mails',
-            //   }
-            // },
-
           ], function (error: any, data: any) {
             if (error) {
               return res.send({

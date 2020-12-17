@@ -815,7 +815,7 @@ export default class UserController {
         var discount = req.body.discount;
 
         if (token) {
-            jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+            jwt.verify(token, 'your_jwt_secret', (err: any, userData: any) => {
                 if (err) {
                     return res.send({
                         message: 'unauthorized access',
@@ -824,354 +824,354 @@ export default class UserController {
                         error: err
                     });
                 } else {
-                    if (isFreePlan) {
-                        if (user.isFreePlanUsed) {
+                    User.findOne({ _id: mongoose.Types.ObjectId(userData._id) }, (error: any, user: any) => {
+                        if (error) {
                             return res.send({
-                                message: 'Free Plan Already Used',
-                                responseCode: 701,
+                                message: 'unauthorized access',
+                                responseCode: 700,
                                 status: 200,
+                                error: err
                             });
                         } else {
-                            Plans.findOne({ _id: mongoose.Types.ObjectId(planId) }, (error: any, plan: any) => {
-                                if (error) {
+                            if (isFreePlan) {
+                                if (user.isFreePlanUsed) {
                                     return res.send({
-                                        message: 'unauthorized access',
-                                        responseCode: 700,
+                                        message: 'Free Plan Already Used',
+                                        responseCode: 701,
                                         status: 200,
-                                        error: error
                                     });
                                 } else {
-                                    if (plan.language == 0) {
-                                        User.updateOne({
-                                            _id: mongoose.Types.ObjectId(user._id)
-                                        },
-                                            { planType: planType, isHindi: false, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
-                                                if (error) {
-                                                    return res.send({
-                                                        message: 'unauthorized access',
-                                                        responseCode: 700,
-                                                        status: 200,
-                                                        error: error
-                                                    });
-                                                } else {
-                                                    if (agentId == null && discount == null) {
-                                                        Payment.create({
-                                                            txtId: txt,
-                                                            txtAmount: amount,
-                                                            planId: planId,
-                                                            userId: user._id
-                                                        }, function (error: any, bookmark: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'Unauthorized DB Error',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
-                                                                });
-                                                            } else {
-                                                                return res.send({
-                                                                    message: 'Plan Actived',
-                                                                    responseCode: 200,
-                                                                    status: 200,
-                                                                    user: updatedUser
-                                                                });
-                                                            }
-
-                                                        });
-                                                    } else {
-                                                        Payment.create({
-                                                            txtId: txt,
-                                                            txtAmount: amount,
-                                                            planId: planId,
-                                                            userId: user._id,
-                                                            agentId: agentId,
-                                                            discountValue: discount
-                                                        }, function (error: any, bookmark: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'Unauthorized DB Error',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
-                                                                });
-                                                            } else {
-                                                                return res.send({
-                                                                    message: 'Plan Actived',
-                                                                    responseCode: 200,
-                                                                    status: 200,
-                                                                    user: updatedUser
-                                                                });
-                                                            }
-
-                                                        });
-                                                    }
-
-                                                }
-
-
+                                    Plans.findOne({ _id: mongoose.Types.ObjectId(planId) }, (error: any, plan: any) => {
+                                        if (error) {
+                                            return res.send({
+                                                message: 'unauthorized access',
+                                                responseCode: 700,
+                                                status: 200,
+                                                error: error
                                             });
-                                    } else if (plan.language == 1) {
-                                        User.updateOne({
-                                            _id: mongoose.Types.ObjectId(user._id)
-                                        },
-                                            { planType: planType, isHindi: true, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
-                                                if (error) {
-                                                    return res.send({
-                                                        message: 'unauthorized access',
-                                                        responseCode: 700,
-                                                        status: 200,
-                                                        error: error
+                                        } else {
+                                            if (plan.language == 0) {
+                                                User.updateOne({
+                                                    _id: mongoose.Types.ObjectId(user._id)
+                                                },
+                                                    { planType: planType, isHindi: false, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
+                                                        if (error) {
+                                                            return res.send({
+                                                                message: 'unauthorized access',
+                                                                responseCode: 700,
+                                                                status: 200,
+                                                                error: error
+                                                            });
+                                                        } else {
+                                                            if (agentId == null && discount == null) {
+                                                                Payment.create({
+                                                                    txtId: txt,
+                                                                    txtAmount: amount,
+                                                                    planId: planId,
+                                                                    userId: user._id
+                                                                }, function (error: any, bookmark: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'Unauthorized DB Error',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        return res.send({
+                                                                            message: 'Plan Actived',
+                                                                            responseCode: 200,
+                                                                            status: 200,
+                                                                            user: updatedUser
+                                                                        });
+                                                                    }
+
+                                                                });
+                                                            } else {
+                                                                Payment.create({
+                                                                    txtId: txt,
+                                                                    txtAmount: amount,
+                                                                    planId: planId,
+                                                                    userId: user._id,
+                                                                    agentId: agentId,
+                                                                    discountValue: discount
+                                                                }, function (error: any, bookmark: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'Unauthorized DB Error',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        return res.send({
+                                                                            message: 'Plan Actived',
+                                                                            responseCode: 200,
+                                                                            status: 200,
+                                                                            user: updatedUser
+                                                                        });
+                                                                    }
+
+                                                                });
+                                                            }
+
+                                                        }
+
+
                                                     });
-                                                } else {
-                                                    if (agentId == null && discount == null) {
-                                                        Payment.create({
-                                                            txtId: txt,
-                                                            txtAmount: amount,
-                                                            planId: planId,
-                                                            userId: user._id
-                                                        }, function (error: any, bookmark: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'Unauthorized DB Error',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
+                                            } else if (plan.language == 1) {
+                                                User.updateOne({
+                                                    _id: mongoose.Types.ObjectId(user._id)
+                                                },
+                                                    { planType: planType, isHindi: true, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
+                                                        if (error) {
+                                                            return res.send({
+                                                                message: 'unauthorized access',
+                                                                responseCode: 700,
+                                                                status: 200,
+                                                                error: error
+                                                            });
+                                                        } else {
+                                                            if (agentId == null && discount == null) {
+                                                                Payment.create({
+                                                                    txtId: txt,
+                                                                    txtAmount: amount,
+                                                                    planId: planId,
+                                                                    userId: user._id
+                                                                }, function (error: any, bookmark: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'Unauthorized DB Error',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        return res.send({
+                                                                            message: 'Plan Actived',
+                                                                            responseCode: 200,
+                                                                            status: 200,
+                                                                            user: updatedUser
+                                                                        });
+                                                                    }
+
                                                                 });
                                                             } else {
-                                                                return res.send({
-                                                                    message: 'Plan Actived',
-                                                                    responseCode: 200,
-                                                                    status: 200,
-                                                                    user: updatedUser
+                                                                Payment.create({
+                                                                    txtId: txt,
+                                                                    txtAmount: amount,
+                                                                    planId: planId,
+                                                                    userId: user._id,
+                                                                    agentId: agentId,
+                                                                    discountValue: discount
+                                                                }, function (error: any, bookmark: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'Unauthorized DB Error',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        User.updateOne({
+                                                                            _id: mongoose.Types.ObjectId(user._id)
+                                                                        },
+                                                                            { agentId: agentId }, function (error: any, userUpdate: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'unauthorized access',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    return res.send({
+                                                                                        message: 'Plan Actived',
+                                                                                        responseCode: 200,
+                                                                                        status: 200,
+                                                                                        user: updatedUser
+                                                                                    });
+                                                                                }
+                                                                            })
+                                                                    }
+
                                                                 });
                                                             }
-
-                                                        });
-                                                    } else {
-                                                        Payment.create({
-                                                            txtId: txt,
-                                                            txtAmount: amount,
-                                                            planId: planId,
-                                                            userId: user._id,
-                                                            agentId: agentId,
-                                                            discountValue: discount
-                                                        }, function (error: any, bookmark: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'Unauthorized DB Error',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
-                                                                });
-                                                            } else {
-                                                                User.updateOne({
-                                                                    _id: mongoose.Types.ObjectId(user._id)
-                                                                },
-                                                                    { agentId: agentId }, function (error: any, userUpdate: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'unauthorized access',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
-                                                                            });
-                                                                        } else {
-                                                                            return res.send({
-                                                                                message: 'Plan Actived',
-                                                                                responseCode: 200,
-                                                                                status: 200,
-                                                                                user: updatedUser
-                                                                            });
-                                                                        }
-                                                                    })
-                                                            }
-
-                                                        });
-                                                    }
-                                                }
+                                                        }
 
 
-                                            });
-                                    } else if (plan.language == 2) {
-                                        User.updateOne({
-                                            _id: mongoose.Types.ObjectId(user._id)
-                                        },
-                                            { planType: planType, isMarathi: true, isHindi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
-                                                if (error) {
-                                                    return res.send({
-                                                        message: 'unauthorized access',
-                                                        responseCode: 700,
-                                                        status: 200,
-                                                        error: error
                                                     });
-                                                } else {
-                                                    if (agentId == null && discount == null) {
-                                                        Payment.create({
-                                                            txtId: txt,
-                                                            txtAmount: amount,
-                                                            planId: planId,
-                                                            userId: user._id
-                                                        }, function (error: any, bookmark: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'Unauthorized DB Error',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
+                                            } else if (plan.language == 2) {
+                                                User.updateOne({
+                                                    _id: mongoose.Types.ObjectId(user._id)
+                                                },
+                                                    { planType: planType, isMarathi: true, isHindi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
+                                                        if (error) {
+                                                            return res.send({
+                                                                message: 'unauthorized access',
+                                                                responseCode: 700,
+                                                                status: 200,
+                                                                error: error
+                                                            });
+                                                        } else {
+                                                            if (agentId == null && discount == null) {
+                                                                Payment.create({
+                                                                    txtId: txt,
+                                                                    txtAmount: amount,
+                                                                    planId: planId,
+                                                                    userId: user._id
+                                                                }, function (error: any, bookmark: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'Unauthorized DB Error',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        return res.send({
+                                                                            message: 'Plan Actived',
+                                                                            responseCode: 200,
+                                                                            status: 200,
+                                                                            user: updatedUser
+                                                                        });
+                                                                    }
+
                                                                 });
                                                             } else {
-                                                                return res.send({
-                                                                    message: 'Plan Actived',
-                                                                    responseCode: 200,
-                                                                    status: 200,
-                                                                    user: updatedUser
+                                                                Payment.create({
+                                                                    txtId: txt,
+                                                                    txtAmount: amount,
+                                                                    planId: planId,
+                                                                    userId: user._id,
+                                                                    agentId: agentId,
+                                                                    discountValue: discount
+                                                                }, function (error: any, bookmark: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'Unauthorized DB Error',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        User.updateOne({
+                                                                            _id: mongoose.Types.ObjectId(user._id)
+                                                                        },
+                                                                            { agentId: agentId }, function (error: any, userUpdate: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'unauthorized access',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: err
+                                                                                    });
+                                                                                } else {
+                                                                                    return res.send({
+                                                                                        message: 'Plan Actived',
+                                                                                        responseCode: 200,
+                                                                                        status: 200,
+                                                                                        user: updatedUser
+                                                                                    });
+                                                                                }
+                                                                            })
+                                                                    }
+
                                                                 });
                                                             }
-
-                                                        });
-                                                    } else {
-                                                        Payment.create({
-                                                            txtId: txt,
-                                                            txtAmount: amount,
-                                                            planId: planId,
-                                                            userId: user._id,
-                                                            agentId: agentId,
-                                                            discountValue: discount
-                                                        }, function (error: any, bookmark: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'Unauthorized DB Error',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
-                                                                });
-                                                            } else {
-                                                                User.updateOne({
-                                                                    _id: mongoose.Types.ObjectId(user._id)
-                                                                },
-                                                                    { agentId: agentId }, function (error: any, userUpdate: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'unauthorized access',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: err
-                                                                            });
-                                                                        } else {
-                                                                            return res.send({
-                                                                                message: 'Plan Actived',
-                                                                                responseCode: 200,
-                                                                                status: 200,
-                                                                                user: updatedUser
-                                                                            });
-                                                                        }
-                                                                    })
-                                                            }
-
-                                                        });
-                                                    }
-                                                }
+                                                        }
 
 
-                                            });
-                                    } else if (plan.language == 3) {
-                                        User.updateOne({
-                                            _id: mongoose.Types.ObjectId(user._id)
-                                        },
-                                            { planType: planType, isGujarati: true, isMarathi: false, isHindi: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
-                                                if (error) {
-                                                    return res.send({
-                                                        message: 'unauthorized access',
-                                                        responseCode: 700,
-                                                        status: 200,
-                                                        error: error
                                                     });
-                                                } else {
-                                                    if (agentId == null && discount == null) {
-                                                        Payment.create({
-                                                            txtId: txt,
-                                                            txtAmount: amount,
-                                                            planId: planId,
-                                                            userId: user._id
-                                                        }, function (error: any, bookmark: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'Unauthorized DB Error',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
+                                            } else if (plan.language == 3) {
+                                                User.updateOne({
+                                                    _id: mongoose.Types.ObjectId(user._id)
+                                                },
+                                                    { planType: planType, isGujarati: true, isMarathi: false, isHindi: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(3, 'days') }, function (error: any, updatedUser: any) {
+                                                        if (error) {
+                                                            return res.send({
+                                                                message: 'unauthorized access',
+                                                                responseCode: 700,
+                                                                status: 200,
+                                                                error: error
+                                                            });
+                                                        } else {
+                                                            if (agentId == null && discount == null) {
+                                                                Payment.create({
+                                                                    txtId: txt,
+                                                                    txtAmount: amount,
+                                                                    planId: planId,
+                                                                    userId: user._id
+                                                                }, function (error: any, bookmark: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'Unauthorized DB Error',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        return res.send({
+                                                                            message: 'Plan Actived',
+                                                                            responseCode: 200,
+                                                                            status: 200,
+                                                                            user: updatedUser
+                                                                        });
+                                                                    }
+
                                                                 });
                                                             } else {
-                                                                return res.send({
-                                                                    message: 'Plan Actived',
-                                                                    responseCode: 200,
-                                                                    status: 200,
-                                                                    user: updatedUser
+                                                                Payment.create({
+                                                                    txtId: txt,
+                                                                    txtAmount: amount,
+                                                                    planId: planId,
+                                                                    userId: user._id,
+                                                                    agentId: agentId,
+                                                                    discountValue: discount
+                                                                }, function (error: any, bookmark: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'Unauthorized DB Error',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        User.updateOne({
+                                                                            _id: mongoose.Types.ObjectId(user._id)
+                                                                        },
+                                                                            { agentId: agentId }, function (error: any, userUpdate: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'unauthorized access',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    return res.send({
+                                                                                        message: 'Plan Actived',
+                                                                                        responseCode: 200,
+                                                                                        status: 200,
+                                                                                        user: updatedUser
+                                                                                    });
+                                                                                }
+                                                                            })
+                                                                    }
+
                                                                 });
                                                             }
-
-                                                        });
-                                                    } else {
-                                                        Payment.create({
-                                                            txtId: txt,
-                                                            txtAmount: amount,
-                                                            planId: planId,
-                                                            userId: user._id,
-                                                            agentId: agentId,
-                                                            discountValue: discount
-                                                        }, function (error: any, bookmark: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'Unauthorized DB Error',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
-                                                                });
-                                                            } else {
-                                                                User.updateOne({
-                                                                    _id: mongoose.Types.ObjectId(user._id)
-                                                                },
-                                                                    { agentId: agentId }, function (error: any, userUpdate: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'unauthorized access',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
-                                                                            });
-                                                                        } else {
-                                                                            return res.send({
-                                                                                message: 'Plan Actived',
-                                                                                responseCode: 200,
-                                                                                status: 200,
-                                                                                user: updatedUser
-                                                                            });
-                                                                        }
-                                                                    })
-                                                            }
-
-                                                        });
-                                                    }
-                                                }
+                                                        }
 
 
-                                            });
-                                    }
+                                                    });
+                                            }
 
+                                        }
+                                    })
                                 }
-                            })
-                        }
-                    } else {
-                        Plans.findOne({ _id: mongoose.Types.ObjectId(planId) }, (error: any, plan: any) => {
-                            if (err) {
-                                return res.send({
-                                    message: 'unauthorized access',
-                                    responseCode: 700,
-                                    status: 200,
-                                    error: error
-                                });
                             } else {
-                                Admin.findOne({ agentId: agentId }, (error: any, admin: any) => {
+                                Plans.findOne({ _id: mongoose.Types.ObjectId(planId) }, (error: any, plan: any) => {
                                     if (error) {
                                         return res.send({
                                             message: 'unauthorized access',
@@ -1180,348 +1180,359 @@ export default class UserController {
                                             error: error
                                         });
                                     } else {
-                                        if (admin) {
-                                            if (admin.enabled == false) {
+                                        Admin.findOne({ agentId: agentId }, (error: any, admin: any) => {
+                                            if (error) {
                                                 return res.send({
-                                                    message: 'Agent Disabled',
-                                                    responseCode: 1200,
+                                                    message: 'unauthorized access',
+                                                    responseCode: 700,
                                                     status: 200,
+                                                    error: error
                                                 });
                                             } else {
-                                                if (plan.language == 0) {
-                                                    User.updateOne({
-                                                        _id: mongoose.Types.ObjectId(user._id)
-                                                    },
-                                                        { planType: planType, isHindi: false, isMarathi: false, isGujarati: false, isFreePlanUsed: true, planStartDate: Date.now(), isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'unauthorized access',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
-                                                                });
-                                                            } else {
-                                                                if (agentId == null && discount == null) {
-                                                                    Payment.create({
-                                                                        txtId: txt,
-                                                                        txtAmount: amount,
-                                                                        planId: planId,
-                                                                        userId: user._id
-                                                                    }, function (error: any, bookmark: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'Unauthorized DB Error',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
-                                                                            });
-                                                                        } else {
-                                                                            return res.send({
-                                                                                message: 'Plan Actived',
-                                                                                responseCode: 200,
-                                                                                status: 200,
-                                                                                user: updatedUser
-                                                                            });
-                                                                        }
-
-                                                                    });
-                                                                } else {
-                                                                    Payment.create({
-                                                                        txtId: txt,
-                                                                        txtAmount: amount,
-                                                                        planId: planId,
-                                                                        userId: user._id,
-                                                                        agentId: agentId,
-                                                                        discountValue: discount
-                                                                    }, function (error: any, bookmark: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'Unauthorized DB Error',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
-                                                                            });
-                                                                        } else {
-                                                                            User.updateOne({
-                                                                                _id: mongoose.Types.ObjectId(user._id)
-                                                                            },
-                                                                                { agentId: agentId }, function (error: any, userUpdate: any) {
-                                                                                    if (error) {
-                                                                                        return res.send({
-                                                                                            message: 'unauthorized access',
-                                                                                            responseCode: 700,
-                                                                                            status: 200,
-                                                                                            error: error
-                                                                                        });
-                                                                                    } else {
-                                                                                        return res.send({
-                                                                                            message: 'Plan Actived',
-                                                                                            responseCode: 200,
-                                                                                            status: 200,
-                                                                                            user: updatedUser
-                                                                                        });
-                                                                                    }
-                                                                                })
-                                                                        }
-
-                                                                    });
-                                                                }
-                                                            }
+                                                if (admin) {
+                                                    if (admin.enabled == false) {
+                                                        return res.send({
+                                                            message: 'Agent Disabled',
+                                                            responseCode: 1200,
+                                                            status: 200,
                                                         });
-                                                } else if (plan.language == 1) {
-                                                    User.updateOne({
-                                                        _id: mongoose.Types.ObjectId(user._id)
-                                                    },
-                                                        { planType: planType, isHindi: true, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'unauthorized access',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
+                                                    } else {
+                                                        if (plan.language == 0) {
+                                                            User.updateOne({
+                                                                _id: mongoose.Types.ObjectId(user._id)
+                                                            },
+                                                                { planType: planType, isHindi: false, isMarathi: false, isGujarati: false, isFreePlanUsed: true, planStartDate: Date.now(), isPlanActivied: true, planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'unauthorized access',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        if (agentId == null && discount == null) {
+                                                                            Payment.create({
+                                                                                txtId: txt,
+                                                                                txtAmount: amount,
+                                                                                planId: planId,
+                                                                                userId: user._id
+                                                                            }, function (error: any, bookmark: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'Unauthorized DB Error',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    return res.send({
+                                                                                        message: 'Plan Actived',
+                                                                                        responseCode: 200,
+                                                                                        status: 200,
+                                                                                        user: updatedUser
+                                                                                    });
+                                                                                }
+
+                                                                            });
+                                                                        } else {
+                                                                            Payment.create({
+                                                                                txtId: txt,
+                                                                                txtAmount: amount,
+                                                                                planId: planId,
+                                                                                userId: user._id,
+                                                                                agentId: agentId,
+                                                                                discountValue: discount
+                                                                            }, function (error: any, bookmark: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'Unauthorized DB Error',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    User.updateOne({
+                                                                                        _id: mongoose.Types.ObjectId(user._id)
+                                                                                    },
+                                                                                        { agentId: agentId }, function (error: any, userUpdate: any) {
+                                                                                            if (error) {
+                                                                                                return res.send({
+                                                                                                    message: 'unauthorized access',
+                                                                                                    responseCode: 700,
+                                                                                                    status: 200,
+                                                                                                    error: error
+                                                                                                });
+                                                                                            } else {
+                                                                                                return res.send({
+                                                                                                    message: 'Plan Actived',
+                                                                                                    responseCode: 200,
+                                                                                                    status: 200,
+                                                                                                    user: updatedUser
+                                                                                                });
+                                                                                            }
+                                                                                        })
+                                                                                }
+
+                                                                            });
+                                                                        }
+                                                                    }
                                                                 });
-                                                            } else {
-                                                                if (agentId == null && discount == null) {
-                                                                    Payment.create({
-                                                                        txtId: txt,
-                                                                        txtAmount: amount,
-                                                                        planId: planId,
-                                                                        userId: user._id
-                                                                    }, function (error: any, bookmark: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'Unauthorized DB Error',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
+                                                        } else if (plan.language == 1) {
+                                                            User.updateOne({
+                                                                _id: mongoose.Types.ObjectId(user._id)
+                                                            },
+                                                                { planType: planType, isHindi: true, isMarathi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'unauthorized access',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        if (agentId == null && discount == null) {
+                                                                            Payment.create({
+                                                                                txtId: txt,
+                                                                                txtAmount: amount,
+                                                                                planId: planId,
+                                                                                userId: user._id
+                                                                            }, function (error: any, bookmark: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'Unauthorized DB Error',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    return res.send({
+                                                                                        message: 'Plan Actived',
+                                                                                        responseCode: 200,
+                                                                                        status: 200,
+                                                                                        user: updatedUser
+                                                                                    });
+                                                                                }
+
                                                                             });
                                                                         } else {
-                                                                            return res.send({
-                                                                                message: 'Plan Actived',
-                                                                                responseCode: 200,
-                                                                                status: 200,
-                                                                                user: updatedUser
+                                                                            Payment.create({
+                                                                                txtId: txt,
+                                                                                txtAmount: amount,
+                                                                                planId: planId,
+                                                                                userId: user._id,
+                                                                                agentId: agentId,
+                                                                                discountValue: discount
+                                                                            }, function (error: any, bookmark: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'Unauthorized DB Error',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    User.updateOne({
+                                                                                        _id: mongoose.Types.ObjectId(user._id)
+                                                                                    },
+                                                                                        { agentId: agentId }, function (error: any, userUpdate: any) {
+                                                                                            if (error) {
+                                                                                                return res.send({
+                                                                                                    message: 'unauthorized access',
+                                                                                                    responseCode: 700,
+                                                                                                    status: 200,
+                                                                                                    error: error
+                                                                                                });
+                                                                                            } else {
+                                                                                                return res.send({
+                                                                                                    message: 'Plan Actived',
+                                                                                                    responseCode: 200,
+                                                                                                    status: 200,
+                                                                                                    user: updatedUser
+                                                                                                });
+                                                                                            }
+                                                                                        })
+                                                                                }
+
                                                                             });
                                                                         }
-
-                                                                    });
-                                                                } else {
-                                                                    Payment.create({
-                                                                        txtId: txt,
-                                                                        txtAmount: amount,
-                                                                        planId: planId,
-                                                                        userId: user._id,
-                                                                        agentId: agentId,
-                                                                        discountValue: discount
-                                                                    }, function (error: any, bookmark: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'Unauthorized DB Error',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
-                                                                            });
-                                                                        } else {
-                                                                            User.updateOne({
-                                                                                _id: mongoose.Types.ObjectId(user._id)
-                                                                            },
-                                                                                { agentId: agentId }, function (error: any, userUpdate: any) {
-                                                                                    if (error) {
-                                                                                        return res.send({
-                                                                                            message: 'unauthorized access',
-                                                                                            responseCode: 700,
-                                                                                            status: 200,
-                                                                                            error: error
-                                                                                        });
-                                                                                    } else {
-                                                                                        return res.send({
-                                                                                            message: 'Plan Actived',
-                                                                                            responseCode: 200,
-                                                                                            status: 200,
-                                                                                            user: updatedUser
-                                                                                        });
-                                                                                    }
-                                                                                })
-                                                                        }
-
-                                                                    });
-                                                                }
-                                                            }
-                                                        });
-                                                } else if (plan.language == 2) {
-                                                    User.updateOne({
-                                                        _id: mongoose.Types.ObjectId(user._id)
-                                                    },
-                                                        { planType: planType, isMarathi: true, isHindi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'unauthorized access',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
+                                                                    }
                                                                 });
-                                                            } else {
-                                                                if (agentId == null && discount == null) {
-                                                                    Payment.create({
-                                                                        txtId: txt,
-                                                                        txtAmount: amount,
-                                                                        planId: planId,
-                                                                        userId: user._id
-                                                                    }, function (error: any, bookmark: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'Unauthorized DB Error',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
+                                                        } else if (plan.language == 2) {
+                                                            User.updateOne({
+                                                                _id: mongoose.Types.ObjectId(user._id)
+                                                            },
+                                                                { planType: planType, isMarathi: true, isHindi: false, isGujarati: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'unauthorized access',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        if (agentId == null && discount == null) {
+                                                                            Payment.create({
+                                                                                txtId: txt,
+                                                                                txtAmount: amount,
+                                                                                planId: planId,
+                                                                                userId: user._id
+                                                                            }, function (error: any, bookmark: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'Unauthorized DB Error',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    return res.send({
+                                                                                        message: 'Plan Actived',
+                                                                                        responseCode: 200,
+                                                                                        status: 200,
+                                                                                        user: updatedUser
+                                                                                    });
+                                                                                }
+
                                                                             });
                                                                         } else {
-                                                                            return res.send({
-                                                                                message: 'Plan Actived',
-                                                                                responseCode: 200,
-                                                                                status: 200,
-                                                                                user: updatedUser
+                                                                            Payment.create({
+                                                                                txtId: txt,
+                                                                                txtAmount: amount,
+                                                                                planId: planId,
+                                                                                userId: user._id,
+                                                                                agentId: agentId,
+                                                                                discountValue: discount
+                                                                            }, function (error: any, bookmark: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'Unauthorized DB Error',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    User.updateOne({
+                                                                                        _id: mongoose.Types.ObjectId(user._id)
+                                                                                    },
+                                                                                        { agentId: agentId }, function (error: any, userUpdate: any) {
+                                                                                            if (error) {
+                                                                                                return res.send({
+                                                                                                    message: 'unauthorized access',
+                                                                                                    responseCode: 700,
+                                                                                                    status: 200,
+                                                                                                    error: error
+                                                                                                });
+                                                                                            } else {
+                                                                                                return res.send({
+                                                                                                    message: 'Plan Actived',
+                                                                                                    responseCode: 200,
+                                                                                                    status: 200,
+                                                                                                    user: updatedUser
+                                                                                                });
+                                                                                            }
+                                                                                        })
+                                                                                }
+
                                                                             });
                                                                         }
-
-                                                                    });
-                                                                } else {
-                                                                    Payment.create({
-                                                                        txtId: txt,
-                                                                        txtAmount: amount,
-                                                                        planId: planId,
-                                                                        userId: user._id,
-                                                                        agentId: agentId,
-                                                                        discountValue: discount
-                                                                    }, function (error: any, bookmark: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'Unauthorized DB Error',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
-                                                                            });
-                                                                        } else {
-                                                                            User.updateOne({
-                                                                                _id: mongoose.Types.ObjectId(user._id)
-                                                                            },
-                                                                                { agentId: agentId }, function (error: any, userUpdate: any) {
-                                                                                    if (error) {
-                                                                                        return res.send({
-                                                                                            message: 'unauthorized access',
-                                                                                            responseCode: 700,
-                                                                                            status: 200,
-                                                                                            error: error
-                                                                                        });
-                                                                                    } else {
-                                                                                        return res.send({
-                                                                                            message: 'Plan Actived',
-                                                                                            responseCode: 200,
-                                                                                            status: 200,
-                                                                                            user: updatedUser
-                                                                                        });
-                                                                                    }
-                                                                                })
-                                                                        }
-
-                                                                    });
-                                                                }
-                                                            }
-                                                        });
-                                                } else if (plan.language == 3) {
-                                                    User.updateOne({
-                                                        _id: mongoose.Types.ObjectId(user._id)
-                                                    },
-                                                        { planType: planType, isGujarati: true, isMarathi: false, isHindi: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
-                                                            if (error) {
-                                                                return res.send({
-                                                                    message: 'unauthorized access',
-                                                                    responseCode: 700,
-                                                                    status: 200,
-                                                                    error: error
+                                                                    }
                                                                 });
-                                                            } else {
-                                                                if (agentId == null && discount == null) {
-                                                                    Payment.create({
-                                                                        txtId: txt,
-                                                                        txtAmount: amount,
-                                                                        planId: planId,
-                                                                        userId: user._id
-                                                                    }, function (error: any, bookmark: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'Unauthorized DB Error',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
-                                                                            });
-                                                                        } else {
-                                                                            return res.send({
-                                                                                message: 'Plan Actived',
-                                                                                responseCode: 200,
-                                                                                status: 200,
-                                                                                user: updatedUser
-                                                                            });
-                                                                        }
+                                                        } else if (plan.language == 3) {
+                                                            User.updateOne({
+                                                                _id: mongoose.Types.ObjectId(user._id)
+                                                            },
+                                                                { planType: planType, isGujarati: true, isMarathi: false, isHindi: false, isFreePlanUsed: true, isPlanActivied: true, planStartDate: Date.now(), planExpiryDate: moment(Date.now()).add(months, 'months') }, function (error: any, updatedUser: any) {
+                                                                    if (error) {
+                                                                        return res.send({
+                                                                            message: 'unauthorized access',
+                                                                            responseCode: 700,
+                                                                            status: 200,
+                                                                            error: error
+                                                                        });
+                                                                    } else {
+                                                                        if (agentId == null && discount == null) {
+                                                                            Payment.create({
+                                                                                txtId: txt,
+                                                                                txtAmount: amount,
+                                                                                planId: planId,
+                                                                                userId: user._id
+                                                                            }, function (error: any, bookmark: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'Unauthorized DB Error',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    return res.send({
+                                                                                        message: 'Plan Actived',
+                                                                                        responseCode: 200,
+                                                                                        status: 200,
+                                                                                        user: updatedUser
+                                                                                    });
+                                                                                }
 
-                                                                    });
-                                                                } else {
-                                                                    Payment.create({
-                                                                        txtId: txt,
-                                                                        txtAmount: amount,
-                                                                        planId: planId,
-                                                                        userId: user._id,
-                                                                        agentId: agentId,
-                                                                        discountValue: discount
-                                                                    }, function (error: any, bookmark: any) {
-                                                                        if (error) {
-                                                                            return res.send({
-                                                                                message: 'Unauthorized DB Error',
-                                                                                responseCode: 700,
-                                                                                status: 200,
-                                                                                error: error
                                                                             });
                                                                         } else {
-                                                                            User.updateOne({
-                                                                                _id: mongoose.Types.ObjectId(user._id)
-                                                                            },
-                                                                                { agentId: agentId }, function (error: any, userUpdate: any) {
-                                                                                    if (error) {
-                                                                                        return res.send({
-                                                                                            message: 'unauthorized access',
-                                                                                            responseCode: 700,
-                                                                                            status: 200,
-                                                                                            error: error
-                                                                                        });
-                                                                                    } else {
-                                                                                        return res.send({
-                                                                                            message: 'Plan Actived',
-                                                                                            responseCode: 200,
-                                                                                            status: 200,
-                                                                                            user: updatedUser
-                                                                                        });
-                                                                                    }
-                                                                                })
+                                                                            Payment.create({
+                                                                                txtId: txt,
+                                                                                txtAmount: amount,
+                                                                                planId: planId,
+                                                                                userId: user._id,
+                                                                                agentId: agentId,
+                                                                                discountValue: discount
+                                                                            }, function (error: any, bookmark: any) {
+                                                                                if (error) {
+                                                                                    return res.send({
+                                                                                        message: 'Unauthorized DB Error',
+                                                                                        responseCode: 700,
+                                                                                        status: 200,
+                                                                                        error: error
+                                                                                    });
+                                                                                } else {
+                                                                                    User.updateOne({
+                                                                                        _id: mongoose.Types.ObjectId(user._id)
+                                                                                    },
+                                                                                        { agentId: agentId }, function (error: any, userUpdate: any) {
+                                                                                            if (error) {
+                                                                                                return res.send({
+                                                                                                    message: 'unauthorized access',
+                                                                                                    responseCode: 700,
+                                                                                                    status: 200,
+                                                                                                    error: error
+                                                                                                });
+                                                                                            } else {
+                                                                                                return res.send({
+                                                                                                    message: 'Plan Actived',
+                                                                                                    responseCode: 200,
+                                                                                                    status: 200,
+                                                                                                    user: updatedUser
+                                                                                                });
+                                                                                            }
+                                                                                        })
+                                                                                }
+                                                                            });
                                                                         }
-                                                                    });
-                                                                }
-                                                            }
-                                                        });
+                                                                    }
+                                                                });
+                                                        }
+                                                    }
+                                                } else {
+                                                    return res.send({
+                                                        message: 'No Agent Id',
+                                                        responseCode: 900,
+                                                        status: 200,
+                                                    });
                                                 }
                                             }
-                                        } else {
-                                            return res.send({
-                                                message: 'No Agent Id',
-                                                responseCode: 900,
-                                                status: 200,
-                                            });
-                                        }
+                                        })
+
                                     }
                                 })
-
                             }
-                        })
-                    }
+                        }
+                    })
                 }
             })
         }
@@ -1629,7 +1640,7 @@ export default class UserController {
                                     })
                                 } else {
                                     User.find({}, (error: any, totalUsers: any) => {
-                                        if (err) {
+                                        if (error) {
                                             return res.send({
                                                 message: "db err",
                                                 responseCode: 700,
@@ -2183,7 +2194,7 @@ export default class UserController {
                         referredById: user._id,
                     }
                     Reference.findOne({ mobile: schema.mobile }, (error: any, result: any) => {
-                        if (err) {
+                        if (error) {
                             return res.send({
                                 message: 'unauthorized access',
                                 responseCode: 700,
@@ -2199,7 +2210,7 @@ export default class UserController {
                                 });
                             } else {
                                 Reference.create(schema, (error: any, reference: any) => {
-                                    if (err) {
+                                    if (error) {
                                         return res.send({
                                             message: 'unauthorized access',
                                             responseCode: 700,
@@ -2208,7 +2219,7 @@ export default class UserController {
                                         });
                                     } else {
                                         User.findOneAndUpdate({ _id: mongoose.Types.ObjectId(user._id) }, { $inc: { reference: 1 } }, { new: true, returnOriginal: false }, (error: any, result: any) => {
-                                            if (err) {
+                                            if (error) {
                                                 return res.send({
                                                     message: 'unauthorized access',
                                                     responseCode: 700,
@@ -2296,7 +2307,7 @@ export default class UserController {
                             }
                         }
                     ], (error: any, result: any) => {
-                        if (err) {
+                        if (error) {
                             return res.send({
                                 message: 'unauthorized access',
                                 responseCode: 700,
