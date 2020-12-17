@@ -315,112 +315,121 @@ export default class UserController {
                                 error: err
                             });
                         } else {
-                            FirebaseNotification.addTokenToFirebaseData(firebasetoken, user._id.toString());
-                            if (moment(Date.now()).diff(user.planExpiryDate, 'days') >= 0) {
-                                User.findByIdAndUpdate({
-                                    _id: mongoose.Types.ObjectId(user._id)
-                                },
-                                    {
-                                        isPlanActivied: false,
-                                    }, function (error: any, updatedUser: any) {
-                                        if (error) {
-                                            return res.send({
-                                                message: 'unauthorized db error',
-                                                responseCode: 800,
-                                                status: 200,
-                                                error: err
-                                            });
-                                        } else {
-                                            User.aggregate([
-                                                {
+                            if (user == null) {
+                                return res.send({
+                                    message: 'User not found',
+                                    responseCode: 1200,
+                                    status: 200,
+                                })
+                            } else {
+                                FirebaseNotification.addTokenToFirebaseData(firebasetoken, user._id.toString());
+                                if (moment(Date.now()).diff(user.planExpiryDate, 'days') >= 0) {
+                                    User.findByIdAndUpdate({
+                                        _id: mongoose.Types.ObjectId(user._id)
+                                    },
+                                        {
+                                            isPlanActivied: false,
+                                        }, function (error: any, updatedUser: any) {
+                                            if (error) {
+                                                return res.send({
+                                                    message: 'unauthorized db error',
+                                                    responseCode: 800,
+                                                    status: 200,
+                                                    error: err
+                                                });
+                                            } else {
+                                                User.aggregate([
+                                                    {
+                                                        $match: {
+                                                            _id: mongoose.Types.ObjectId(updatedUser._id)
+                                                        }
+                                                    },
+                                                    {
+                                                        $lookup: {
+                                                            from: 'plans',
+                                                            as: 'plan',
+                                                            localField: "planId",
+                                                            foreignField: "_id",
+                                                        }
+                                                    }
+                                                ]).exec(function (err: any, user: any) {
+                                                    if (err) {
+                                                        return res.send({
+                                                            message: 'unauthorized db error',
+                                                            responseCode: 800,
+                                                            status: 200,
+                                                            error: err
+                                                        });
+                                                    } else {
+                                                        if (user.length == 0) {
+                                                            return res.send({
+                                                                message: 'no user found',
+                                                                responseCode: 900,
+                                                                status: 200,
+                                                                error: err
+                                                            });
+                                                        } else {
+                                                            return res.send({
+                                                                message: 'user data',
+                                                                responseCode: 300,
+                                                                status: 200,
+                                                                result: user[0]
+                                                            });
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        })
+                                } else {
+                                    User.findByIdAndUpdate({
+                                        _id: mongoose.Types.ObjectId(user._id)
+                                    },
+                                        {
+                                            isPlanActivied: true,
+                                        }, function (error: any, updatedUser: any) {
+                                            if (error) {
+                                                return res.send({
+                                                    message: 'unauthorized db error',
+                                                    responseCode: 800,
+                                                    status: 200,
+                                                    error: err
+                                                });
+                                            } else {
+                                                User.aggregate([{
                                                     $match: {
                                                         _id: mongoose.Types.ObjectId(updatedUser._id)
                                                     }
-                                                },
-                                                {
-                                                    $lookup: {
-                                                        from: 'plans',
-                                                        as: 'plan',
-                                                        localField: "planId",
-                                                        foreignField: "_id",
-                                                    }
-                                                }
-                                            ]).exec(function (err: any, user: any) {
-                                                if (err) {
-                                                    return res.send({
-                                                        message: 'unauthorized db error',
-                                                        responseCode: 800,
-                                                        status: 200,
-                                                        error: err
-                                                    });
-                                                } else {
-                                                    if (user.length == 0) {
+                                                }]).exec(function (err: any, user: any) {
+                                                    if (err) {
                                                         return res.send({
-                                                            message: 'no user found',
-                                                            responseCode: 900,
+                                                            message: 'unauthorized db error',
+                                                            responseCode: 800,
                                                             status: 200,
                                                             error: err
                                                         });
                                                     } else {
-                                                        return res.send({
-                                                            message: 'user data',
-                                                            responseCode: 300,
-                                                            status: 200,
-                                                            result: user[0]
-                                                        });
+                                                        if (user.length == 0) {
+                                                            return res.send({
+                                                                message: 'no user found',
+                                                                responseCode: 900,
+                                                                status: 200,
+                                                                error: err
+                                                            });
+                                                        } else {
+                                                            return res.send({
+                                                                message: 'user data',
+                                                                responseCode: 300,
+                                                                status: 200,
+                                                                result: user[0]
+                                                            });
+                                                        }
                                                     }
-                                                }
-                                            });
-                                        }
-                                    })
-                            } else {
-                                User.findByIdAndUpdate({
-                                    _id: mongoose.Types.ObjectId(user._id)
-                                },
-                                    {
-                                        isPlanActivied: true,
-                                    }, function (error: any, updatedUser: any) {
-                                        if (error) {
-                                            return res.send({
-                                                message: 'unauthorized db error',
-                                                responseCode: 800,
-                                                status: 200,
-                                                error: err
-                                            });
-                                        } else {
-                                            User.aggregate([{
-                                                $match: {
-                                                    _id: mongoose.Types.ObjectId(updatedUser._id)
-                                                }
-                                            }]).exec(function (err: any, user: any) {
-                                                if (err) {
-                                                    return res.send({
-                                                        message: 'unauthorized db error',
-                                                        responseCode: 800,
-                                                        status: 200,
-                                                        error: err
-                                                    });
-                                                } else {
-                                                    if (user.length == 0) {
-                                                        return res.send({
-                                                            message: 'no user found',
-                                                            responseCode: 900,
-                                                            status: 200,
-                                                            error: err
-                                                        });
-                                                    } else {
-                                                        return res.send({
-                                                            message: 'user data',
-                                                            responseCode: 300,
-                                                            status: 200,
-                                                            result: user[0]
-                                                        });
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    })
+                                                });
+                                            }
+                                        })
+                                }
                             }
+
                         }
                     });
                 }
