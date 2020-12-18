@@ -1245,7 +1245,7 @@ export default class UserController {
                                                     isGujarati: false,
                                                     isFreePlanUsed: true,
                                                     isPlanActivied: true,
-                                                    planStartDate: Date.now,
+                                                    planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(
                                                         months,
                                                         "months"
@@ -1499,7 +1499,7 @@ export default class UserController {
                                                                         isFreePlanUsed: true,
                                                                         isPlanActivied: true,
                                                                         agentId: agentId,
-                                                                        planStartDate: Date.now,
+                                                                        planStartDate: Date.now(),
                                                                         planExpiryDate: moment(Date.now()).add(
                                                                             months,
                                                                             "months"
@@ -1558,7 +1558,7 @@ export default class UserController {
                                                                         isFreePlanUsed: true,
                                                                         isPlanActivied: true,
                                                                         agentId: agentId,
-                                                                        planStartDate: Date.now,
+                                                                        planStartDate: Date.now(),
                                                                         planExpiryDate: moment(Date.now()).add(
                                                                             months,
                                                                             "months"
