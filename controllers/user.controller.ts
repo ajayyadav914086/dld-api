@@ -926,7 +926,7 @@ export default class UserController {
                                                                 planId: planId,
                                                                 userId: user._id,
                                                             },
-                                                            function (error: any, bookmark: any) {
+                                                            function (error: any, payments: any) {
                                                                 if (error) {
                                                                     return res.send({
                                                                         message: "Unauthorized DB Error",
@@ -978,7 +978,7 @@ export default class UserController {
                                                                 planId: planId,
                                                                 userId: user._id,
                                                             },
-                                                            function (error: any, bookmark: any) {
+                                                            function (error: any, payments: any) {
                                                                 if (error) {
                                                                     return res.send({
                                                                         message: "Unauthorized DB Error",
@@ -1030,7 +1030,7 @@ export default class UserController {
                                                                 planId: planId,
                                                                 userId: user._id,
                                                             },
-                                                            function (error: any, bookmark: any) {
+                                                            function (error: any, payments: any) {
                                                                 if (error) {
                                                                     return res.send({
                                                                         message: "Unauthorized DB Error",
@@ -1082,7 +1082,7 @@ export default class UserController {
                                                                 planId: planId,
                                                                 userId: user._id,
                                                             },
-                                                            function (error: any, bookmark: any) {
+                                                            function (error: any, payments: any) {
                                                                 if (error) {
                                                                     return res.send({
                                                                         message: "Unauthorized DB Error",
@@ -1155,7 +1155,7 @@ export default class UserController {
                                                                 planId: planId,
                                                                 userId: user._id,
                                                             },
-                                                            function (error: any, bookmark: any) {
+                                                            function (error: any, payments: any) {
                                                                 if (error) {
                                                                     return res.send({
                                                                         message:
@@ -1211,7 +1211,7 @@ export default class UserController {
                                                                 planId: planId,
                                                                 userId: user._id,
                                                             },
-                                                            function (error: any, bookmark: any) {
+                                                            function (error: any, payments: any) {
                                                                 if (error) {
                                                                     return res.send({
                                                                         message:
@@ -1267,7 +1267,7 @@ export default class UserController {
                                                                 planId: planId,
                                                                 userId: user._id,
                                                             },
-                                                            function (error: any, bookmark: any) {
+                                                            function (error: any, payments: any) {
                                                                 if (error) {
                                                                     return res.send({
                                                                         message:
@@ -1323,7 +1323,7 @@ export default class UserController {
                                                                 planId: planId,
                                                                 userId: user._id,
                                                             },
-                                                            function (error: any, bookmark: any) {
+                                                            function (error: any, payments: any) {
                                                                 if (error) {
                                                                     return res.send({
                                                                         message:
@@ -1405,7 +1405,7 @@ export default class UserController {
                                                                                     agentId: agentId,
                                                                                     discountValue: admin.discountValue,
                                                                                 },
-                                                                                function (error: any, bookmark: any) {
+                                                                                function (error: any, payments: any) {
                                                                                     if (error) {
                                                                                         return res.send({
                                                                                             message:
@@ -1523,7 +1523,7 @@ export default class UserController {
                                                                                     agentId: agentId,
                                                                                     discountValue: admin.discountValue,
                                                                                 },
-                                                                                function (error: any, bookmark: any) {
+                                                                                function (error: any, payments: any) {
                                                                                     if (error) {
                                                                                         return res.send({
                                                                                             message:
@@ -1582,7 +1582,7 @@ export default class UserController {
                                                                                     agentId: agentId,
                                                                                     discountValue: admin.discountValue,
                                                                                 },
-                                                                                function (error: any, bookmark: any) {
+                                                                                function (error: any, payments: any) {
                                                                                     if (error) {
                                                                                         return res.send({
                                                                                             message:
