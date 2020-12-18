@@ -967,16 +967,50 @@ export default class Data1Controller {
   }
 
   async translate(req: any, res: any) {
-    // var url = 'https://translate.googleapis.com/translate_a/t?client=te&format=html&v=1.0&sl=en&tl=hi&tk=590525.1037051'
-    // request.post({ uri: url, headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36' }, body: { 'q': 'Hello World' } })
-    await translate('I Speak English', { to: 'es', engine: 'google', key: '' }).then((result: any) => {
-      console.log(result.text)
-      res.send({
-        data: result
-      })
-    }).catch((err: any) => {
-      console.error(err);
+    var url = 'https://translate.googleapis.com/translate_a/t?client=te&format=html&v=1.0&sl=en&tl=hi&tk=590525.1037051'
+    request.post({
+      uri: url,
+      headers: {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple/WebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+        'content-type': 'application/x-www-form-urlencoded',
+        'accept': '*/*',
+        'origin': 'http://www.indialawlibrary.com',
+        'x-client-data': 'CKm1yQEIiLbJAQiltskBCMS2yQEIqZ3KAQiXrMoBCOq4ygEIrMfKAQj1x8oBCLTLygEI3NXKAQjwl8sBCJOaywEYisHKAQ==',
+        'sec-fetch-site': 'cross-site',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-dest': 'empty',
+        'accept-language': 'en-US,en;q=0.9',
+        'Connection': 'keep-alive',
+        'Accept-Encoding': 'gzip, deflate, br'
+      },
+      body: {
+        'q': req.body.content
+      }
+    }, (error: any, translated: any) => {
+      if (error) {
+        return res.send({
+          message: 'Unauthorized DB Error',
+          responseCode: 700,
+          status: 200,
+          error: error
+        });
+      } else {
+        return res.send({
+          message: 'Translated',
+          responseCode: 2000,
+          status: 200,
+          translate: translated
+        });
+      }
     });
+    // await translate('I Speak English', { to: 'es', engine: 'google', key: '' }).then((result: any) => {
+    //   console.log(result.text)
+    //   res.send({
+    //     data: result
+    //   })
+    // }).catch((err: any) => {
+    //   console.error(err);
+    // });
   }
 }
 

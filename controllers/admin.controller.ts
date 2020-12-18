@@ -279,12 +279,20 @@ export default class AdminController {
                 });
               } else {
                 if (result != null) {
-                  res.send({
-                    message: "Discount Value",
-                    responseCode: 2000,
-                    statusCode: 200,
-                    discount: result.discountValue,
-                  });
+                  if(result.enabled == false) {
+                    res.send({
+                      message: "Agent Id Disabled",
+                      responseCode: 900,
+                      statusCode: 200,
+                    });
+                  } else {
+                    res.send({
+                      message: "Discount Value",
+                      responseCode: 2000,
+                      statusCode: 200,
+                      discount: result.discountValue,
+                    });
+                  }
                 } else {
                   res.send({
                     message: "Agent id not found",
