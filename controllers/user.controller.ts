@@ -907,7 +907,7 @@ export default class UserController {
                                                     isGujarati: false,
                                                     isFreePlanUsed: true,
                                                     isPlanActivied: true,
-                                                    planStartDate: Date.now,
+                                                    planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(3, "days"),
                                                 },
                                                 function (error: any, updatedUser: any) {
@@ -959,7 +959,7 @@ export default class UserController {
                                                     isGujarati: false,
                                                     isFreePlanUsed: true,
                                                     isPlanActivied: true,
-                                                    planStartDate: Date.now,
+                                                    planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(3, "days"),
                                                 },
                                                 function (error: any, updatedUser: any) {
@@ -1011,7 +1011,7 @@ export default class UserController {
                                                     isGujarati: false,
                                                     isFreePlanUsed: true,
                                                     isPlanActivied: true,
-                                                    planStartDate: Date.now,
+                                                    planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(3, "days"),
                                                 },
                                                 function (error: any, updatedUser: any) {
@@ -1063,7 +1063,7 @@ export default class UserController {
                                                     isHindi: false,
                                                     isFreePlanUsed: true,
                                                     isPlanActivied: true,
-                                                    planStartDate: Date.now,
+                                                    planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(3, "days"),
                                                 },
                                                 function (error: any, updatedUser: any) {
@@ -1132,7 +1132,7 @@ export default class UserController {
                                                     isMarathi: false,
                                                     isGujarati: false,
                                                     isFreePlanUsed: true,
-                                                    planStartDate: Date.now,
+                                                    planStartDate: Date.now(),
                                                     isPlanActivied: true,
                                                     planExpiryDate: moment(Date.now()).add(
                                                         months,
@@ -1189,7 +1189,7 @@ export default class UserController {
                                                     isGujarati: false,
                                                     isFreePlanUsed: true,
                                                     isPlanActivied: true,
-                                                    planStartDate: Date.now,
+                                                    planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(
                                                         months,
                                                         "months"
@@ -1301,7 +1301,7 @@ export default class UserController {
                                                     isHindi: false,
                                                     isFreePlanUsed: true,
                                                     isPlanActivied: true,
-                                                    planStartDate: Date.now,
+                                                    planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(
                                                         months,
                                                         "months"
@@ -1379,7 +1379,7 @@ export default class UserController {
                                                                         isMarathi: false,
                                                                         isGujarati: false,
                                                                         isFreePlanUsed: true,
-                                                                        planStartDate: Date.now,
+                                                                        planStartDate: Date.now(),
                                                                         isPlanActivied: true,
                                                                         agentId: agentId,
                                                                         planExpiryDate: moment(Date.now()).add(
@@ -1388,12 +1388,12 @@ export default class UserController {
                                                                         ),
                                                                     },
                                                                     function (error: any, updatedUser: any) {
-                                                                        if (err) {
+                                                                        if (error) {
                                                                             return res.send({
                                                                                 message: "unauthorized access",
                                                                                 responseCode: 700,
                                                                                 status: 200,
-                                                                                error: err,
+                                                                                error: error,
                                                                             });
                                                                         } else {
                                                                             Payment.create(
@@ -1440,19 +1440,19 @@ export default class UserController {
                                                                         isFreePlanUsed: true,
                                                                         isPlanActivied: true,
                                                                         agentId: agentId,
-                                                                        planStartDate: Date.now,
+                                                                        planStartDate: Date.now(),
                                                                         planExpiryDate: moment(Date.now()).add(
                                                                             months,
                                                                             "months"
                                                                         ),
                                                                     },
                                                                     function (error: any, updatedUser: any) {
-                                                                        if (err) {
+                                                                        if (error) {
                                                                             return res.send({
                                                                                 message: "unauthorized access",
                                                                                 responseCode: 700,
                                                                                 status: 200,
-                                                                                error: err,
+                                                                                error: error,
                                                                             });
                                                                         } else {
                                                                             Payment.create(
@@ -1464,7 +1464,7 @@ export default class UserController {
                                                                                     agentId: agentId,
                                                                                     discountValue: admin.discountValue,
                                                                                 },
-                                                                                function (error: any, bookmark: any) {
+                                                                                function (error: any, payment: any) {
                                                                                     if (error) {
                                                                                         return res.send({
                                                                                             message:
