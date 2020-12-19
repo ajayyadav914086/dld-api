@@ -24,6 +24,7 @@ app.use('/pdf', express.static('pdf'));
 // app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({limit: '500mb'}));
 app.use(bodyParser.urlencoded({limit: '500mb', extended: true}));
+app.use(bodyParser.text({ type: 'text/html' }))
 app.use(cookieParser());
 app.use('/', swagger);
 // app.use(cors({ origin: 'https://dev.bauktion.com' }));

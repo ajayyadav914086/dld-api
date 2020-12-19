@@ -104,7 +104,7 @@ export default class DataRoute {
     }
 
     htmlToPDF(app: Express) {
-        app.post('/v1/html-to-pdf', dataController1.htmlToPDF)
+        app.post('/v1/html-to-pdf', dataController1.getFullJudgementInHtml)
     }
 
     dataRoute(app: Express) {

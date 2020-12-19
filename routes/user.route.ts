@@ -198,6 +198,14 @@ export default class UserRoute {
         app.post('/v1/user-references', userController.getReferenceById)
     }
 
+    referenceStatusUpdate(app: Express) {
+        app.put('/v1/update-status', userController.referenceStatusUpdate)
+    }
+
+    referenceCommentUpdate(app: Express) {
+        app.put('/v1/update-comment', userController.referenceCommentUpdate)
+    }
+
     addOnLanguage(app: Express) {
         app.put('/v1/addOnLanguage', userController.addOnLanguage)
     }
@@ -239,5 +247,7 @@ export default class UserRoute {
         this.getReferenceById(app);
         this.addOnLanguage(app);
         this.planUpdate(app);
+        this.referenceCommentUpdate(app);
+        this.referenceStatusUpdate(app);
     }
 }

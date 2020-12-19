@@ -1120,7 +1120,7 @@ export default class UserController {
                                         error: err,
                                     });
                                 } else {
-                                    if (agentId == null) {
+                                    if (agentId == null || agentId == undefined) {
                                         if (plan.language == 0) {
                                             User.updateOne(
                                                 {
@@ -1695,7 +1695,7 @@ export default class UserController {
                             { $set: { isGujarati: status } },
                             { new: true, returnOriginal: false },
                             (error: any, updatedUser: any) => {
-                                if (err) {
+                                if (error) {
                                     return res.send({
                                         message: "unauthorized access",
                                         responseCode: 700,
@@ -2411,6 +2411,84 @@ export default class UserController {
                             }
                         }
                     );
+                }
+            });
+        }
+    }
+
+    referenceStatusUpdate(req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
+                } else {
+                    Reference.findOneAndUpdate(
+                        { _id: mongoose.Types.ObjectId(req.body.referenceId) },
+                        { $set: { status: req.body.status } },
+                        { new: true, returnOriginal: true },
+                        (error: any, result: any) => {
+                            if (error) {
+                                return res.send({
+                                    message: "unauthorized access",
+                                    responseCode: 700,
+                                    status: 200,
+                                    error: err,
+                                });
+                            } else {
+                                return res.send({
+                                    message: "Reference Updated",
+                                    responseCode: 2000,
+                                    status: 200,
+                                    result: result,
+                                });
+                            }
+                        }
+                    )
+                }
+            });
+        }
+    }
+
+    referenceCommentUpdate(req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
+                } else {
+                    Reference.findOneAndUpdate(
+                        { _id: mongoose.Types.ObjectId(req.body.referenceId) },
+                        { $set: { comment: req.body.comment } },
+                        { new: true, returnOriginal: true },
+                        (error: any, result: any) => {
+                            if (error) {
+                                return res.send({
+                                    message: "unauthorized access",
+                                    responseCode: 700,
+                                    status: 200,
+                                    error: err,
+                                });
+                            } else {
+                                return res.send({
+                                    message: "Reference Updated",
+                                    responseCode: 2000,
+                                    status: 200,
+                                    result: result,
+                                });
+                            }
+                        }
+                    )
                 }
             });
         }

@@ -14,6 +14,14 @@ let ReferenceSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         required: true
     },
+    status: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    comment: {
+        type: String
+    },
     timestamp: {
         type: Date,
         default: Date.now(),
