@@ -279,7 +279,7 @@ export default class AdminController {
                 });
               } else {
                 if (result != null) {
-                  if(result.enabled == false) {
+                  if (result.enabled == false) {
                     res.send({
                       message: "Agent Id Disabled",
                       responseCode: 900,
@@ -323,7 +323,7 @@ export default class AdminController {
           const schema = {
             suggestion: req.body.suggestion
           }
-          Suggestion.create(schema, (error: any, result: any) => {
+          Suggestion.findOne(schema, (error: any, suggestion: any) => {
             if (error) {
               return res.send({
                 message: "unauthorized access",
@@ -332,12 +332,31 @@ export default class AdminController {
                 error: err,
               });
             } else {
-              return res.send({
-                message: "Suggestion Added",
-                responseCode: 2000,
-                status: 200,
-                result: result
-              })
+              if (suggestion != null) {
+                return res.send({
+                  message: "Already Exists",
+                  responseCode: 800,
+                  status: 200
+                });
+              } else {
+                Suggestion.create(schema, (error: any, result: any) => {
+                  if (error) {
+                    return res.send({
+                      message: "unauthorized access",
+                      responseCode: 700,
+                      status: 200,
+                      error: err,
+                    });
+                  } else {
+                    return res.send({
+                      message: "Suggestion Added",
+                      responseCode: 2000,
+                      status: 200,
+                      result: result
+                    })
+                  }
+                })
+              }
             }
           })
         }

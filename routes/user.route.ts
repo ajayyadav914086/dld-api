@@ -214,6 +214,10 @@ export default class UserRoute {
         app.put('/v1/plan-update', userController.planUpdate)
     }
 
+    sendNotificationsToAll(app: Express) {
+        app.get('/v1/notification-to-all', userController.sendNotificationsToAll)
+    }
+
     userRoute(app: Express) {
         this.addUser(app);
         this.getUser(app);
@@ -230,6 +234,7 @@ export default class UserRoute {
         this.getNotification(app);
         this.sendNotificationToAll(app);
         this.sendNotificationToAllExpired(app);
+        this.sendNotificationsToAll(app);
         this.adminLogin(app);
         this.mail(app);
         this.mailToAll(app);
