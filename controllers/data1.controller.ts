@@ -628,7 +628,7 @@ export default class Data1Controller {
                   var importantPointsHindi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्वपूर्ण बिंदु:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsHindi + '</span></span></span></p>';
                   var importantPointsMarathi = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>महत्त्वाचा मुद्दा:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsMarathi + '</span></span></span></p>';
                   var importantPointsGujrati = '<p style="margin-left:-1px"><span style="font-size:14px"><strong>મહત્વનો મુદ્દો:&nbsp;&nbsp;</strong><span style="font-family:Calibri,sans-serif"><span style="color:#00000a">' + data.importantPointsGujarati + '</span></span></span></p>';
-                  var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>DECIDED ON: ' + data.decidedDate + '</strong></span></p>';
+                  var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>DECIDED ON: ' + dateformat(new Date(data.decidedDate), "dd-mm-yyyy"); + '</strong></span></p>';
                   var soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>SUPREME COURT OF INDA</strong></span></p>';
                   var vs = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p>';
                   var appelentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.appelentName + '-APPELLANT</strong></span></p>';
