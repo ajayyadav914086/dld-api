@@ -637,7 +637,7 @@ export default class Data1Controller {
                   var resultGujrati = '<br/><p style="margin-left:-1px;text-align:justify"><strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">પરિણામ:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">' + data.resultGujarati + '</span></span></span></p>';
                   var caseRefferedText = '<br/><p><span style="font-size:14px"><strong>Case Reffered:&nbsp;</strong></span></p>';
                   var caseReffered = '<ul>';
-                  var caseRefListTag = '<br/><li><span style="font-size:14px;text-align:justify"></span></li>'
+                  var caseRefListTag = '<li><span style="font-size:14px;text-align:justify"></span><br/></li>'
                   var caseRef = data.caseReffered.split('\n');
                   var caseRefLenght = Buffer.from(caseRef).length;
                   for (var i = 0; i < caseRefLenght; i++) {
