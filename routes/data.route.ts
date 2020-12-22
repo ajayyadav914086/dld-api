@@ -134,7 +134,7 @@ export default class DataRoute {
         this.getAllPost(app);
         this.getPostById(app);
         this.translate(app);
-        this.htmlToPDF(app);
+        // this.htmlToPDF(app);
         this.judgetmentInHTML(app);
     }
 }
