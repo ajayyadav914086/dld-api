@@ -4,9 +4,8 @@ const Payment = require("../models/payment.model");
 // const translate = require('google-translate-api');
 const Users = require('../models/user.model');
 
-const CountSchema = require('../models/count.model');
 var pdf = require('html-pdf');
-const Count = require("../models/count.model");
+const CountSchema = require("../models/count.model");
 import { body } from "express-validator/check";
 import request = require("request");
 import FirebaseNotification from "../config/firebase.config";
@@ -45,7 +44,7 @@ export default class Data1Controller {
                 error: error,
               });
             } else {
-              Count.findOne({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, (error: any, count: any) => {
+              CountSchema.findOne({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, (error: any, count: any) => {
                 if (error) {
                   return res.send({
                     message: "Unauthorized DB error",
@@ -91,7 +90,7 @@ export default class Data1Controller {
                       });
                     } else {
                       if (req.body.postType == 0) {
-                        Count.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                           if (error) {
                             return res.send({
                               message: "Unauthorized DB error",
@@ -109,7 +108,7 @@ export default class Data1Controller {
                           }
                         })
                       } else {
-                        Count.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                           if (error) {
                             return res.send({
                               message: "Unauthorized DB error",
@@ -586,8 +585,6 @@ export default class Data1Controller {
     }
   }
 
-
-
   getFullJudgementInHtml = function (req: any, res: any) {
     var token = req.headers.token;
     if (token) {
@@ -674,13 +671,13 @@ export default class Data1Controller {
                   }
 
                   // pdf.create(html, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
-                    // if (error) return console.log(error);
-                    res.send({
-                      message: 'Created PDF',
-                      // url: 'https://api.dailylawdigest.com/pdf/' + String(date) + '.pdf',
-                      result: data,
-                      html:html,
-                    })
+                  // if (error) return console.log(error);
+                  res.send({
+                    message: 'Created PDF',
+                    // url: 'https://api.dailylawdigest.com/pdf/' + String(date) + '.pdf',
+                    result: data,
+                    html: html,
+                  })
                   // })
                 }
               })
@@ -807,7 +804,7 @@ export default class Data1Controller {
           });
         } else {
           var data = req.body.data;
-          DataEntry.deleteOne({ _id: mongoose.Types.ObjectId(data) }, (error: any, result: any) => {
+          DataEntry.findOneAndDelete({ _id: mongoose.Types.ObjectId(data) }, (error: any, result: any) => {
             if (error) {
               return res.send({
                 message: 'Unauthorized DB Error',
@@ -816,11 +813,41 @@ export default class Data1Controller {
                 error: error
               });
             } else {
-              return res.send({
-                responseCode: 2000,
-                status: 200,
-                message: 'Successfully Deleted record'
-              });
+              if (result.postType == 0) {
+                CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                  if (error) {
+                    return res.send({
+                      message: "Unauthorized DB error",
+                      responseCode: 700,
+                      status: 200,
+                      error: error,
+                    });
+                  } else {
+                    return res.send({
+                      responseCode: 2000,
+                      status: 200,
+                      message: 'Successfully Deleted record'
+                    });
+                  }
+                })
+              } else {
+                CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                  if (error) {
+                    return res.send({
+                      message: "Unauthorized DB error",
+                      responseCode: 700,
+                      status: 200,
+                      error: error,
+                    });
+                  } else {
+                    return res.send({
+                      responseCode: 2000,
+                      status: 200,
+                      message: 'Successfully Deleted record'
+                    });
+                  }
+                })
+              }
             }
           });
         }

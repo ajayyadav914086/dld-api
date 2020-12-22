@@ -2638,5 +2638,21 @@ export default class UserController {
             });
         }
     };
+
+    sendNotificationsToAll = function (req: any, res: any) {
+        FirebaseNotification.sendPushNotificaitonToAll({
+            data: {
+                type: "1",
+                title: 'title',
+                body: 'message',
+            },
+            notification: {
+                title: 'Hurray new auction added to Bauktion app',
+                body: "Come explore we've got total of auctions listed for you all over India."
+            }
+        }, {
+            priority: 'high',
+        });
+    }
 }
 export const userController = new UserController();

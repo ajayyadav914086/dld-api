@@ -70,6 +70,11 @@ let UserSchema = new mongoose.Schema({
   planType: {
     type: Number
   },
+  notificationCount: {
+    type: Number,
+    default: 0,
+    required: true
+  }
 });
 
 //hashing a password before saving it to the database

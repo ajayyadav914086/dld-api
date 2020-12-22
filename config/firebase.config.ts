@@ -10,15 +10,15 @@ var moment = require('moment');
 
 var serviceAccount = {
     "type": "service_account",
-    "project_id": "bauktion-77e27",
-    "private_key_id": "379f42d984d1122afce3d5818a9d9f968befc2bd",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC9dDnYszJApW4C\nINgqGm6VqKE3XJm/lTMtEHBf16dz9WBN2SwSgJ5aZMeh19a9+t2oLyEMXZQHgMQx\nmWsYkBtdiPpikRGE9QKj68eQ0Fx0WsoUl25r8YVOakqJdZb5QFM+JD0cog44KW9r\nAeZ4PufX9P71EW/HERzHRu73EzoNV3QGBDBnV7eTWFCBWWtQHHCtQhubFFBsOjrZ\n3GNQ4J2+USjER+hpJWZCQxS7qE8y/jSCfWAADEEbWR9W2mDyT+8/ELWLJy8CmiJc\nYXJXhY4MAQR2XVlOTOuZ5utp698XtlLCYYpfzPgvdTchiKrQNS25SKeefQ1kesFM\n2Lp/PtK3AgMBAAECggEAD/5KTdle0idFAKf+J5vAnyCzr2VBU3OIdPLw0Z52c+sQ\nfLHrLwqtk4rzcV2zsqkFYkfMPet+bh24Mkm1yUaNENnZ7U060eMPHIBwgfCdBXOO\noKth9nnWm5aMgUssehEslc/gWtTxZ1tUHQ/1gUwqLUhw54ZXzdHLgKUj0jbMzUhh\nsRJcnSoBY5qinijvf4TaEClhWoFdNzy1LJZXUxGVhzlz+QpNPAl4JF5Gj1B+hRz1\nW99TXWCa0n2W9RJHyC+Ksf8K0w91/iyMw+RMctadxjKWX4B4JofmJte5KWlwcsPh\n9Rydn+hPteiFuQZoUpo8x7FLV5Q7oFHRecwkF8nXiQKBgQD7OQvdMHe0c2Fwkfhn\nS1unjfM3/SwGeHwkKYzEQXa64W/f5ZCvoJT5NHZvnaxljNV84SAVlIoJrbQu5ulI\ntMHjmfrPhk+0yM8RNOkN+zdufLz1wxPyWP8+7fA7u5kEgN0HIFXMTA7AT0AQVXBy\nN1QYTVUSvU29Tz+sNmiJBrzxeQKBgQDBDn0eABVchHFkj2iHECSXMbQzdunCZL4L\n5MhlOW7PRoUaBRXtjXchSn0tFVQjUnoiXVYD2ID7J5HDCXYcRIbm5zKAv3GPkvUb\nozLgLZ0au5nRwYXNosZjyDft+uBEhQTN0dF/ihYy9ffEARfbot8HrqBEZTIIi0AK\n/rfrgryJrwKBgQD55YIWsUqx1oAbwSfuYDi40Gwayp0Lhrg+JJKg+lmHhg6KEko9\nWag2yGfzmU1O6qvGgA4xSUOSYxaz/QAbUar4o0epPPp2Y7YOcKpPPRCjuDMi6L0j\nukGUsIzibjbFEwZKO3D9Or8Frw+T79ld1Amz7uDsNiBparZ0sN6FR42VSQKBgC6j\nKWaN7psjA6GfY0j9hVlhEH8+QspLO/3zjtWlQjegeZcHk3yHqDfKnuK9PE4sJoUW\ntyjGrKH/tR7Asl+xzkUJpRGlLfHZNo0up6OwYTuMBmS9s20x3WtNevVqnbLvz3FJ\nNqrw2NwGv4wCF5lfhzF75gufxq55tUbyscubEaDRAoGAAbmbobHELcgDLbLq1DZg\nRh5BN3PoE8ljV67bJBqKYQxypxT9gmdkr3+hWKIqRC1tg1IET/VDRXcl/Plcu+Di\nHC0LdVlqVoAmpyrI6Ca+vAc8Zj+mkZuOio6wXoskOBHALrrLgbMLlIDtOfrJNl5g\nANFU4WnIFbgYB1ctOdaxvc0=\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-dstmn@bauktion-77e27.iam.gserviceaccount.com",
-    "client_id": "111286774141811416594",
+    "project_id": "dlda-90214",
+    "private_key_id": "7045532e911d039837643ec0be56749b8629e39a",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDmhDZNk4WwRFO7\nkc7nvZTjvaPeSP6j5vgefiXTRELIbqMchx0exdGNjo8+W9LQj/iwliKMSRKN8sir\n1W2auWe6JsH0hHuCoUnfQGS/HxBDCWBdX7cI6T4IEqPq7swrx4mDKUqeFu+hs1pX\n1Ir+HzdBky1xujlaNaL95i6aBf8LfJ2ZVvwyUGSgErzNW4N0Apho3ITQwe6ZM49d\njllGMxg07qfSWIcnWpsrdac8ED8N49Znk8t8PcunVwCmpLvPWli7GYAxlPl4nUFb\n2QGNRxG4S5baxa5KAxWZlS/bSRvhhnq2x63sbM6CAKgLQ/6Bem45n420vXBpB0H3\nf81O9OBfAgMBAAECggEAFtR2oa2VSqUkZdSbA/iStmYhxJzAxhrUmAXbroDO3Gru\nB0qaZ7clJI/p6pMi3eUPDEN88x00PpASWnJY2JS5i9uAJLy6PsXFOzHKyI2bCV30\nXUsNevnJWvioTgGN1wgmu7FrN8etvqYKBzOAUIq8Pj0FUy4jtVDP7mAjCBNv9Fht\numgmxF+IaQ8j2x8MwCnuH+pd/pDkUTyp3K/o73Yc3/+p7efHtk/ygDUFvo8DC/X/\n3ZO9D6VkNDm1IXXdP1sTJ8MEvyG9lVSuN1sgGSFD/O96DYe+3QLpSRzYvj0e66lj\nqAxNJvFakbBh7gtzWYqRzzIwN4AXQFIxptiC+HmHgQKBgQDzFhipS4WyNnHxD52q\nEmaU5ZSOffj/x+AgReDlkWTHCN98k0Rggyk7pE7AvXUYTZMx4PzAXkFciBP9TuMz\nivC2TXSXwrcYWPFWdSeVbBoeAT7+OlHu1JZE1RAjme0qHMYwT8fDDFUN6cT4GAS5\nOcY1sSJWRsT0MzFElE1ukeRmNQKBgQDywytYgf6SGZs87WCP/73yt4jVXcRm2HBy\nFt8VfibPWnk3VRkwLrlVop8ytil/TEOOFlRcz6NNgcockL+wqNf4j7AxwvZo8YPP\ngE2hmhMxNYuVlupRrU8eH8gTz79X3T69aK8lpXaP4g5RkEYoQ8oSEvRMtr2isE9J\nLclv8teuwwKBgQDf3ZKanq2iwRdP/KSjksycBY45Z/QfgzB6KECEytB3qElBTdKj\n20bm4VuRjyk+V3rebaf3dRZWpA9csgD1X9hs24orlSvPpWGk0MHCj0rCJT2hHY6F\nF4zIGTwCvWg350XyChcbHslZxdca7+uxtW4/1kCcGhKaHmcaFEX3NS6VnQKBgQCY\nGhzAecJs+8o+JGTKFGyI9OGw/e0emyHo+deQedgLNx6XwqPjgoLw2tFwTp41ei0h\ni3AULqyc1WMy/qZ8I24d+LlmlEcbfacejb8WL5kyzd/FPCdYQYQ+1Z7getviS2cR\n+dMzfTaJ9BMQm5q5g6/KH0IeBqlOk7U5noyFrdvhTQKBgQDR5KK6ZntJKdFfy0zM\nmAmaEr515iDRa2aWhDJWZfAANk4xw1fI0tcTt0mUD35XH4DeXyj5zpxtX/877W/o\nUjQuXIs2LUfIfoNYkc0l6FvT8TQ5UbRvq3NCW1BCu1CDqzc4gvti6AJy/S7nQxQb\n6dfggIaEhqaJYbAwB0S+j5746A==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-49lej@dlda-90214.iam.gserviceaccount.com",
+    "client_id": "106785225102337246432",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-dstmn%40bauktion-77e27.iam.gserviceaccount.com"
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-49lej%40dlda-90214.iam.gserviceaccount.com"
 };
 
 
@@ -28,7 +28,7 @@ export default class FirebaseNotification {
     static initFirebaseConfig() {
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
-            databaseURL: "https://bauktion-77e27.firebaseio.com"
+            databaseURL: "https://dlda-90214.firebaseio.com"
         });
     }
 
@@ -96,12 +96,30 @@ export default class FirebaseNotification {
     }
 
     static sendPushNotificaitonToAll(payload: any, options: any) {
+        User.updateMany({}
+            , { $inc: { notificationCount: 1 } }, { new: true }, (err: any, user: any) => {
+                if (err) {
+                    console.log(err);
+                } else {
+        admin.messaging().sendToTopic('all',payload)
+            .then((response: any) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+            })
+            .catch((error: any) => {
+                console.log('Error sending message:', error);
+            });
+            }});
+            
+    }
+
+    static sendPushNotificaitonToAll1(payload: any, options: any) {
         var userId = '';
         User.find(function (error: any, result: any) {
             if (error) {
 
             } else {
-                result.forEach((user: any) => {
+                result.forEach((user: any) =>  {
                     userId = user._id;
                     User.findOneAndUpdate({ _id: userId }
                         , { $inc: { notificationCount: 1 } }, { new: true }, (err: any, user: any) => {
