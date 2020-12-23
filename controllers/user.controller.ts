@@ -2639,6 +2639,8 @@ export default class UserController {
         }
     };
 
+    
+
     readAllNotifications = function (req: any, res: any) {
         var token = req.headers.token;
         if (token) {

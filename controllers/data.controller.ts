@@ -1191,36 +1191,114 @@ export default class DataController {
                         error: err,
                     });
                 } else {
-                    Payment.aggregate([
-                        {
-                            $lookup: {
-                                from: 'users',
-                                as: 'user',
-                                localField: "userId",
-                                foreignField: "_id",
-                            },
-                        },
-                        // { $unwind: "$plan" },
-                        { $unwind: "$user" },
-                        // { $skip: pageSize * (pageIndex - 1) },
-                        // { $limit: pageSize }
-                    ]).exec(function (err: any, payments: any) {
-                        if (err) {
-                            return res.send({
-                                message: 'unauthorized db error',
-                                responseCode: 800,
-                                status: 200,
-                                error: err
-                            });
+                    if (req.body.status != null || req.body.status != undefined) {
+                        if (req.body.status == 0) {
+                            Payment.aggregate([
+                                {
+                                    $match: {
+                                        txtId: "FREE"
+                                    }
+                                },
+                                {
+                                    $lookup: {
+                                        from: 'users',
+                                        as: 'user',
+                                        localField: "userId",
+                                        foreignField: "_id",
+                                    },
+                                },
+                                // { $unwind: "$plan" },
+                                { $unwind: "$user" },
+                                // { $skip: pageSize * (pageIndex - 1) },
+                                // { $limit: pageSize }
+                            ]).exec(function (err: any, payments: any) {
+                                if (err) {
+                                    return res.send({
+                                        message: 'unauthorized db error',
+                                        responseCode: 800,
+                                        status: 200,
+                                        error: err
+                                    });
+                                } else {
+                                    return res.send({
+                                        message: 'payments',
+                                        responseCode: 300,
+                                        status: 200,
+                                        result: payments
+                                    });
+                                }
+                            })
                         } else {
-                            return res.send({
-                                message: 'payments',
-                                responseCode: 300,
-                                status: 200,
-                                result: payments
-                            });
+                            Payment.aggregate([
+                                {
+                                    $match: {
+                                        txtId: {
+                                            $ne: "FREE"
+                                        }
+                                    }
+                                },
+                                {
+                                    $lookup: {
+                                        from: 'users',
+                                        as: 'user',
+                                        localField: "userId",
+                                        foreignField: "_id",
+                                    },
+                                },
+                                // { $unwind: "$plan" },
+                                { $unwind: "$user" },
+                                // { $skip: pageSize * (pageIndex - 1) },
+                                // { $limit: pageSize }
+                            ]).exec(function (err: any, payments: any) {
+                                if (err) {
+                                    return res.send({
+                                        message: 'unauthorized db error',
+                                        responseCode: 800,
+                                        status: 200,
+                                        error: err
+                                    });
+                                } else {
+                                    return res.send({
+                                        message: 'payments',
+                                        responseCode: 300,
+                                        status: 200,
+                                        result: payments
+                                    });
+                                }
+                            })
                         }
-                    })
+                    } else {
+                        Payment.aggregate([
+                            {
+                                $lookup: {
+                                    from: 'users',
+                                    as: 'user',
+                                    localField: "userId",
+                                    foreignField: "_id",
+                                },
+                            },
+                            // { $unwind: "$plan" },
+                            { $unwind: "$user" },
+                            // { $skip: pageSize * (pageIndex - 1) },
+                            // { $limit: pageSize }
+                        ]).exec(function (err: any, payments: any) {
+                            if (err) {
+                                return res.send({
+                                    message: 'unauthorized db error',
+                                    responseCode: 800,
+                                    status: 200,
+                                    error: err
+                                });
+                            } else {
+                                return res.send({
+                                    message: 'payments',
+                                    responseCode: 300,
+                                    status: 200,
+                                    result: payments
+                                });
+                            }
+                        })
+                    }
                 }
             })
         }
