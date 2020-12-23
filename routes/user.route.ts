@@ -218,6 +218,10 @@ export default class UserRoute {
         app.get('/v1/notification-to-all', userController.sendNotificationsToAll)
     }
 
+    readAllNotification(app: Express) {
+        app.get('/v1/read-notifications', userController.readAllNotifications);
+    }
+
     userRoute(app: Express) {
         this.addUser(app);
         this.getUser(app);
@@ -254,5 +258,6 @@ export default class UserRoute {
         this.planUpdate(app);
         this.referenceCommentUpdate(app);
         this.referenceStatusUpdate(app);
+        this.readAllNotification(app);
     }
 }

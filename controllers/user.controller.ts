@@ -2639,6 +2639,45 @@ export default class UserController {
         }
     };
 
+    readAllNotifications = function (req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
+                } else {
+                    User.findOneAndUpdate(
+                        { _id: mongoose.Types.ObjectId(user._id) },
+                        { $set: { notificationCount: 0 } },
+                        { new: true, returnOriginal: false },
+                        (error: any, updatedUser: any) => {
+                            if (err) {
+                                return res.send({
+                                    message: "unauthorized access",
+                                    responseCode: 700,
+                                    status: 200,
+                                    error: err,
+                                });
+                            } else {
+                                return res.send({
+                                    message: "Plan Updated",
+                                    responseCode: 2000,
+                                    status: 200,
+                                    user: updatedUser,
+                                });
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    }
+
     sendNotificationsToAll = function (req: any, res: any) {
         FirebaseNotification.sendPushNotificaitonToAll({
             data: {
