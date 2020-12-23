@@ -616,21 +616,21 @@ export default class Data1Controller {
                   });
                 } else {
                   // <script>setCookie("googtrans", "/en/hi"); function testLoad(){document.getElementById("test").innerHTML = document.cookie;} function setCookie(key, value, expiry){ var expires = new Date();expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));document.cookie = key + "=" + value + ";expires=" + expires.toUTCString();}function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><div id="google_translate_element"></div>'+
-                  var dldId = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p><br/>';
+                  var dldId = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
                   var importantPoints = '<head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>*{margin-right:0px!important}p{margin-top:0px;margin-bottom:0px;overflow-y: hidden;}ol{margin:0px;}body{padding: 0px 12px;}</style></head><body></body><br/><br/><p style="margin-left:-1px;text-align:justify"><span id="test" style="font-size:14px"><strong>Important Point:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPoints + '</span></span></span></p><br/>';
                   var importantPointsHindi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong>महत्वपूर्ण बिंदु:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPointsHindi + '</span></span></span></p><br/>';
                   var importantPointsMarathi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong>महत्त्वाचा मुद्दा:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPointsMarathi + '</span></span></span></p><br/>';
                   var importantPointsGujrati = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong>મહત્વનો મુદ્દો:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPointsGujarati + '</span></span></span></p><br/>';
-                  var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>DECIDED ON: ' + dateformat(new Date(data.decidedDate), "dd-mm-yyyy"); + '</strong></span></p><br/><br/>';
-                  var soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>SUPREME COURT OF INDIA</strong></span></p><br/>';
-                  var vs = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p><br/>';
-                  var appelentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.appelentName + '-APPELLANT</strong></span></p><br/>';
-                  var judges = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>( Before : ' + data.judges + ', JJ. )</strong></span></p><br/>';
+                  var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>DECIDED ON: ' + dateformat(new Date(data.decidedDate), "dd-mm-yyyy"); + '</strong></span></p><br/>';
+                  var soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>SUPREME COURT OF INDIA</strong></span></p>';
+                  var vs = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p>';
+                  var appelentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.appelentName + '-APPELLANT</strong></span></p>';
+                  var judges = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>( Before : ' + data.judges + ', JJ. )</strong></span></p>';
                   var headNote = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">Head Point:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNote + '</span></span></span></p><br/>';
                   var headNoteHindi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">शीर्ष टिप्पणी:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNoteHindi + '</span></span></span></p><br/>';
                   var headNoteMarathi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">मुख्य टीप:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNoteMarathi + '</span></span></span></p><br/>';
                   var headNoteGujrati = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">મુખ્ય નોંધ:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNoteGujarati + '</span></span></span></p><br/>';
-                  var respondentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.respondentName + '-RESPONDENT</strong></span></p><br/>';
+                  var respondentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.respondentName + '-RESPONDENT</strong></span></p>';
                   var result = '<p style="margin-left:-1px;text-align:justify"><strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">Result:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">' + data.result + '</span></span></span></p>';
                   var resultHindi = '<br/><p style="margin-left:-1px;text-align:justify"><strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">' + data.resultHindi + '</span></span></span></p>';
                   var resultMarathi = '<br/><p style="margin-left:-1px;text-align:justify"><strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">' + data.resultMarathi + '</span></span></span></p>';
@@ -638,42 +638,41 @@ export default class Data1Controller {
                   var caseRefferedText = '<br/><p><span style="font-size:14px"><strong>Case Reffered:&nbsp;</strong></span></p>';
                   var caseReffered = '<ul>';
                   var caseRefListTag = '<li><span style="font-size:14px;text-align:justify"></span></li>'
-                  var caseRef = data.caseReffered.split('\n');
-                  var caseRefLenght = Buffer.from(caseRef).length;
-                  for (var i = 0; i < caseRefLenght; i++) {
-                    caseReffered = caseReffered + '<li><span style="font-size:14px">' + String(caseRef[i]) + '</span></li>';
+                  if (data.caseReffered == null || data.caseReffered == null) {
+                    caseReffered = '';
+                  } else {
+                    var caseRef = data.caseReffered.split('\n\n');
+                    var caseRefLenght = Buffer.from(caseRef).length;
+                    for (var i = 0; i < caseRefLenght; i++) {
+                      caseReffered = caseReffered + '<li><span style="font-size:14px">' + String(caseRef[i]) + '</span></li>';
+                    }
                   }
                   var postType = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.postType + '</strong></span></p>';
                   var type = '<p style="text-align:center"><span style="font-size:16px"><strong>' + data.type + '</strong></span></p>';
                   var fullJudgement = data.fullJudgement;
                   var html;
                   if (userData?.isHindi == true && userData?.isMarathi == true && userData?.isGujarati == true) {
-                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + importantPointsMarathi + importantPointsGujrati + headNote + headNoteHindi + headNoteMarathi + headNoteGujrati + result + resultHindi + resultMarathi + resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi + data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi + data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati + headNote + data.headNoteHindi == (undefined || null) ? '' : headNoteHindi + data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi + data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati + result + data.resultHindi == (undefined || null) ? '' : resultHindi + data.resultMarathi == (undefined || null) ? '' : resultMarathi + data.resultGujarati == (undefined || null) ? '' : resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   } else if (userData?.isHindi == true && userData?.isMarathi == true) {
-                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + importantPointsMarathi + headNote + headNoteHindi + headNoteMarathi + result + resultHindi + resultMarathi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi + data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi + headNote + data.headNoteHindi == (undefined || null) ? '' : headNoteHindi + data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi + result + data.resultHindi == (undefined || null) ? '' : resultHindi + data.resultMarathi == (undefined || null) ? '' : resultMarathi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   } else if (userData?.isHindi == true && userData?.isGujarati == true) {
-                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + importantPointsGujrati + headNote + headNoteHindi + headNoteGujrati + result + resultHindi + resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   } else if (userData?.isMarathi == true && userData?.isGujarati == true) {
-                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsMarathi + importantPointsGujrati + headNote + headNoteMarathi + headNoteGujrati + result + resultMarathi + resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi + data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati + headNote + data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi + data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati + result + data.resultMarathi == (undefined || null) ? '' : resultMarathi + data.resultGujarati == (undefined || null) ? '' : resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   } else if (userData?.isMarathi == true) {
-                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsMarathi + headNote + headNoteMarathi + result + resultMarathi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi + headNote + data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi + result + data.resultMarathi == (undefined || null) ? '' : resultMarathi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   } else if (userData?.isGujarati == true) {
-                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsGujrati + headNote + headNoteGujrati + result + resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati + headNote + data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati + result + data.resultGujarati == (undefined || null) ? '' : resultGujrati + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   } else if (userData?.isHindi == true) {
-                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + importantPointsHindi + headNote + headNoteHindi + result + resultHindi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi + headNote + data.headNoteHindi == (undefined || null) ? '' : headNoteHindi + result + data.resultHindi == (undefined || null) ? '' : resultHindi + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   } else {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + headNote + result + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   }
-
-                  // pdf.create(html, options).toFile('./public/pdf/' + String(date) + '.pdf', (error: any, result: any) => {
-                  // if (error) return console.log(error);
                   res.send({
-                    message: 'Created PDF',
-                    // url: 'https://api.dailylawdigest.com/pdf/' + String(date) + '.pdf',
+                    message: 'Created HTML',
                     result: data,
                     html: html,
                   })
-                  // })
                 }
               })
             }
