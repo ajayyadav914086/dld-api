@@ -108,7 +108,11 @@ export default class DataRoute {
     // }
 
     judgetmentInHTML(app: Express){
-        app.post('/v1/html-judgement', dataController1.getFullJudgementInHtml)
+        app.get('/v1/html-judgement', dataController1.getFullJudgementInHtml)
+    }
+
+    getFullJudgementById(app: Express){
+        app.post('/v1/judgement-by-id',dataController1.getFullJudgementById);
     }
 
     dataRoute(app: Express) {
@@ -136,5 +140,6 @@ export default class DataRoute {
         this.translate(app);
         // this.htmlToPDF(app);
         this.judgetmentInHTML(app);
+        this.getFullJudgementById(app);
     }
 }
