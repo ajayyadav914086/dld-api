@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import * as bcrypt from "bcryptjs";
 
 let AdminSchema = new mongoose.Schema({
     enabled: {
@@ -36,6 +37,17 @@ let AdminSchema = new mongoose.Schema({
     agentId: {
         type: String,
     }
+});
+
+AdminSchema.pre("save", function (next: any) {
+    var admin: any = this;
+    bcrypt.hash(admin.password, 10, function (err: any, hash: any) {
+        if (err) {
+            return next(err);
+        }
+        admin.password = hash;
+        next();
+    });
 });
 
 var Admin = mongoose.model('Admin', AdminSchema);

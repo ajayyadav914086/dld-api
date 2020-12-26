@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 var mongoose = require("mongoose");
 var Admin = require("../models/admin.model");
+import * as bcrypt from "bcryptjs";
 var User = require("../models/user.model");
 var Suggestion = require("../models/suggestion.model");
 var generator = require('generate-password');
@@ -220,9 +221,8 @@ export default class AdminController {
 
   adminLogin = function (req: any, res: any) {
     var email = req.body.email;
-    var password = req.body.password;
     Admin.findOne(
-      { email: email, password: password },
+      { email: email },
       (error: any, result: any) => {
         if (error) {
           return res.send({
@@ -233,14 +233,33 @@ export default class AdminController {
           });
         } else {
           if (result != null) {
-            var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
-            return res.send({
-              message: "Admin Logged In",
-              responseCode: 2000,
-              status: 200,
-              result: result,
-              token: token,
-            });
+            bcrypt.compare(req.body.password, result.password, (error: any, hash: any) => {
+              if (error) {
+                return res.send({
+                  message: "Unauthorized DB Error",
+                  responseCode: 700,
+                  status: 200,
+                  error: error,
+                });
+              } else {
+                if (hash === true) {
+                  var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
+                  return res.send({
+                    message: "Admin Logged In",
+                    responseCode: 2000,
+                    status: 200,
+                    result: result,
+                    token: token,
+                  });
+                } else {
+                  res.send({
+                    error: "Incorrect Phone Number or password.",
+                    responseCode: 4000,
+                    status: "200",
+                  });
+                }
+              }
+            })
           } else {
             return res.send({
               message: "Admin Dont exist",
