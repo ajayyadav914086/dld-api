@@ -1740,6 +1740,8 @@ export default class UserController {
                                     $or: [
                                         { email: { $regex: search, $options: "$i" } },
                                         { fullName: { $regex: search, $options: "$i" } },
+                                        { agentId: { $regex: search, $options: "$i" } },
+                                        { phoneNumber: { $regex: search, $options: "$i" } },
                                     ],
                                 },
                                 function (err: any, users: any) {
@@ -2639,7 +2641,7 @@ export default class UserController {
         }
     };
 
-    
+
 
     readAllNotifications = function (req: any, res: any) {
         var token = req.headers.token;
