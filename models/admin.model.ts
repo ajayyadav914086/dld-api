@@ -32,11 +32,9 @@ let AdminSchema = new mongoose.Schema({
     },
     discountValue: {
         type: Number,
-        required: true
     },
     agentId: {
         type: String,
-        required: true
     }
 });
 
