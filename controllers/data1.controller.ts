@@ -44,7 +44,7 @@ export default class Data1Controller {
                 error: error,
               });
             } else {
-              CountSchema.findOne({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, (error: any, count: any) => {
+              CountSchema.findOne({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, (error: any, count: any) => {
                 if (error) {
                   return res.send({
                     message: "Unauthorized DB error",
@@ -90,7 +90,7 @@ export default class Data1Controller {
                       });
                     } else {
                       if (req.body.postType == 0) {
-                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                           if (error) {
                             return res.send({
                               message: "Unauthorized DB error",
@@ -108,7 +108,7 @@ export default class Data1Controller {
                           }
                         })
                       } else {
-                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                           if (error) {
                             return res.send({
                               message: "Unauthorized DB error",
@@ -1024,7 +1024,7 @@ export default class Data1Controller {
                   });
                 } else {
                   if (datas.postType == 0 && data.postType == 1) {
-                    CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                    CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
                       if (error) {
                         return res.send({
                           message: 'Unauthorized DB Error',
@@ -1033,7 +1033,7 @@ export default class Data1Controller {
                           error: error
                         });
                       } else {
-                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
                           if (error) {
                             return res.send({
                               message: 'Unauthorized DB Error',
@@ -1052,7 +1052,7 @@ export default class Data1Controller {
                       }
                     })
                   } else if (datas.type == 1 && result.type == 0) {
-                    CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                    CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
                       if (error) {
                         return res.send({
                           message: 'Unauthorized DB Error',
@@ -1061,7 +1061,7 @@ export default class Data1Controller {
                           error: error
                         });
                       } else {
-                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
+                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, count: any) => {
                           if (error) {
                             return res.send({
                               message: 'Unauthorized DB Error',
@@ -1118,7 +1118,7 @@ export default class Data1Controller {
               });
             } else {
               if (result.postType == 0) {
-                CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCivil: -1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                   if (error) {
                     return res.send({
                       message: "Unauthorized DB error",
@@ -1135,7 +1135,7 @@ export default class Data1Controller {
                   }
                 })
               } else {
-                CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCriminal: -1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
                   if (error) {
                     return res.send({
                       message: "Unauthorized DB error",
@@ -1284,7 +1284,7 @@ export default class Data1Controller {
                 from: 'counts',
                 let: {},
                 pipeline: [
-                  { "$match": { _id: mongoose.Types.ObjectId('5fd29ffc4a7218f086565be4') } },
+                  { "$match": { _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') } },
                 ],
                 as: 'counts'
               }
