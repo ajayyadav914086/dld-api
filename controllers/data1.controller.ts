@@ -344,7 +344,6 @@ export default class Data1Controller {
                               { resultGujrati: search },
                               { caseReffered: search },
                               { actsReffered: search },
-                              { fullJudgement: search },
                             ],
                           },
                         ]
