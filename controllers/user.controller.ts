@@ -2683,7 +2683,7 @@ export default class UserController {
     }
 
     sendNotificationsToAll = function (req: any, res: any) {
-        FirebaseNotification.sendPushNotificaitonToAll({
+        FirebaseNotification.sendPushNotificaitonToAllWithTopic({
             data: {
                 type: "1",
                 title: 'title',

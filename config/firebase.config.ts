@@ -95,7 +95,7 @@ export default class FirebaseNotification {
         });
     }
 
-    static sendPushNotificaitonToAll(payload: any, options: any) {
+    static sendPushNotificaitonToAllWithTopic(payload: any, options: any) {
         User.updateMany({}
             , { $inc: { notificationCount: 1 } }, { new: true }, (err: any, user: any) => {
                 if (err) {
@@ -113,7 +113,7 @@ export default class FirebaseNotification {
             
     }
 
-    static sendPushNotificaitonToAll1(payload: any, options: any) {
+    static sendPushNotificaitonToAllUsingTopic(payload: any, options: any) {
         var userId = '';
         User.find(function (error: any, result: any) {
             if (error) {

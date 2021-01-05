@@ -44,7 +44,7 @@ export default class Data1Controller {
                 error: error,
               });
             } else {
-              CountSchema.findOne({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, (error: any, count: any) => {
+              DataEntry.find({}, (error: any, priority: any) => {
                 if (error) {
                   return res.send({
                     message: "Unauthorized DB error",
@@ -53,34 +53,7 @@ export default class Data1Controller {
                     error: error,
                   });
                 } else {
-                  var date = new Date();
-                  var schema = {
-                    pid: posts[0] == null ? 1 : Number(posts[0].pid) + 1,
-                    respondentName: req.body.respondentName,
-                    judges: req.body.judges,
-                    decidedDate: req.body.decidedDate,
-                    importantPoints: req.body.importantPoints,
-                    importantPointsHindi: req.body.importantPointsHindi,
-                    importantPointsMarathi: req.body.importantPointsMarathi,
-                    importantPointsGujrati: req.body.importantPointsGujrati,
-                    appelentName: req.body.appelentName,
-                    headNote: req.body.headNote,
-                    headNoteHindi: req.body.headNoteHindi,
-                    headNoteGujrati: req.body.headNoteGujrati,
-                    headNoteMarathi: req.body.headNoteMarathi,
-                    result: req.body.result,
-                    type: req.body.type,
-                    resultHindi: req.body.resultHindi,
-                    resultMarathi: req.body.resultMarathi,
-                    resultGujrati: req.body.resultGujrati,
-                    links: req.body.links,
-                    caseReffered: req.body.caseReffered,
-                    actsReffered: req.body.actsReffered,
-                    fullJudgement: req.body.fullJudgement,
-                    postType: req.body.postType,
-                    dldId: req.body.postType == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
-                  };
-                  DataEntry.create(schema, (error: any, result: any) => {
+                  CountSchema.findOne({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, (error: any, count: any) => {
                     if (error) {
                       return res.send({
                         message: "Unauthorized DB error",
@@ -89,47 +62,100 @@ export default class Data1Controller {
                         error: error,
                       });
                     } else {
-                      if (req.body.postType == 0) {
-                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
-                          if (error) {
-                            return res.send({
-                              message: "Unauthorized DB error",
-                              responseCode: 700,
-                              status: 200,
-                              error: error,
-                            });
+                      var date = new Date();
+                      var schema = {
+                        pid: posts[0] == null ? 1 : Number(posts[0].pid) + 1,
+                        priority: priority[0] == null ? 1 : Number(priority[0].priority) + 1,
+                        respondentName: req.body.respondentName,
+                        judges: req.body.judges,
+                        decidedDate: req.body.decidedDate,
+                        importantPoints: req.body.importantPoints,
+                        importantPointsHindi: req.body.importantPointsHindi,
+                        importantPointsMarathi: req.body.importantPointsMarathi,
+                        importantPointsGujrati: req.body.importantPointsGujrati,
+                        appelentName: req.body.appelentName,
+                        headNote: req.body.headNote,
+                        headNoteHindi: req.body.headNoteHindi,
+                        headNoteGujrati: req.body.headNoteGujrati,
+                        headNoteMarathi: req.body.headNoteMarathi,
+                        result: req.body.result,
+                        type: req.body.type,
+                        resultHindi: req.body.resultHindi,
+                        resultMarathi: req.body.resultMarathi,
+                        resultGujrati: req.body.resultGujrati,
+                        links: req.body.links,
+                        caseReffered: req.body.caseReffered,
+                        actsReffered: req.body.actsReffered,
+                        fullJudgement: req.body.fullJudgement,
+                        postType: req.body.postType,
+                        dldId: req.body.postType == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
+                      };
+                      DataEntry.create(schema, (error: any, result: any) => {
+                        if (error) {
+                          return res.send({
+                            message: "Unauthorized DB error",
+                            responseCode: 700,
+                            status: 200,
+                            error: error,
+                          });
+                        } else {
+                          if (req.body.postType == 0) {
+                            CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCivil: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                              if (error) {
+                                return res.send({
+                                  message: "Unauthorized DB error",
+                                  responseCode: 700,
+                                  status: 200,
+                                  error: error,
+                                });
+                              } else {
+                                FirebaseNotification.sendPushNotificaitonToAllWithTopic({
+                                  data: {
+                                    type: "1",
+                                    title: String(req.body.importantPoints),
+                                    body: String(req.body.headNote)
+                                  },
+                                  notification: {
+                                    title: String(req.body.importantPoints),
+                                    body: String(req.body.headNote)
+                                  }
+                                }, {
+                                  priority: 'high',
+                                });
+                                return res.send({
+                                  message: "Data post added successfully",
+                                  responseCode: 2000,
+                                  status: 200,
+                                  result: result,
+                                });
+                              }
+                            })
                           } else {
-                            return res.send({
-                              message: "Data post added successfully",
-                              responseCode: 2000,
-                              status: 200,
-                              result: result,
-                            });
+                            CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
+                              if (error) {
+                                return res.send({
+                                  message: "Unauthorized DB error",
+                                  responseCode: 700,
+                                  status: 200,
+                                  error: error,
+                                });
+                              } else {
+                                Notification
+                                return res.send({
+                                  message: "Data post added successfully",
+                                  responseCode: 2000,
+                                  status: 200,
+                                  result: result,
+                                });
+                              }
+                            })
                           }
-                        })
-                      } else {
-                        CountSchema.findOneAndUpdate({ _id: mongoose.Types.ObjectId('5feb02231a69ef7cdad89044') }, { $inc: { totalCriminal: 1 } }, { new: true, returnOriginal: false }, (error: any, countUpdate: any) => {
-                          if (error) {
-                            return res.send({
-                              message: "Unauthorized DB error",
-                              responseCode: 700,
-                              status: 200,
-                              error: error,
-                            });
-                          } else {
-                            return res.send({
-                              message: "Data post added successfully",
-                              responseCode: 2000,
-                              status: 200,
-                              result: result,
-                            });
-                          }
-                        })
-                      }
+                        }
+                      });
                     }
-                  });
+                  })
                 }
-              })
+              }).sort({ 'priority': -1 }).limit(1);
             }
           }).sort({ 'pid': -1 }).limit(1).collation({ locale: "en_US", numericOrdering: true });
         }
@@ -369,7 +395,7 @@ export default class Data1Controller {
                       }
                     },
                     {
-                      $sort: { pid: -1 }
+                      $sort: { priority: 1 }
                     },
                     { $skip: pageSize * (pageIndex - 1) },
                     { $limit: pageSize }], function (error: any, data: any) {
@@ -445,7 +471,7 @@ export default class Data1Controller {
                       }
                     },
                     {
-                      $sort: { pid: -1 }
+                      $sort: { priority: 1 }
                     },
                     { $skip: pageSize * (pageIndex - 1) },
                     { $limit: pageSize }], function (error: any, data: any) {
