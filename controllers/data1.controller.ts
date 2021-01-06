@@ -394,9 +394,9 @@ export default class Data1Controller {
                         ]
                       }
                     },
-                    {
-                      $sort: { priority: 1 }
-                    },
+                    // {
+                    //   $sort: { priority: -1 }
+                    // },
                     { $skip: pageSize * (pageIndex - 1) },
                     { $limit: pageSize }], function (error: any, data: any) {
                       if (error) {
@@ -410,13 +410,14 @@ export default class Data1Controller {
                         return res.send({
                           message: 'All Data',
                           responseCode: 200,
+                          lenght: Buffer.from(data).length,
                           status: 200,
                           result: data
 
                         });
 
                       }
-                    }).collation({ locale: "en_US", numericOrdering: true });
+                    }).sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
                 } else {
                   DataEntry.aggregate([
                     {
@@ -470,9 +471,9 @@ export default class Data1Controller {
                         ]
                       }
                     },
-                    {
-                      $sort: { priority: 1 }
-                    },
+                    // {
+                    //   $sort: { priority: -1 }
+                    // },
                     { $skip: pageSize * (pageIndex - 1) },
                     { $limit: pageSize }], function (error: any, data: any) {
                       if (error) {
@@ -486,13 +487,13 @@ export default class Data1Controller {
                         return res.send({
                           message: 'All Data',
                           responseCode: 200,
+                          lenght: Buffer.from(data).length,
                           status: 200,
                           result: data
-
                         });
 
                       }
-                    }).collation({ locale: "en_US", numericOrdering: true });
+                    }).sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
                 }
               }
             }
@@ -1466,6 +1467,41 @@ export default class Data1Controller {
 
         }
       })
+    }
+  }
+
+  async priorityUpdate(req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", async (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          DataEntry.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.postId) }, { $set: { priority: req.body.priority } }, { new: true, returnOriginal: false }, async (error: any, result: any) => {
+            if (err) {
+              return res.send({
+                message: "unauthorized access",
+                responseCode: 700,
+                status: 200,
+                error: err,
+              });
+            } else {
+              return res.send({
+                message: "Priority Updated",
+                responseCode: 2000,
+                status: 200,
+                result: result,
+              });
+            }
+          })
+        }
+      }
+      )
     }
   }
 }
