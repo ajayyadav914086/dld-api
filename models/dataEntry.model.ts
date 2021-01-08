@@ -94,6 +94,9 @@ let DataEntrySchema = new mongoose.Schema({
     dldId: {
         type: String,
         required: true
+    },
+    priority: {
+        type: Number,
     }
 })
 

@@ -1473,7 +1473,7 @@ export default class DataController {
                                 responseCode: 700
                             })
                         } else {
-                            FirebaseNotification.sendPushNotificaitonToAll({
+                            FirebaseNotification.sendPushNotificaitonToAllWithTopic({
                                 data: {
                                     type: "1",
                                     title: 'Hurray ' + total + ' new auction added to Bauktion app',
