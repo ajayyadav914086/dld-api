@@ -1752,12 +1752,12 @@ export default class UserController {
                                         });
                                     } else {
                                         User.find({}, (error: any, totalUsers: any) => {
-                                            if (err) {
+                                            if (error) {
                                                 return res.send({
                                                     message: "db err",
                                                     responseCode: 700,
                                                     status: 200,
-                                                    error: err,
+                                                    error: error,
                                                 });
                                             } else {
                                                 var usersList = Buffer.from(totalUsers);
