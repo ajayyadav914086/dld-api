@@ -1805,7 +1805,7 @@ export default class UserController {
                                     });
                                 } else {
                                     User.find({}, (error: any, totalUsers: any) => {
-                                        if (err) {
+                                        if (error) {
                                             return res.send({
                                                 message: "db err",
                                                 responseCode: 700,
@@ -1842,7 +1842,7 @@ export default class UserController {
                                         });
                                     } else {
                                         User.find({}, (error: any, totalUsers: any) => {
-                                            if (err) {
+                                            if (error) {
                                                 return res.send({
                                                     message: "db err",
                                                     responseCode: 700,
