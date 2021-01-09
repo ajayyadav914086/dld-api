@@ -1740,8 +1740,6 @@ export default class UserController {
                                     $or: [
                                         { email: { $regex: search, $options: "$i" } },
                                         { fullName: { $regex: search, $options: "$i" } },
-                                        { agentId: { $regex: search, $options: "$i" } },
-                                        { phoneNumber: { $regex: search, $options: "$i" } },
                                     ],
                                 },
                                 function (err: any, users: any) {
@@ -1831,7 +1829,12 @@ export default class UserController {
                                 .sort({ _id: -1 });
                         } else {
                             User.find(
-                                { phoneNumber: Number(search) },
+                                {
+                                    $or: [
+                                        { agentId: Number(search) },
+                                        { phoneNumber: Number(search) },
+                                    ],
+                                },
                                 function (err: any, users: any) {
                                     if (err) {
                                         return res.send({
