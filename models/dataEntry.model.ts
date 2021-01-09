@@ -5,7 +5,7 @@ let DataEntrySchema = new mongoose.Schema({
     enabled: {
         type: Boolean,
         required: true,
-        default: true
+        default: false
     },
     pid: {
         type: String,

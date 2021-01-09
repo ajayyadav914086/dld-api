@@ -119,6 +119,10 @@ export default class DataRoute {
         app.put('/v1/priority-update',dataController1.priorityUpdate);
     }
 
+    enablePost(app: Express){
+        app.put('/v1/enable-post',dataController1.enablePost);
+    }
+
     dataRoute(app: Express) {
         this.copyData(app);
         this.getData(app);
@@ -146,5 +150,6 @@ export default class DataRoute {
         this.judgetmentInHTML(app);
         this.getFullJudgementById(app);
         this.priorityUpdate(app);
+        this.enablePost(app);
     }
 }
