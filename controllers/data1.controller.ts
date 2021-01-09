@@ -332,7 +332,6 @@ export default class Data1Controller {
                 {
                   "$facet": {
                     "totalData": [
-                      { "$match": { enabled: true } },
                       { "$sort": { pid: -1 } },
                       { "$skip": pageSize * (pageIndex - 1) },
                       { "$limit": pageSize }
