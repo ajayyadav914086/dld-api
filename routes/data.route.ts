@@ -111,9 +111,9 @@ export default class DataRoute {
         app.get('/v1/html-judgement', dataController1.getFullJudgementInHtml)
     }
 
-    getFullJudgementById(app: Express){
-        app.post('/v1/judgement-by-id',dataController1.getFullJudgementById);
-    }
+    // getFullJudgementById(app: Express){
+    //     app.post('/v1/judgement-by-id',dataController1.getFullJudgementById);
+    // }
 
     priorityUpdate(app: Express){
         app.put('/v1/priority-update',dataController1.priorityUpdate);
@@ -148,7 +148,7 @@ export default class DataRoute {
         this.translate(app);
         // this.htmlToPDF(app);
         this.judgetmentInHTML(app);
-        this.getFullJudgementById(app);
+        // this.getFullJudgementById(app);
         this.priorityUpdate(app);
         this.enablePost(app);
     }
