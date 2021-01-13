@@ -449,9 +449,9 @@ export default class Data1Controller {
                         ]
                       }
                     },
-                    // {
-                    //   $sort: { priority: -1 }
-                    // },
+                    {
+                      $sort: { priority: -1 }
+                    },
                     { $skip: pageSize * (pageIndex - 1) },
                     { $limit: pageSize }], function (error: any, data: any) {
                       if (error) {
@@ -472,7 +472,7 @@ export default class Data1Controller {
                         });
 
                       }
-                    }).sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
+                    })
                 } else {
                   DataEntry.aggregate([
                     {
@@ -526,9 +526,9 @@ export default class Data1Controller {
                         ]
                       }
                     },
-                    // {
-                    //   $sort: { priority: -1 }
-                    // },
+                    {
+                      $sort: { priority: -1 }
+                    },
                     { $skip: pageSize * (pageIndex - 1) },
                     { $limit: pageSize }], function (error: any, data: any) {
                       if (error) {
@@ -548,7 +548,8 @@ export default class Data1Controller {
                         });
 
                       }
-                    }).sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
+                    });
+                    // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
                 }
               }
             }
