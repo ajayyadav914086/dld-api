@@ -58,11 +58,22 @@ export default class UserController {
                             } else {
                                 var tempUser = user;
                                 const token = jwt.sign(tempUser.toJSON(), "your_jwt_secret");
-                                FirebaseNotification.addTokenToFirebaseData(
-                                    firebasetoken,
-                                    user._id
-                                );
-                                otpController.generateOtp(token, res);
+                                User.findOneAndUpdate({ _id: user._id }, { accessToken: token }, (error: any, update: any) => {
+                                    if (error) {
+                                        return res.send({
+                                            message: "Unauthorized DB Error",
+                                            responseCode: 700,
+                                            status: 200,
+                                            error: error,
+                                        });
+                                    } else {
+                                        FirebaseNotification.addTokenToFirebaseData(
+                                            firebasetoken,
+                                            user._id
+                                        );
+                                        otpController.generateOtp(token, res);
+                                    }
+                                });
                             }
                         });
                     } else {
@@ -197,8 +208,61 @@ export default class UserController {
                                     error: error,
                                 });
                             } else {
+                                delete result.accessToken;
+                                var token = jwt.sign(result.toJSON(), "your_jwt_secret");
+                                User.findOneAndUpdate({ _id: user._id }, { accessToken: token }, (error: any, update: any) => {
+                                    if (error) {
+                                        return res.send({
+                                            message: "Unauthorized DB Error",
+                                            responseCode: 700,
+                                            status: 200,
+                                            error: error,
+                                        });
+                                    } else {
+                                        return res.send({
+                                            message: "User Updated",
+                                            responseCode: 2000,
+                                            status: 200,
+                                            result: result,
+                                        });
+                                    }
+                                });
+
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    };
+
+    updateVerificationOfUser(req: any, res: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
+                } else {
+                    User.findOneAndUpdate(
+                        { _id: mongoose.Types.ObjectId(req.body.userId) },
+                        { $set: { isMobileVerified: req.body.isMobileVerified } },
+                        { new: true, returnOriginal: false },
+                        (error: any, result: any) => {
+                            if (error) {
                                 return res.send({
-                                    message: "User Updated",
+                                    message: "Unauthorized DB Error",
+                                    responseCode: 700,
+                                    status: 200,
+                                    error: error,
+                                });
+                            } else {
+                                return res.send({
+                                    message: "User Verification Updated",
                                     responseCode: 2000,
                                     status: 200,
                                     result: result,
@@ -209,7 +273,7 @@ export default class UserController {
                 }
             });
         }
-    };
+    }
 
     getTokenUser = function (req: any, res: any) {
         var token = req.headers.token;
@@ -234,12 +298,21 @@ export default class UserController {
                                     error: error,
                                 });
                             } else {
-                                return res.send({
-                                    message: "User Updated",
-                                    responseCode: 2000,
-                                    status: 200,
-                                    result: result,
-                                });
+                                if (token != result.accessToken) {
+                                    return res.send({
+                                        message: "User Error",
+                                        responseCode: 2000,
+                                        status: 200,
+                                        result: null,
+                                    });
+                                } else {
+                                    return res.send({
+                                        message: "User Found",
+                                        responseCode: 2000,
+                                        status: 200,
+                                        result: result,
+                                    });
+                                }
                             }
                         }
                     );
@@ -278,18 +351,32 @@ export default class UserController {
                             user[0].password,
                             (error: any, result: any) => {
                                 if (result === true) {
+                                    delete user[0].accessToken;
+                                    const date = Date.now();
+                                    user[0].timestamp = date;
                                     const token = jwt.sign(
                                         JSON.stringify(user[0]),
                                         "your_jwt_secret"
                                     );
-                                    FirebaseNotification.addTokenToFirebaseData(
-                                        firebasetoken,
-                                        user[0]._id
-                                    );
-                                    res.send({
-                                        token: token,
-                                        user: user[0],
-                                        responseCode: 2000,
+                                    User.findOneAndUpdate({ _id: user[0]._id }, { accessToken: token, timestamp: date }, { new: true, returnOriginal: false }, (error: any, update: any) => {
+                                        if (error) {
+                                            return res.send({
+                                                message: "Unauthorized DB Error",
+                                                responseCode: 700,
+                                                status: 200,
+                                                error: error,
+                                            });
+                                        } else {
+                                            FirebaseNotification.addTokenToFirebaseData(
+                                                firebasetoken,
+                                                user[0]._id
+                                            );
+                                            res.send({
+                                                token: token,
+                                                user: user[0],
+                                                responseCode: 2000,
+                                            });
+                                        }
                                     });
                                 } else {
                                     res.send({

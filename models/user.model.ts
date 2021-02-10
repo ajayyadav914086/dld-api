@@ -74,6 +74,13 @@ let UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     required: true
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now()
+  },
+  accessToken: {
+    type: String
   }
 });
 

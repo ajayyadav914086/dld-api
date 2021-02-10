@@ -222,6 +222,10 @@ export default class UserRoute {
         app.get('/v1/read-notifications', userController.readAllNotifications);
     }
 
+    updateVerificationOfUser(app: Express) {
+        app.put('/v1/update-verification', userController.updateVerificationOfUser);
+    }
+
     userRoute(app: Express) {
         this.addUser(app);
         this.getUser(app);
@@ -259,5 +263,6 @@ export default class UserRoute {
         this.referenceCommentUpdate(app);
         this.referenceStatusUpdate(app);
         this.readAllNotification(app);
+        this.updateVerificationOfUser(app);
     }
 }
