@@ -3,15 +3,11 @@ const Plan = require("../models/plan.model");
 const Payment = require("../models/payment.model");
 // const translate = require('google-translate-api');
 const Users = require('../models/user.model');
-
+var textSearch = require('mongoose-text-search');
 var pdf = require('html-pdf');
 const CountSchema = require("../models/count.model");
-import { body } from "express-validator/check";
-import { mongo } from "mongoose";
-import request = require("request");
 import FirebaseNotification from "../config/firebase.config";
-import Mail from "../config/mail.config";
-import upload, { uploadExcel } from "../config/multer.config";
+import request = require("request");
 const readXlsxFile = require("read-excel-file/node");
 var request1 = require("request-promise");
 var HTMLParser = require("node-html-parser");
@@ -378,6 +374,22 @@ export default class Data1Controller {
     const pageIndex = parseInt(req.query.pageIndex);
     var token = req.headers.token;
     var search = new RegExp(req.query.search, 'i');
+    var dateRange = {};
+    var result = {};
+    var type = {};
+    if (req.query.startDate !== '' && req.query.endDate !== '') {
+      var startDate = new Date(req.query.startDate);
+      var endDate = new Date(req.query.endDate);
+      if (startDate && endDate) {
+        dateRange = { decidedDate: { $gte: startDate, $lt: endDate } };
+      }
+    }
+    if (req.query.result !== '') {
+      result = { result: { '$regex': req.query.result, '$options': 'i' } }
+    }
+    if (req.query.type !== '') {
+      type = { type: req.query.type }
+    }
     if (token) {
       jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
         if (err) {
@@ -401,35 +413,18 @@ export default class Data1Controller {
                 if (userData?.planType == 2) {
                   DataEntry.aggregate([
                     {
-                      $match: {
-                        $and: [
-                          {
-                            enabled: true
-                          },
-                          {
-                            $or: [
-                              { respondentName: search },
-                              { appelentName: search },
-                              { judges: search },
-                              { decidedDate: search },
-                              { importantPoints: search },
-                              { importantPointsHindi: search },
-                              { importantPointsMarathi: search },
-                              { importantPointsGujrati: search },
-                              { headNote: search },
-                              { headNoteGujrati: search },
-                              { headNoteMarathi: search },
-                              { result: search },
-                              { resultHindi: search },
-                              { resultMarathi: search },
-                              { resultGujrati: search },
-                              { caseReffered: search },
-                              { actsReffered: search },
-                            ],
-                          },
-                        ]
+                      $search: {
+                        'text': {
+                          'query': req.query.search,
+                          'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati', 'caseReffered', 'actsReffered']
+                        }
                       }
                     },
+                    // {
+                    //   $match: {
+                    //     enabled: true
+                    //   }
+                    // },
                     {
                       $lookup: {
                         from: 'bookmarks',
@@ -449,9 +444,9 @@ export default class Data1Controller {
                         ]
                       }
                     },
-                    {
-                      $sort: { priority: -1 }
-                    },
+                    // {
+                    //   $sort: { priority: -1 }
+                    // },
                     { $skip: pageSize * (pageIndex - 1) },
                     { $limit: pageSize }], function (error: any, data: any) {
                       if (error) {
@@ -476,37 +471,18 @@ export default class Data1Controller {
                 } else {
                   DataEntry.aggregate([
                     {
-                      $match: {
-                        $and: [
-                          {
-                            enabled: true
-                          }, {
-                            postType: userData?.planType
-                          },
-                          {
-                            $or: [
-                              { respondentName: search },
-                              { appelentName: search },
-                              { judges: search },
-                              { decidedDate: search },
-                              { importantPoints: search },
-                              { importantPointsHindi: search },
-                              { importantPointsMarathi: search },
-                              { importantPointsGujrati: search },
-                              { headNote: search },
-                              { headNoteGujrati: search },
-                              { headNoteMarathi: search },
-                              { result: search },
-                              { resultHindi: search },
-                              { resultMarathi: search },
-                              { resultGujrati: search },
-                              { caseReffered: search },
-                              { actsReffered: search },
-                            ],
-                          },
-                        ]
+                      $search: {
+                        'text': {
+                          'query': req.query.search,
+                          'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati', 'caseReffered', 'actsReffered']
+                        }
                       }
                     },
+                    // {
+                    //   $match: {
+                    //     enabled: true,
+                    //   }
+                    // },
                     {
                       $lookup: {
                         from: 'bookmarks',
@@ -526,9 +502,9 @@ export default class Data1Controller {
                         ]
                       }
                     },
-                    {
-                      $sort: { priority: -1 }
-                    },
+                    // {
+                    //   $sort: { priority: -1 }
+                    // },
                     { $skip: pageSize * (pageIndex - 1) },
                     { $limit: pageSize }], function (error: any, data: any) {
                       if (error) {
@@ -564,6 +540,36 @@ export default class Data1Controller {
         responseCode: 600
       })
     }
+  }
+
+  async findData(req: any, res: any) {
+    await DataEntry.aggregate([
+      {
+        $search: {
+          'text': {
+            'query': req.query.search,
+            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati', 'caseReffered', 'actsReffered']
+          }
+        }
+      }
+    ], (error: any, result: any) => {
+      if (error) {
+        return res.send({
+          message: 'Unauthorized DB Error',
+          responseCode: 700,
+          status: 200,
+          error: error
+        });
+      } else {
+        return res.send({
+          message: 'All Data',
+          responseCode: 200,
+          status: 200,
+          result: result
+        });
+
+      }
+    })
   }
 
   // htmlToPDF = function (req: any, res: any) {
@@ -915,7 +921,7 @@ export default class Data1Controller {
                   var name = '';
                   var city = ''
                   // <script>setCookie("googtrans", "/en/hi"); function testLoad(){document.getElementById("test").innerHTML = document.cookie;} function setCookie(key, value, expiry){ var expires = new Date();expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));document.cookie = key + "=" + value + ";expires=" + expires.toUTCString();}function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><div id="google_translate_element"></div>'+
-                  var dldId = '<head><meta name="viewport" content="width=device-width"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>$(document).ready(function() {$("*").each(function(i, obj) {var type = $(obj).css("margin-left").slice(-2);var px = parseInt($(obj).css("margin-left"));if (px > 0){var newPX = px / 2;$(obj).css("margin-left", newPX +type);}var px = parseInt($(obj).css("margin-right"));if (px > 0) {var newPX = px / 2;$(obj).css("margin-right", newPX +type);}});}); </script><style>iframe{display:none;}p{/*margin-top:0px;margin-bottom:0px;*/overflow-y: hidden;}ol{margin:0px;padding-inline-start: 20px!important;}body{padding: 0px 8px;}table {display: block;overflow-x: auto;}</style><script>setCookie("googtrans", "/en/' + lg + '"); function testLoad(){document.getElementById("test").innerHTML = document.cookie;} function setCookie(key, value, expiry){ var expires = new Date();expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));document.cookie = key + "=" + value + ";expires=" + expires.toUTCString();}</script></head><body></body><div style="display:none" id="google_translate_element"></div><script>function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>' + '<p>DAILY LAW DIGEST POWERED BY TAXPERTS SYSTEM PVT LTD</p><p style="margin-left:-1px; margin-bottom: 10px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
+                  var dldId = '<head><meta name="viewport" content="width=device-width"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>$(document).ready(function() {$("*").each(function(i, obj) {var type = $(obj).css("margin-left").slice(-2);var px = parseInt($(obj).css("margin-left"));if (px > 0){var newPX = px / 2;$(obj).css("margin-left", newPX +type);}var px = parseInt($(obj).css("margin-right"));if (px > 0) {var newPX = px / 2;$(obj).css("margin-right", newPX +type);}});}); </script><style>iframe{display:none;}p{/*margin-top:0px;margin-bottom:0px;*/overflow-y: hidden;}ol{margin:0px;padding-inline-start: 20px!important;}body{padding: 0px 8px;}table {display: block;overflow-x: auto;}</style><script>setCookie("googtrans", "/en/' + lg + '"); function testLoad(){document.getElementById("test").innerHTML = document.cookie;} function setCookie(key, value, expiry){ var expires = new Date();expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));document.cookie = key + "=" + value + ";expires=" + expires.toUTCString();}</script></head><body></body><div style="display:none" id="google_translate_element"></div><script>function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>' + '<p style="margin-left:-1px; margin-bottom: 10px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
                   if (withName == 'true') {
                     name = user.fullName;
                     city = user.city;

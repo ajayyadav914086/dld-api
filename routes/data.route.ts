@@ -39,6 +39,10 @@ export default class DataRoute {
         app.get('/v1/search', dataController1.searchData);
     }
 
+    findData(app: Express) {
+        app.get('/v1/find-data', dataController1.findData);
+    }
+
     statatics(app: Express) {
         app.get('/v1/statatics', dataController1.statatics);
     }
@@ -151,5 +155,6 @@ export default class DataRoute {
         // this.getFullJudgementById(app);
         this.priorityUpdate(app);
         this.enablePost(app);
+        this.findData(app);
     }
 }
