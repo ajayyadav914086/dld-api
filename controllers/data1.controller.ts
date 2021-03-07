@@ -522,7 +522,9 @@ export default class Data1Controller {
                           });
 
                         }
-                      })
+                      }).sort({
+                        score: { $meta: 'textScore' }
+                      });
                   }
                 } else {
                   if (String(req.query.search).trim() == '') {
@@ -636,6 +638,8 @@ export default class Data1Controller {
                           });
 
                         }
+                      }).sort({
+                        score: { $meta: 'textScore' }
                       });
                   }
                   // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
