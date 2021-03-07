@@ -411,120 +411,233 @@ export default class Data1Controller {
             } else {
               if (pageIndex > 0) {
                 if (userData?.planType == 2) {
-                  DataEntry.aggregate([
-                    {
-                      $search: {
-                        'text': {
-                          'query': req.query.search,
-                          'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                  if (String(req.query.search).trim() == '') {
+                    DataEntry.aggregate([
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                          ]
                         }
-                      }
-                    },
-                    // {
-                    //   $match: {
-                    //     enabled: true
-                    //   }
-                    // },
-                    {
-                      $lookup: {
-                        from: 'bookmarks',
-                        as: 'bookmark',
-                        let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
-                        pipeline: [
-                          {
-                            $match: {
-                              $expr: {
-                                $and: [
-                                  { $eq: ["$pid", "$$userObjId"] },
-                                  { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
-                                ]
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
                               }
                             }
+                          ]
+                        }
+                      },
+                      {
+                        $sort: { priority: -1 }
+                      },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+
+                          });
+
+                        }
+                      })
+                  } else {
+                    DataEntry.aggregate([
+                      {
+                        $search: {
+                          'text': {
+                            'query': req.query.search,
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
                           }
-                        ]
-                      }
-                    },
-                    // {
-                    //   $sort: { priority: -1 }
-                    // },
-                    { $skip: pageSize * (pageIndex - 1) },
-                    { $limit: pageSize }], function (error: any, data: any) {
-                      if (error) {
-                        return res.send({
-                          message: 'Unauthorized DB Error',
-                          responseCode: 700,
-                          status: 200,
-                          error: error
-                        });
-                      } else {
-                        return res.send({
-                          message: 'All Data',
-                          responseCode: 200,
-                          lenght: Buffer.from(data).length,
-                          status: 200,
-                          result: data
+                        }
+                      },
+                      {
+                        $match: {
+                          enabled: true
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      // {
+                      //   $sort: { priority: -1 }
+                      // },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
 
-                        });
+                          });
 
-                      }
-                    })
+                        }
+                      })
+                  }
                 } else {
-                  DataEntry.aggregate([
-                    {
-                      $search: {
-                        'text': {
-                          'query': req.query.search,
-                          'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                  if (String(req.query.search).trim() == '') {
+                    DataEntry.aggregate([
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            }, {
+                              postType: userData?.planType
+                            }
+                          ]
                         }
-                      }
-                    },
-                    // {
-                    //   $match: {
-                    //     enabled: true,
-                    //   }
-                    // },
-                    {
-                      $lookup: {
-                        from: 'bookmarks',
-                        as: 'bookmark',
-                        let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
-                        pipeline: [
-                          {
-                            $match: {
-                              $expr: {
-                                $and: [
-                                  { $eq: ["$pid", "$$userObjId"] },
-                                  { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
-                                ]
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
                               }
                             }
-                          }
-                        ]
-                      }
-                    },
-                    // {
-                    //   $sort: { priority: -1 }
-                    // },
-                    { $skip: pageSize * (pageIndex - 1) },
-                    { $limit: pageSize }], function (error: any, data: any) {
-                      if (error) {
-                        return res.send({
-                          message: 'Unauthorized DB Error',
-                          responseCode: 700,
-                          status: 200,
-                          error: error
-                        });
-                      } else {
-                        return res.send({
-                          message: 'All Data',
-                          responseCode: 200,
-                          lenght: Buffer.from(data).length,
-                          status: 200,
-                          result: data
-                        });
+                          ]
+                        }
+                      },
+                      {
+                        $sort: { priority: -1 }
+                      },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
 
-                      }
-                    });
+                        }
+                      });
+                  } else {
+                    DataEntry.aggregate([
+                      {
+                        $search: {
+                          'text': {
+                            'query': req.query.search,
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          }
+                        }
+                      },
+                      {
+                        $match: {
+                          enabled: true,
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      // {
+                      //   $sort: { priority: -1 }
+                      // },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
+
+                        }
+                      });
+                  }
                   // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
                 }
               }
