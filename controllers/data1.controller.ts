@@ -85,6 +85,8 @@ export default class Data1Controller {
                         actsReffered: req.body.actsReffered,
                         fullJudgement: req.body.fullJudgement,
                         postType: req.body.postType,
+                        courtType: req.body.courtType,
+                        courtSubType: req.body.courtSubType,
                         dldId: req.body.postType == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
                       };
                       DataEntry.create(schema, (error: any, result: any) => {
