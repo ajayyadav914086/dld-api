@@ -996,6 +996,7 @@ export default class UserController {
                                                     isPlanActivied: true,
                                                     planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(3, "days"),
+                                                    courtType: plan.courtType,
                                                 },
                                                 function (error: any, updatedUser: any) {
                                                     if (error) {
@@ -1048,6 +1049,7 @@ export default class UserController {
                                                     isPlanActivied: true,
                                                     planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(3, "days"),
+                                                    courtType: plan.courtType,
                                                 },
                                                 function (error: any, updatedUser: any) {
                                                     if (error) {
@@ -1100,6 +1102,7 @@ export default class UserController {
                                                     isPlanActivied: true,
                                                     planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(3, "days"),
+                                                    courtType: plan.courtType,
                                                 },
                                                 function (error: any, updatedUser: any) {
                                                     if (error) {
@@ -1152,6 +1155,7 @@ export default class UserController {
                                                     isPlanActivied: true,
                                                     planStartDate: Date.now(),
                                                     planExpiryDate: moment(Date.now()).add(3, "days"),
+                                                    courtType: plan.courtType,
                                                 },
                                                 function (error: any, updatedUser: any) {
                                                     if (error) {
@@ -1225,6 +1229,7 @@ export default class UserController {
                                                         months,
                                                         "months"
                                                     ),
+                                                    courtType: plan.courtType,
                                                 },
                                                 function (error: any, updatedUser: any) {
                                                     if (error) {
@@ -1281,6 +1286,7 @@ export default class UserController {
                                                         months,
                                                         "months"
                                                     ),
+                                                    courtType: plan.courtType,
                                                 },
                                                 function (error: any, updatedUser: any) {
                                                     if (error) {
@@ -1337,6 +1343,7 @@ export default class UserController {
                                                         months,
                                                         "months"
                                                     ),
+                                                    courtType: plan.courtType,
                                                 },
                                                 function (error: any, updatedUser: any) {
                                                     if (error) {
@@ -1393,6 +1400,7 @@ export default class UserController {
                                                         months,
                                                         "months"
                                                     ),
+                                                    courtType: plan.courtType,
                                                 },
                                                 function (error: any, updatedUser: any) {
                                                     if (error) {
@@ -1473,6 +1481,7 @@ export default class UserController {
                                                                             months,
                                                                             "months"
                                                                         ),
+                                                                        courtType: plan.courtType,
                                                                     },
                                                                     function (error: any, updatedUser: any) {
                                                                         if (error) {
@@ -1532,6 +1541,7 @@ export default class UserController {
                                                                             months,
                                                                             "months"
                                                                         ),
+                                                                        courtType: plan.courtType,
                                                                     },
                                                                     function (error: any, updatedUser: any) {
                                                                         if (error) {
@@ -1591,6 +1601,7 @@ export default class UserController {
                                                                             months,
                                                                             "months"
                                                                         ),
+                                                                        courtType: plan.courtType,
                                                                     },
                                                                     function (error: any, updatedUser: any) {
                                                                         if (error) {
@@ -1650,6 +1661,7 @@ export default class UserController {
                                                                             months,
                                                                             "months"
                                                                         ),
+                                                                        courtType: plan.courtType,
                                                                     },
                                                                     function (error: any, updatedUser: any) {
                                                                         if (error) {

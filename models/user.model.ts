@@ -81,6 +81,9 @@ let UserSchema = new mongoose.Schema({
   },
   accessToken: {
     type: String
+  },
+  courtType: {
+    type: Number
   }
 });
 

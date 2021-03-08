@@ -412,7 +412,7 @@ export default class Data1Controller {
               });
             } else {
               if (pageIndex > 0) {
-                if (userData?.planType == 2) {
+                if (userData?.planType == 2 && userData.courtType == 2) {
                   if (String(req.query.search).trim() == '') {
                     DataEntry.aggregate([
                       {
@@ -536,8 +536,12 @@ export default class Data1Controller {
                           $and: [
                             {
                               enabled: true
-                            }, {
-                              postType: userData?.planType
+                            },
+                            {
+                              postType: userData?.planType,
+                            },
+                            {
+                              courtType: userData?.courtType,
                             }
                           ]
                         }
@@ -596,7 +600,17 @@ export default class Data1Controller {
                       },
                       {
                         $match: {
-                          enabled: true,
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            {
+                              postType: userData?.planType,
+                            },
+                            {
+                              courtType: userData?.courtType,
+                            }
+                          ]
                         }
                       },
                       {
