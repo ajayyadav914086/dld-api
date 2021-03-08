@@ -32,6 +32,9 @@ let PlanSchema = new mongoose.Schema({
     enabled: {
         type: Boolean,
         default: true,
+    },
+    courtType: {
+        type: Number
     }
 });
 

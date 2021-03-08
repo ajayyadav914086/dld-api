@@ -122,6 +122,12 @@ let DataEntrySchema = new mongoose.Schema({
     },
     priority: {
         type: Number,
+    },
+    courtType: {
+        type: Number,
+    },
+    courtSubType: {
+        type: Number,
     }
 })
 
