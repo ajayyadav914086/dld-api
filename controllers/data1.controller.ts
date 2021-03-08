@@ -412,7 +412,7 @@ export default class Data1Controller {
               });
             } else {
               if (pageIndex > 0) {
-                if (userData?.planType == 2 && userData.courtType == 2) {
+                if (userData?.planType == 2 && userData.courtType == 0) { //change
                   if (String(req.query.search).trim() == '') {
                     DataEntry.aggregate([
                       {
