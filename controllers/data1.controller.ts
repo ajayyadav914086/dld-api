@@ -412,7 +412,7 @@ export default class Data1Controller {
               });
             } else {
               if (pageIndex > 0) {
-                if (userData?.planType == 2 && userData.courtType == 0) { //change
+                if (userData?.planType == 2 && userData.courtType == 2) { //change to 2
                   if (String(req.query.search).trim() == '') {
                     DataEntry.aggregate([
                       {
@@ -528,6 +528,132 @@ export default class Data1Controller {
                         score: { $meta: 'textScore' }
                       });
                   }
+                } else if (userData?.planType == 2) {
+                  if (String(req.query.search).trim() == '') {
+                    DataEntry.aggregate([
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            {
+                              courtType: userData?.courtType,
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        $sort: { priority: -1 }
+                      },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
+
+                        }
+                      });
+                  } else {
+                    DataEntry.aggregate([
+                      {
+                        $search: {
+                          'text': {
+                            'query': req.query.search,
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          }
+                        }
+                      },
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            {
+                              courtType: userData?.courtType,
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      // {
+                      //   $sort: { priority: -1 }
+                      // },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
+
+                        }
+                      }).sort({
+                        score: { $meta: 'textScore' }
+                      });
+                  }
+                  // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
+
                 } else {
                   if (String(req.query.search).trim() == '') {
                     DataEntry.aggregate([
