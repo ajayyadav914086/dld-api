@@ -226,6 +226,10 @@ export default class UserRoute {
         app.put('/v1/update-verification', userController.updateVerificationOfUser);
     }
 
+    updateCourtType(app: Express) {
+        app.put('/v1/update-court', userController.updateCourtType);
+    }
+
     userRoute(app: Express) {
         this.addUser(app);
         this.getUser(app);
@@ -264,5 +268,6 @@ export default class UserRoute {
         this.referenceStatusUpdate(app);
         this.readAllNotification(app);
         this.updateVerificationOfUser(app);
+        this.updateCourtType(app);
     }
 }
