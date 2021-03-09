@@ -877,7 +877,7 @@ export default class Data1Controller {
             } else {
               if (pageIndex > 0) {
                 if (userData?.planType == 2 && userData.courtType == 2) { //change to 2
-                  if (String(req.query.search).trim() == '') {
+                  if (String(req.query.search).trim() == '' || req.query.search == 'null') {
                     DataEntry.aggregate([
                       {
                         $match: {
@@ -1003,7 +1003,7 @@ export default class Data1Controller {
                       });
                   }
                 } else if (userData?.planType == 2) {
-                  if (String(req.query.search).trim() == '') {
+                  if (String(req.query.search).trim() == '' || req.query.search == 'null') {
                     DataEntry.aggregate([
                       {
                         $match: {
@@ -1137,7 +1137,7 @@ export default class Data1Controller {
                   // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
 
                 } else {
-                  if (String(req.query.search).trim() == '') {
+                  if (String(req.query.search).trim() == '' || req.query.search == 'null') {
                     DataEntry.aggregate([
                       {
                         $match: {
