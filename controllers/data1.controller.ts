@@ -1686,13 +1686,13 @@ export default class Data1Controller {
                     soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>SUPREME COURT OF INDIA</strong></span></p>';
                   } else if (data.courtType == 1) {
                     if (data.courtSubType == 0) {
-                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT/strong></span></p>';
+                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT</strong></span></p>';
                     } else if (data.courtSubType == 1) {
-                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT (Nagpur Bench)/strong></span></p>';
+                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT (Nagpur Bench)</strong></span></p>';
                     } else if (data.courtSubType == 2) {
-                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT (Aurangabad Bench)/strong></span></p>';
+                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT (Aurangabad Bench)</strong></span></p>';
                     } else if (data.courtSubType == 3) {
-                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT (Goa Bench)/strong></span></p>';
+                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT (Goa Bench)</strong></span></p>';
                     }
                   }
                   var vs = '<p style="margin-left:-1px; margin-bottom: 10px; margin-top: 10px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p>';
