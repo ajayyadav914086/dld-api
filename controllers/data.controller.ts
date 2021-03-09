@@ -1338,6 +1338,40 @@ export default class DataController {
         }
     }
 
+    getAllPlansv2 = function (req: any, res: any, next: any) {
+        var token = req.headers.token;
+        if (token) {
+            jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+                if (err) {
+                    return res.send({
+                        message: "unauthorized access",
+                        responseCode: 700,
+                        status: 200,
+                        error: err,
+                    });
+                } else {
+                    Plan.find().exec(function (err: any, plans: any) {
+                        if (err) {
+                            return res.send({
+                                message: 'unauthorized db error',
+                                responseCode: 800,
+                                status: 200,
+                                error: err
+                            });
+                        } else {
+                            return res.send({
+                                message: 'plans',
+                                responseCode: 300,
+                                status: 200,
+                                result: plans
+                            });
+                        }
+                    })
+                }
+            })
+        }
+    }
+
     addPost = function (req: any, res: any, next: any) {
         if (req.body.username == 'bauktion' && req.body.password == "bauktion@2019") {
             var data = req.body.data;
