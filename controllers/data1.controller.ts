@@ -840,20 +840,20 @@ export default class Data1Controller {
     var result = {};
     var type = {};
     var postType = {};
-    if (req.query.startDate !== '' && req.query.endDate !== '') {
+    if (req.query.startDate !== 'null' && req.query.endDate !== 'null') {
       var startDate = new Date(req.query.startDate);
       var endDate = new Date(req.query.endDate);
       if (startDate && endDate) {
         dateRange = { decidedDate: { $gte: startDate, $lt: endDate } };
       }
     }
-    if (req.query.result !== '') {
+    if (req.query.result !== 'null') {
       result = { result: { '$regex': req.query.result, '$options': 'i' } }
     }
-    if (req.query.postType !== '') {
+    if (req.query.postType !== 'null') {
       postType = { postType: req.query.postType }
     }
-    if (req.query.type !== '') {
+    if (req.query.type !== 'null') {
       type = { type: { '$regex': req.query.type, '$options': 'i' } }
     }
     if (token) {
