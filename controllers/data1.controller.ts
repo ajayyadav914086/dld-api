@@ -379,6 +379,7 @@ export default class Data1Controller {
     var dateRange = {};
     var result = {};
     var type = {};
+    var postType = {};
     if (req.query.startDate !== '' && req.query.endDate !== '') {
       var startDate = new Date(req.query.startDate);
       var endDate = new Date(req.query.endDate);
@@ -388,6 +389,9 @@ export default class Data1Controller {
     }
     if (req.query.result !== '') {
       result = { result: { '$regex': req.query.result, '$options': 'i' } }
+    }
+    if (req.query.postType !== '') {
+      postType = { postType: req.query.postType }
     }
     if (req.query.type !== '') {
       type = { type: req.query.type }
@@ -424,6 +428,7 @@ export default class Data1Controller {
                             // dateRange,
                             // result,
                             // type,
+                            // postType,
                           ]
                         }
                       },
@@ -487,6 +492,7 @@ export default class Data1Controller {
                             // dateRange,
                             // result,
                             // type,
+                            // postType,
                           ]
                         }
                       },
@@ -551,6 +557,7 @@ export default class Data1Controller {
                             // dateRange,
                             // result,
                             // type,
+                            // postType,
                           ]
                         }
                       },
@@ -618,6 +625,7 @@ export default class Data1Controller {
                             // dateRange,
                             // result,
                             // type,
+                            // postType,
                           ]
                         }
                       },
@@ -686,6 +694,7 @@ export default class Data1Controller {
                             // dateRange,
                             // result,
                             // type,
+                            // postType,
                           ]
                         }
                       },
@@ -756,6 +765,467 @@ export default class Data1Controller {
                             // dateRange,
                             // result,
                             // type,
+                            // postType,
+                          ]
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      // {
+                      //   $sort: { priority: -1 }
+                      // },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
+
+                        }
+                      }).sort({
+                        score: { $meta: 'textScore' }
+                      });
+                  }
+                  // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
+                }
+              }
+            }
+          });
+        }
+      });
+    }
+    else {
+      return res.send({
+        message: "Page Index should pe greater the 0",
+        status: 200,
+        responseCode: 600
+      })
+    }
+  }
+
+  searchDatav2 = function (req: any, res: any, next: any) {
+    const pageSize = parseInt(req.query.pageSize);
+    const pageIndex = parseInt(req.query.pageIndex);
+    var token = req.headers.token;
+    var search = new RegExp(req.query.search, 'i');
+    var dateRange = {};
+    var result = {};
+    var type = {};
+    var postType = {};
+    if (req.query.startDate !== '' && req.query.endDate !== '') {
+      var startDate = new Date(req.query.startDate);
+      var endDate = new Date(req.query.endDate);
+      if (startDate && endDate) {
+        dateRange = { decidedDate: { $gte: startDate, $lt: endDate } };
+      }
+    }
+    if (req.query.result !== '') {
+      result = { result: { '$regex': req.query.result, '$options': 'i' } }
+    }
+    if (req.query.postType !== '') {
+      postType = { postType: req.query.postType }
+    }
+    if (req.query.type !== '') {
+      type = { type: req.query.type }
+    }
+    if (token) {
+      jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: 'unauthorized access',
+            responseCode: 700,
+            status: 200,
+            error: err
+          });
+        } else {
+          Users.findOne({ _id: mongoose.Types.ObjectId(user._id) }, (error: any, userData?: any) => {
+            if (error) {
+              return res.send({
+                message: "unauthorized access",
+                responseCode: 700,
+                status: 200,
+                error: err,
+              });
+            } else {
+              if (pageIndex > 0) {
+                if (userData?.planType == 2 && userData.courtType == 2) { //change to 2
+                  if (String(req.query.search).trim() == '') {
+                    DataEntry.aggregate([
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            dateRange,
+                            result,
+                            type,
+                            postType,
+                          ]
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        $sort: { priority: -1 }
+                      },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
+                        }
+                      })
+                  } else {
+                    DataEntry.aggregate([
+                      {
+                        $search: {
+                          'text': {
+                            'query': req.query.search,
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          }
+                        }
+                      },
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            dateRange,
+                            result,
+                            type,
+                            postType,
+                          ]
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      // {
+                      //   $sort: { priority: -1 }
+                      // },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+
+                          });
+
+                        }
+                      }).sort({
+                        score: { $meta: 'textScore' }
+                      });
+                  }
+                } else if (userData?.planType == 2) {
+                  if (String(req.query.search).trim() == '') {
+                    DataEntry.aggregate([
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            {
+                              courtType: userData?.courtType,
+                            },
+                            dateRange,
+                            result,
+                            type,
+                            postType,
+                          ]
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        $sort: { priority: -1 }
+                      },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
+
+                        }
+                      });
+                  } else {
+                    DataEntry.aggregate([
+                      {
+                        $search: {
+                          'text': {
+                            'query': req.query.search,
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          }
+                        }
+                      },
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            {
+                              courtType: userData?.courtType,
+                            },
+                            dateRange,
+                            result,
+                            type,
+                            postType,
+                          ]
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      // {
+                      //   $sort: { priority: -1 }
+                      // },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
+
+                        }
+                      }).sort({
+                        score: { $meta: 'textScore' }
+                      });
+                  }
+                  // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
+
+                } else {
+                  if (String(req.query.search).trim() == '') {
+                    DataEntry.aggregate([
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            {
+                              postType: userData?.planType,
+                            },
+                            {
+                              courtType: userData?.courtType,
+                            },
+                            dateRange,
+                            result,
+                            type,
+                            postType,
+                          ]
+                        }
+                      },
+                      {
+                        $lookup: {
+                          from: 'bookmarks',
+                          as: 'bookmark',
+                          let: { "userObjId": { "$toObjectId": "$_id" }, pid: '$pid', uid: '$uid' },
+                          pipeline: [
+                            {
+                              $match: {
+                                $expr: {
+                                  $and: [
+                                    { $eq: ["$pid", "$$userObjId"] },
+                                    { $eq: [mongoose.Types.ObjectId(user._id), '$uid'] },
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        $sort: { priority: -1 }
+                      },
+                      { $skip: pageSize * (pageIndex - 1) },
+                      { $limit: pageSize }], function (error: any, data: any) {
+                        if (error) {
+                          return res.send({
+                            message: 'Unauthorized DB Error',
+                            responseCode: 700,
+                            status: 200,
+                            error: error
+                          });
+                        } else {
+                          return res.send({
+                            message: 'All Data',
+                            responseCode: 200,
+                            lenght: Buffer.from(data).length,
+                            status: 200,
+                            result: data
+                          });
+
+                        }
+                      });
+                  } else {
+                    DataEntry.aggregate([
+                      {
+                        $search: {
+                          'text': {
+                            'query': req.query.search,
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          }
+                        }
+                      },
+                      {
+                        $match: {
+                          $and: [
+                            {
+                              enabled: true
+                            },
+                            {
+                              postType: userData?.planType,
+                            },
+                            {
+                              courtType: userData?.courtType,
+                            },
+                            dateRange,
+                            result,
+                            type,
+                            postType,
                           ]
                         }
                       },

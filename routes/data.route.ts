@@ -38,6 +38,9 @@ export default class DataRoute {
     searchData(app: Express) {
         app.get('/v1/search', dataController1.searchData);
     }
+    searchDatav2(app: Express) {
+        app.get('/v2/search', dataController1.searchDatav2);
+    }
 
     findData(app: Express) {
         app.get('/v1/find-data', dataController1.findData);
@@ -156,5 +159,6 @@ export default class DataRoute {
         this.priorityUpdate(app);
         this.enablePost(app);
         this.findData(app);
+        this.searchDatav2(app);
     }
 }
