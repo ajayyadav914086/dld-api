@@ -87,10 +87,6 @@ export default class DataRoute {
         app.post('/v1/getallplans', dataController.getAllPlans);
     }
 
-    getAllPlansv2(app: Express) {
-        app.post('/v2/getallplans', dataController.getAllPlansv2);
-    }
-
     getAllpayments(app: Express) {
         app.post('/v1/allpayments', dataController.getAllpayments);
     }
@@ -164,6 +160,5 @@ export default class DataRoute {
         this.enablePost(app);
         this.findData(app);
         this.searchDatav2(app);
-        this.getAllPlansv2(app);
     }
 }
