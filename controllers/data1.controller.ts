@@ -1683,7 +1683,7 @@ export default class Data1Controller {
                   var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>Decided on: ' + dateformat(new Date(data.decidedDate), "dd-mm-yyyy") + '</strong></span></p>';
                   var soi;
                   if (data.courtType == 0) {
-                    soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>SUPREME COURT OF INDIA/strong></span></p>';
+                    soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>SUPREME COURT OF INDIA</strong></span></p>';
                   } else if (data.courtType == 1) {
                     if (data.courtSubType == 0) {
                       soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT/strong></span></p>';
