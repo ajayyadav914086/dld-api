@@ -197,7 +197,7 @@ export default class UserController {
                 } else {
                     User.findOneAndUpdate(
                         { _id: mongoose.Types.ObjectId(user._id) },
-                        { $set: { fullName: req.body.fullName } },
+                        { $set: { fullName: req.body.fullName, city: req.body.city } },
                         { new: true, returnOriginal: false },
                         (error: any, result: any) => {
                             if (error) {
