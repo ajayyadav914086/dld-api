@@ -421,9 +421,9 @@ export default class Data1Controller {
                             {
                               enabled: true
                             },
-                            dateRange,
-                            result,
-                            type,
+                            // dateRange,
+                            // result,
+                            // type,
                           ]
                         }
                       },
@@ -484,9 +484,9 @@ export default class Data1Controller {
                             {
                               enabled: true
                             },
-                            dateRange,
-                            result,
-                            type,
+                            // dateRange,
+                            // result,
+                            // type,
                           ]
                         }
                       },
@@ -548,9 +548,9 @@ export default class Data1Controller {
                             {
                               courtType: userData?.courtType,
                             },
-                            dateRange,
-                            result,
-                            type,
+                            // dateRange,
+                            // result,
+                            // type,
                           ]
                         }
                       },
@@ -615,9 +615,9 @@ export default class Data1Controller {
                             {
                               courtType: userData?.courtType,
                             },
-                            dateRange,
-                            result,
-                            type,
+                            // dateRange,
+                            // result,
+                            // type,
                           ]
                         }
                       },
@@ -683,9 +683,9 @@ export default class Data1Controller {
                             {
                               courtType: userData?.courtType,
                             },
-                            dateRange,
-                            result,
-                            type,
+                            // dateRange,
+                            // result,
+                            // type,
                           ]
                         }
                       },
@@ -753,9 +753,9 @@ export default class Data1Controller {
                             {
                               courtType: userData?.courtType,
                             },
-                            dateRange,
-                            result,
-                            type,
+                            // dateRange,
+                            // result,
+                            // type,
                           ]
                         }
                       },
