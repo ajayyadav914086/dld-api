@@ -134,6 +134,10 @@ export default class DataRoute {
         app.put('/v1/enable-post',dataController1.enablePost);
     }
 
+    enablePostv2(app: Express){
+        app.put('/v2/enable-post',dataController1.enablePostv2);
+    }
+
     dataRoute(app: Express) {
         this.copyData(app);
         this.getData(app);
@@ -165,5 +169,6 @@ export default class DataRoute {
         this.findData(app);
         this.searchDatav2(app);
         this.getAllPlansv2(app);
+        this.enablePostv2(app);
     }
 }

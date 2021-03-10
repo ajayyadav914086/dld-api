@@ -113,6 +113,24 @@ export default class FirebaseNotification {
             
     }
 
+    static sendPushNotificaitonToTopic(payload: any, options: any,topic:any) {
+        User.updateMany({}
+            , { $inc: { notificationCount: 1 } }, { new: true }, (err: any, user: any) => {
+                if (err) {
+                    console.log(err);
+                } else {
+        admin.messaging().sendToTopic(topic,payload)
+            .then((response: any) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+            })
+            .catch((error: any) => {
+                console.log('Error sending message:', error);
+            });
+            }});
+            
+    }
+
     static sendPushNotificaitonToAllUsingTopic(payload: any, options: any) {
         var userId = '';
         User.find(function (error: any, result: any) {

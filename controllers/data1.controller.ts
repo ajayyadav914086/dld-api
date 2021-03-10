@@ -217,6 +217,75 @@ export default class Data1Controller {
     }
   }
 
+  enablePostv2(req: any, res: any) {
+    var token = req.headers.token;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          if (req.body.enabled == true) {
+            DataEntry.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.postId) }, { $set: { enabled: req.body.enabled } }, { new: true, returnOriginal: false }, (error: any, post: any) => {
+              if (error) {
+                return res.send({
+                  message: "Unauthorized DB error",
+                  responseCode: 700,
+                  status: 200,
+                  error: error,
+                });
+              } else {
+                FirebaseNotification.sendPushNotificaitonToTopic({
+                  data: {
+                    type: "1",
+                    title: String(post.importantPoints),
+                    body: String(post.headNote)
+                  },
+                  notification: {
+                    title: String(post.importantPoints),
+                    body: String(post.headNote)
+                  }
+                }, {
+                  priority: 'high',
+                },
+                  post.courtType + '_' + post.type
+                );
+                return res.send({
+                  message: "Post Enabled",
+                  responseCode: 2000,
+                  status: 200,
+                  post: post
+                })
+              }
+            })
+          } else {
+            DataEntry.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.body.postId) }, { $set: { enabled: req.body.enabled } }, { new: true, returnOriginal: false }, (error: any, post: any) => {
+              if (error) {
+                return res.send({
+                  message: "Unauthorized DB error",
+                  responseCode: 700,
+                  status: 200,
+                  error: error,
+                });
+              } else {
+                return res.send({
+                  message: "Post disabled",
+                  responseCode: 2000,
+                  status: 200,
+                  post: post
+                })
+              }
+            })
+          }
+        }
+      })
+    }
+  }
+
   getAllPost = function (req: any, res: any) {
     var token = req.headers.token;
     if (token) {
