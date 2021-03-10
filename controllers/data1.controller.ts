@@ -915,7 +915,7 @@ export default class Data1Controller {
       var startDate = new Date(req.query.startDate);
       var endDate = new Date(req.query.endDate);
       if (startDate && endDate) {
-        dateRange = { decidedDate: { $gte: startDate, $lt: endDate } };
+        dateRange = { decidedDate: { $gte: startDate, $lte: endDate } };
       }
     }
     if (req.query.result !== 'null') {
@@ -956,6 +956,14 @@ export default class Data1Controller {
                 if (userData?.planType == 2 && userData.courtType == 2) { //change to 2
                   if (String(req.query.search).trim() == '' || req.query.search == 'null') {
                     DataEntry.aggregate([
+                      { "$addFields": {
+                        "decidedDate": { 
+                            "$convert": { 
+                                "input": "$decidedDate", 
+                                "to": "date" 
+                            } 
+                        }
+                    } },
                       {
                         $match: {
                           $and: [
@@ -971,6 +979,7 @@ export default class Data1Controller {
                           ]
                         }
                       },
+                      
                       {
                         $lookup: {
                           from: 'bookmarks',
