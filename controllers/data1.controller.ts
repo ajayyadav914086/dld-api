@@ -840,6 +840,8 @@ export default class Data1Controller {
     var result = {};
     var type = {};
     var postType = {};
+    var courtType = {};
+    var courtSubType = {};
     if (req.query.startDate !== 'null' && req.query.endDate !== 'null') {
       var startDate = new Date(req.query.startDate);
       var endDate = new Date(req.query.endDate);
@@ -852,6 +854,12 @@ export default class Data1Controller {
     }
     if (req.query.postType !== 'null') {
       postType = { postType: Number(req.query.postType) }
+    }
+    if (req.query.courtType !== 'null') {
+      courtType = { courtType: Number(req.query.courtType) }
+    }
+    if (req.query.courtSubType !== 'null') {
+      courtSubType = { courtSubType: Number(req.query.courtSubType) }
     }
     if (req.query.type !== 'null') {
       type = { type: { '$regex': req.query.type, '$options': 'i' } }
@@ -889,6 +897,8 @@ export default class Data1Controller {
                             result,
                             type,
                             postType,
+                            courtType,
+                            courtSubType
                           ]
                         }
                       },
@@ -953,6 +963,8 @@ export default class Data1Controller {
                             result,
                             type,
                             postType,
+                            courtType,
+                            courtSubType
                           ]
                         }
                       },
@@ -1018,6 +1030,8 @@ export default class Data1Controller {
                             result,
                             type,
                             postType,
+                            courtType,
+                            courtSubType
                           ]
                         }
                       },
@@ -1086,6 +1100,8 @@ export default class Data1Controller {
                             result,
                             type,
                             postType,
+                            courtType,
+                            courtSubType
                           ]
                         }
                       },
@@ -1155,6 +1171,8 @@ export default class Data1Controller {
                             result,
                             type,
                             postType,
+                            courtType,
+                            courtSubType
                           ]
                         }
                       },
@@ -1226,6 +1244,8 @@ export default class Data1Controller {
                             result,
                             type,
                             postType,
+                            courtType,
+                            courtSubType
                           ]
                         }
                       },
