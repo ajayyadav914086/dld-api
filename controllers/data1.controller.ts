@@ -851,7 +851,7 @@ export default class Data1Controller {
       result = { result: { '$regex': req.query.result, '$options': 'i' } }
     }
     if (req.query.postType !== 'null') {
-      postType = { postType: req.query.postType }
+      postType = { postType: Number(req.query.postType) }
     }
     if (req.query.type !== 'null') {
       type = { type: { '$regex': req.query.type, '$options': 'i' } }
