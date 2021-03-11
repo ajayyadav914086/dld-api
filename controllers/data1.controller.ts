@@ -1026,20 +1026,20 @@ export default class Data1Controller {
                   } else {
                     DataEntry.aggregate([
                       {
+                        $search: {
+                          'text': {
+                            'query': req.query.search,
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          }
+                        }
+                      },
+                      {
                         "$addFields": {
                           "decidedDate": {
                             "$convert": {
                               "input": "$decidedDate",
                               "to": "date"
                             }
-                          }
-                        }
-                      },
-                      {
-                        $search: {
-                          'text': {
-                            'query': req.query.search,
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
                           }
                         }
                       },
