@@ -1789,6 +1789,7 @@ export default class Data1Controller {
     var token = req.headers.token;
     var lg = req.query.lg;
     var withName = req.query.withName;
+    var onlyEnglish = req.query.onlyEnglish;
     if (token) {
       jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
         if (err) {
@@ -1873,19 +1874,19 @@ export default class Data1Controller {
                   var type = '<p style="text-align:center"><span style="font-size:16px"><strong>' + data.type + '</strong></span></p>';
                   var fullJudgement = data.fullJudgement;
                   var html;
-                  if (userData?.isHindi == true && userData?.isMarathi == true && userData?.isGujarati == true) {
+                  if (userData?.isHindi == true && userData?.isMarathi == true && userData?.isGujarati == true && onlyEnglish) {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + String(data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi) + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + String(data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi) + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + String(data.resultMarathi == (undefined || null) ? '' : resultMarathi) + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
-                  } else if (userData?.isHindi == true && userData?.isMarathi == true) {
+                  } else if (userData?.isHindi == true && userData?.isMarathi == true && onlyEnglish) {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + String(data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + String(data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + String(data.resultMarathi == (undefined || null) ? '' : resultMarathi) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
-                  } else if (userData?.isHindi == true && userData?.isGujarati == true) {
+                  } else if (userData?.isHindi == true && userData?.isGujarati == true && onlyEnglish) {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
-                  } else if (userData?.isMarathi == true && userData?.isGujarati == true) {
+                  } else if (userData?.isMarathi == true && userData?.isGujarati == true && onlyEnglish) {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi) + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi) + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultMarathi == (undefined || null) ? '' : resultMarathi) + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
-                  } else if (userData?.isMarathi == true) {
+                  } else if (userData?.isMarathi == true && onlyEnglish) {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi) + headNote + String(data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi) + result + String(data.resultMarathi == (undefined || null) ? '' : resultMarathi) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
-                  } else if (userData?.isGujarati == true) {
+                  } else if (userData?.isGujarati == true && onlyEnglish) {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
-                  } else if (userData?.isHindi == true) {
+                  } else if (userData?.isHindi == true && onlyEnglish) {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
                   } else {
                     html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + headNote + result + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
