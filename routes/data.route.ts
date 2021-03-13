@@ -163,7 +163,7 @@ export default class DataRoute {
         this.translate(app);
         // this.htmlToPDF(app);
         this.judgetmentInHTML(app);
-        // this.getFullJudgementById(app);
+        this.getFullJudgementById(app);
         this.priorityUpdate(app);
         this.enablePost(app);
         this.findData(app);
