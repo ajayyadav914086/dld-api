@@ -115,6 +115,9 @@ let DataEntrySchema = new mongoose.Schema({
         required: true,
         text: true
     },
+    inFavourOf: {
+        type: Number,
+    },
     dldId: {
         type: String,
         required: true,

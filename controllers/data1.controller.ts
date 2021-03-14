@@ -85,6 +85,7 @@ export default class Data1Controller {
                         actsReffered: req.body.actsReffered,
                         fullJudgement: req.body.fullJudgement,
                         postType: req.body.postType,
+                        inFavourOf: req.body.inFavourOf,
                         courtType: req.body.courtType,
                         courtSubType: req.body.courtSubType,
                         dldId: req.body.postType == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
@@ -911,6 +912,7 @@ export default class Data1Controller {
     var postType = {};
     var courtType = {};
     var courtSubType = {};
+    var inFavourOf = {};
     if (req.query.startDate !== 'null' && req.query.endDate !== 'null') {
       var startDate = new Date(req.query.startDate);
       var endDate = new Date(req.query.endDate);
@@ -929,6 +931,9 @@ export default class Data1Controller {
     }
     if (req.query.courtSubType !== 'null') {
       courtSubType = { courtSubType: Number(req.query.courtSubType) }
+    }
+    if (req.query.inFavourOf !== 'null') {
+      inFavourOf = { inFavourOf: Number(req.query.inFavourOf) }
     }
     if (req.query.type !== 'null') {
       type = { type: { '$regex': req.query.type, '$options': 'i' } }
@@ -977,7 +982,8 @@ export default class Data1Controller {
                             type,
                             postType,
                             courtType,
-                            courtSubType
+                            courtSubType,
+                            inFavourOf
                           ]
                         }
                       },
@@ -1054,7 +1060,8 @@ export default class Data1Controller {
                             type,
                             postType,
                             courtType,
-                            courtSubType
+                            courtSubType,
+                            inFavourOf
                           ]
                         }
                       },
@@ -1131,7 +1138,8 @@ export default class Data1Controller {
                             type,
                             postType,
                             courtType,
-                            courtSubType
+                            courtSubType,
+                            inFavourOf
                           ]
                         }
                       },
@@ -1211,7 +1219,8 @@ export default class Data1Controller {
                             type,
                             postType,
                             courtType,
-                            courtSubType
+                            courtSubType,
+                            inFavourOf
                           ]
                         }
                       },
@@ -1292,7 +1301,8 @@ export default class Data1Controller {
                             type,
                             postType,
                             courtType,
-                            courtSubType
+                            courtSubType,
+                            inFavourOf
                           ]
                         }
                       },
@@ -1375,7 +1385,8 @@ export default class Data1Controller {
                             type,
                             postType,
                             courtType,
-                            courtSubType
+                            courtSubType,
+                            inFavourOf
                           ]
                         }
                       },
