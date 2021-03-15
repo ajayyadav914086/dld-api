@@ -15,7 +15,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 var mongoose = require("mongoose");
 const download = require("download");
-var moment = require("moment");
+import moment = require("moment");
 var dateformat = require("dateformat");
 // import translate from 'google-translate-open-api';
 var translate = require('translate');
@@ -919,6 +919,10 @@ export default class Data1Controller {
       if (startDate && endDate) {
         dateRange = { decidedDate: { $gte: startDate, $lte: endDate } };
       }
+    } else if (req.query.startDate !== 'null' && req.query.endDate == 'null') {
+      var startDate = new Date(req.query.startDate);
+      var endDate = new Date(moment(req.query.startDate).add('1', 'day').toString());
+      dateRange = { decidedDate: { $gte: startDate, $lte: endDate } }
     }
     if (req.query.result !== 'null') {
       result = { result: { '$regex': req.query.result, '$options': 'i' } }
@@ -932,7 +936,7 @@ export default class Data1Controller {
     if (req.query.courtSubType !== 'null') {
       courtSubType = { courtSubType: Number(req.query.courtSubType) }
     }
-    if (req.query.inFavourOf !== 'null') {
+    if (req.query.inFavourOf != 'null') {
       inFavourOf = { inFavourOf: Number(req.query.inFavourOf) }
     }
     if (req.query.type !== 'null') {
