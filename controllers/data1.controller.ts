@@ -942,6 +942,7 @@ export default class Data1Controller {
     if (req.query.type !== 'null') {
       type = { type: { '$regex': req.query.type, '$options': 'i' } }
     }
+    console.log(inFavourOf);
     if (token) {
       jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
         if (err) {
