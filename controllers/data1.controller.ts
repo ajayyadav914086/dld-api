@@ -1089,9 +1089,9 @@ export default class Data1Controller {
                           ]
                         }
                       },
-                      {
-                        $sort: { score: { $meta: "textScore" } }
-                      },
+                      // {
+                      //   $sort: { score: { $meta: "textScore" } }
+                      // },
                       { $skip: pageSize * (pageIndex - 1) },
                       { $limit: pageSize }], function (error: any, data: any) {
                         if (error) {
@@ -1248,9 +1248,9 @@ export default class Data1Controller {
                           ]
                         }
                       },
-                      {
-                        $sort: { score: { $meta: "textScore" } }
-                      },
+                      // {
+                      //   $sort: { score: { $meta: "textScore" } }
+                      // },
                       { $skip: pageSize * (pageIndex - 1) },
                       { $limit: pageSize }], function (error: any, data: any) {
                         if (error) {
@@ -1414,9 +1414,9 @@ export default class Data1Controller {
                           ]
                         }
                       },
-                      {
-                        $sort: { score: { $meta: "textScore" } }
-                      },
+                      // {
+                      //   $sort: { score: { $meta: "textScore" } }
+                      // },
                       { $skip: pageSize * (pageIndex - 1) },
                       { $limit: pageSize }], function (error: any, data: any) {
                         if (error) {
