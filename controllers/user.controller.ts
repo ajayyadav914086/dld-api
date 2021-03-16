@@ -301,7 +301,7 @@ export default class UserController {
                                 if (token != result.accessToken) {
                                     return res.send({
                                         message: "User Error",
-                                        responseCode: 2000,
+                                        responseCode: 3000,
                                         status: 200,
                                         result: null,
                                     });
