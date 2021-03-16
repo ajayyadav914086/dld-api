@@ -429,7 +429,7 @@ export default class UserController {
                                     error: err,
                                 });
                             } else {
-                                if (token == user.accessToken) {
+                                if (token != user.accessToken) {
                                     return res.send({
                                         message: "User Already Logged",
                                         responseCode: 3000,
