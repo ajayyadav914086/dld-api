@@ -962,7 +962,7 @@ export default class Data1Controller {
                 courtType = { courtType: Number(req.query.courtType) }
               } else if (req.query.courtType == 'null') {
                 if (userData.courtType != 2) {
-                  courtType = { courtType: Number(req.query.courtType) }
+                  courtType = { courtType: Number(userData.courtType) }
                 }
               }
               if (pageIndex > 0) {
