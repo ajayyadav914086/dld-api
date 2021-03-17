@@ -930,9 +930,6 @@ export default class Data1Controller {
     if (req.query.postType !== 'null') {
       postType = { postType: Number(req.query.postType) }
     }
-    if (req.query.courtType !== 'null') {
-      courtType = { courtType: Number(req.query.courtType) }
-    }
     if (req.query.courtSubType !== 'null') {
       courtSubType = { courtSubType: Number(req.query.courtSubType) }
     }
@@ -942,7 +939,6 @@ export default class Data1Controller {
     if (req.query.type !== 'null') {
       type = { type: { '$regex': req.query.type, '$options': 'i' } }
     }
-    console.log(inFavourOf);
     if (token) {
       jwt.verify(token, 'your_jwt_secret', (err: any, user: any) => {
         if (err) {
@@ -962,6 +958,13 @@ export default class Data1Controller {
                 error: err,
               });
             } else {
+              if (req.query.courtType !== 'null') {
+                courtType = { courtType: Number(req.query.courtType) }
+              } else if (req.query.courtType == 'null') {
+                if (userData.courtType != 2) {
+                  courtType = { courtType: Number(req.query.courtType) }
+                }
+              }
               if (pageIndex > 0) {
                 if (userData?.planType == 2 && userData.courtType == 2) { //change to 2
                   if (String(req.query.search).trim() == '' || req.query.search == 'null') {
@@ -1135,9 +1138,6 @@ export default class Data1Controller {
                             {
                               enabled: true
                             },
-                            {
-                              courtType: userData?.courtType,
-                            },
                             dateRange,
                             result,
                             type,
@@ -1215,9 +1215,6 @@ export default class Data1Controller {
                           $and: [
                             {
                               enabled: true
-                            },
-                            {
-                              courtType: userData?.courtType,
                             },
                             dateRange,
                             result,
@@ -1298,9 +1295,6 @@ export default class Data1Controller {
                             {
                               postType: userData?.planType,
                             },
-                            {
-                              courtType: userData?.courtType,
-                            },
                             dateRange,
                             result,
                             type,
@@ -1381,9 +1375,6 @@ export default class Data1Controller {
                             },
                             {
                               postType: userData?.planType,
-                            },
-                            {
-                              courtType: userData?.courtType,
                             },
                             dateRange,
                             result,
