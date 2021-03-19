@@ -622,7 +622,7 @@ export default class Data1Controller {
                               enabled: true
                             },
                             {
-                              courtType: userData?.courtType,
+                              courtType: 0,
                             },
                             // dateRange,
                             // result,
@@ -690,7 +690,7 @@ export default class Data1Controller {
                               enabled: true
                             },
                             {
-                              courtType: userData?.courtType,
+                              courtType: 0,
                             },
                             // dateRange,
                             // result,
@@ -759,7 +759,7 @@ export default class Data1Controller {
                               postType: userData?.planType,
                             },
                             {
-                              courtType: userData?.courtType,
+                              courtType: 0,
                             },
                             // dateRange,
                             // result,
@@ -830,7 +830,7 @@ export default class Data1Controller {
                               postType: userData?.planType,
                             },
                             {
-                              courtType: userData?.courtType,
+                              courtType: 0,
                             },
                             // dateRange,
                             // result,
