@@ -384,6 +384,14 @@ export default class Data1Controller {
     const pageSize = parseInt(req.body.pageSize);
     const pageIndex = parseInt(req.body.pageIndex);
     var token = req.headers.token;
+    var date = req.body.date;
+    var search = req.body.searchText;
+    var dateSearch = {}
+    if (date !== '') {
+      var searchDate = new Date(date);
+      var endDate = new Date(moment(date).add('1', 'day').toString());
+      dateSearch = { decidedDate: { $gte: searchDate, $lte: endDate } }
+    }
     if (token) {
       jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
         if (err) {
@@ -395,40 +403,159 @@ export default class Data1Controller {
           });
         } else {
           if (pageIndex > 0) {
-            DataEntry.aggregate(
-              [
-                {
-                  "$facet": {
-                    "totalData": [
-                      { "$sort": { pid: -1 } },
-                      { "$skip": pageSize * (pageIndex - 1) },
-                      { "$limit": pageSize }
-                    ],
-                    "totalCount": [
-                      { "$count": "count" }
-                    ]
+            if (search == '' && date == '') {
+              DataEntry.aggregate(
+                [
+                  {
+                    "$facet": {
+                      "totalData": [
+                        { "$sort": { pid: -1 } },
+                        { "$skip": pageSize * (pageIndex - 1) },
+                        { "$limit": pageSize }
+                      ],
+                      "totalCount": [
+                        { "$count": "count" }
+                      ]
+                    }
                   }
-                }
-              ],
-              function (error: any, data: any) {
-                if (error) {
-                  return res.send({
-                    message: 'Unauthorized DB Error',
-                    responseCode: 700,
-                    status: 200,
-                    error: error
-                  });
-                } else {
-                  return res.send({
-                    message: 'All Data',
-                    responseCode: 200,
-                    status: 200,
-                    result: data
+                ],
+                function (error: any, data: any) {
+                  if (error) {
+                    return res.send({
+                      message: 'Unauthorized DB Error',
+                      responseCode: 700,
+                      status: 200,
+                      error: error
+                    });
+                  } else {
+                    return res.send({
+                      message: 'All Data',
+                      responseCode: 200,
+                      status: 200,
+                      result: data
 
-                  });
+                    });
 
-                }
-              }).collation({ locale: "en_US", numericOrdering: true });
+                  }
+                }).collation({ locale: "en_US", numericOrdering: true });
+            } else {
+              if (search == '') {
+                DataEntry.aggregate(
+                  [
+                    {
+                      "$addFields": {
+                        "decidedDate": {
+                          "$convert": {
+                            "input": "$decidedDate",
+                            "to": "date"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      $match: {
+                        $and: [
+                          dateSearch
+                        ]
+                      }
+                    },
+                    {
+                      "$facet": {
+                        "totalData": [
+                          { "$skip": pageSize * (pageIndex - 1) },
+                          { "$limit": pageSize }
+                        ],
+                        "totalCount": [
+                          { "$count": "count" }
+                        ]
+                      }
+                    }
+                    // { $skip: pageSize * (pageIndex - 1) },
+                    // { $limit: pageSize }
+                  ],
+                  function (error: any, data: any) {
+                    if (error) {
+                      return res.send({
+                        message: 'Unauthorized DB Error',
+                        responseCode: 700,
+                        status: 200,
+                        error: error
+                      });
+                    } else {
+                      return res.send({
+                        message: 'All Data',
+                        responseCode: 200,
+                        status: 200,
+                        result: data
+
+                      });
+
+                    }
+                  })
+              } else {
+                DataEntry.aggregate(
+                  [
+                    {
+                      $search: {
+                        'text': {
+                          'query': search,
+                          'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                        }
+                      }
+                    },
+                    {
+                      "$addFields": {
+                        "decidedDate": {
+                          "$convert": {
+                            "input": "$decidedDate",
+                            "to": "date"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      $match: {
+                        $and: [
+                          {
+                            enabled: true
+                          },
+                          dateSearch
+                        ]
+                      }
+                    },
+                    {
+                      "$facet": {
+                        "totalData": [
+                          { "$skip": pageSize * (pageIndex - 1) },
+                          { "$limit": pageSize }
+                        ],
+                        "totalCount": [
+                          { "$count": "count" }
+                        ]
+                      }
+                    }
+                  ],
+                  function (error: any, data: any) {
+                    if (error) {
+                      return res.send({
+                        message: 'Unauthorized DB Error',
+                        responseCode: 700,
+                        status: 200,
+                        error: error
+                      });
+                    } else {
+                      return res.send({
+                        message: 'All Data',
+                        responseCode: 200,
+                        status: 200,
+                        result: data
+
+                      });
+
+                    }
+                  })
+              }
+            }
           } else {
             return res.send({
               message: "Page Index should pe greater the 0",
