@@ -1247,7 +1247,7 @@ export default class Data1Controller {
                       });
                   }
                 } else if (userData?.planType == 2) {
-                  if (req.query.courtType != userData.courtType && req.query.courtType != 'null') {
+                  if (req.query.courtType != userData.courtType && req.query.courtType != 'null' && userData.courtType != 2) {
                     return res.send({
                       message: 'Court Type is not in your plan',
                       responseCode: 200,
@@ -1409,7 +1409,7 @@ export default class Data1Controller {
                   // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
 
                 } else {
-                  if (req.query.courtType != userData.courtType && req.query.courtType != 'null') {
+                  if (req.query.courtType != userData.courtType && req.query.courtType != 'null' && userData.courtType != 2) {
                     return res.send({
                       message: 'Court Type is not in your plan',
                       responseCode: 200,
