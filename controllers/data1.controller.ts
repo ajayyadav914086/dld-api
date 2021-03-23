@@ -390,7 +390,7 @@ export default class Data1Controller {
     if (date !== '') {
       var searchDate = new Date(date);
       var endDate = new Date(moment(date).add('1', 'day').toString());
-      dateSearch = { decidedDate: { $gte: searchDate, $lte: endDate } }
+      dateSearch = { decidedDate: { $gte: searchDate, $lt: endDate } }
     }
     if (token) {
       jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
