@@ -27,7 +27,6 @@ app.use(bodyParser.urlencoded({limit: '500mb', extended: true}));
 app.use(bodyParser.text({ type: 'text/html' }))
 app.use(cookieParser());
 app.use('/', swagger);
-// app.use(cors({ origin: 'https://dev.bauktion.com' }));
 FirebaseNotification.initFirebaseConfig();
 app.use(cors());
 app.options('*', cors());
