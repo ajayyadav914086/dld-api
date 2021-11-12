@@ -5,7 +5,7 @@ import AdminRoute from './routes/admin.route';
 import DataRoute from './routes/data.route';
 import OTPRoute from './routes/otp.route';
 import UserRoute from './routes/user.route';
-var port = process.env.PORT || 3005;
+var port = process.env.PORT || 4200;
 import bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
