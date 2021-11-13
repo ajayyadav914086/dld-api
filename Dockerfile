@@ -16,5 +16,3 @@ COPY . /app
 EXPOSE 80
 
 CMD npm start
-
-ENTRYPOINT echo "Hello world"
