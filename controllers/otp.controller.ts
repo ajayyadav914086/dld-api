@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 var mongoose = require('mongoose');
 import { emailController } from '../controllers/email.controller';
 
-var endpoint = 'https://2factor.in/API/V1/cf327688-3edc-11eb-83d4-0200cd936042/SMS';
+var endpoint = 'https://2factor.in/API/V1/32b553b3-5359-11ec-b710-0200cd936042/SMS';
 export default class OTPController {
     generateOtp = function (token: any, res: any) {
         var otp = otpGenerator.generate(4, { alphabets: false, specialChars: false, upperCase: false });
