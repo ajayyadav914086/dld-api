@@ -1000,7 +1000,7 @@ export default class Data1Controller {
                           });
                         } else {
                           return res.send({
-                            message: 'All Data true',
+                            message: 'All Data',
                             responseCode: 200,
                             lenght: Buffer.from(data).length,
                             status: 200,
@@ -1495,11 +1495,12 @@ export default class Data1Controller {
                     DataEntry.aggregate([
                       {
                         $search: {
-                          'text': {
-                            'query': req.query.search,
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          index: 'default',
+                          text: {
+                            query: req.query.search,
+                            path: ['headNote','fullJudgement']
                           }
-                        }
+                       }
                       },
                       {
                         "$addFields": {
