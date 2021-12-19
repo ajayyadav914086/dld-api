@@ -1169,9 +1169,10 @@ export default class Data1Controller {
                     DataEntry.aggregate([
                       {
                         $search: {
-                          'text': {
-                            'query': req.query.search,
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          "phrase": {
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            "query": req.query.search,
+                            "slop": 0
                           }
                         }
                       },
@@ -1330,9 +1331,10 @@ export default class Data1Controller {
                     DataEntry.aggregate([
                       {
                         $search: {
-                          'text': {
-                            'query': req.query.search,
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                          "phrase": {
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            "query": req.query.search,
+                            "slop": 0
                           }
                         }
                       },
