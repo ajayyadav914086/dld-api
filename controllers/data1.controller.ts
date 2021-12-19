@@ -944,9 +944,9 @@ export default class Data1Controller {
                           index: 'default',
                           text: {
                             query: req.query.search,
-                            path: ['headNote','fullJudgement']
+                            path: ['headNote', 'fullJudgement']
                           }
-                       }
+                        }
                       },
                       {
                         $match: {
@@ -1495,12 +1495,12 @@ export default class Data1Controller {
                     DataEntry.aggregate([
                       {
                         $search: {
-                          index: 'default',
-                          text: {
-                            query: req.query.search,
-                            path: ['headNote','fullJudgement']
+                          "phrase": {
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            "query": req.query.search,
+                            "slop": 0
                           }
-                       }
+                        }
                       },
                       {
                         "$addFields": {
@@ -1564,7 +1564,7 @@ export default class Data1Controller {
                           });
                         } else {
                           return res.send({
-                            message: 'All Data',
+                            message: 'All Data true',
                             responseCode: 200,
                             lenght: Buffer.from(data).length,
                             status: 200,
