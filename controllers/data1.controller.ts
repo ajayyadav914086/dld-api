@@ -2021,7 +2021,7 @@ export default class Data1Controller {
                     var caseRef = data.caseReffered.split('\n\n');
                     var caseRefLenght = Buffer.from(caseRef).length;
                     for (var i = 0; i < caseRefLenght; i++) {
-                      caseReffered = caseReffered + '<li><span style="font-size:14px">' + String(caseRef[i]) + '</span></li>';
+                      caseReffered = caseReffered + '<li><span style="font-size:14px;text-align:justify">' + String(caseRef[i]) + '</span></li>';
                     }
                   }
                   var postType = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.postType + '</strong></span></p>';
