@@ -131,8 +131,11 @@ let DataEntrySchema = new mongoose.Schema({
     },
     courtSubType: {
         type: Number,
+    },
+    rn:{
+        type:String,
     }
-})
+},{strict:false})
 
 DataEntrySchema.plugin(mongoosastic);
 DataEntrySchema.index({ '$**': 'text' });

@@ -1079,7 +1079,7 @@ export default class DataController {
                             error: error
                         });
                     } else {
-                        var url = `https://2factor.in/API/V1/47701b38-7a5b-11ea-9fa5-0200cd936042/BAL/SMS`;
+                        var url = `https://2factor.in/API/V1/32b553b3-5359-11ec-b710-0200cd936042/BAL/SMS`;
                         request(url, function (error: any, response: any, body: any) {
                             if (!error && response.statusCode == 200) {
                                 data['sms'] = JSON.parse(body).Details;

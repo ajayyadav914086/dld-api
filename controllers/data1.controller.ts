@@ -88,6 +88,7 @@ export default class Data1Controller {
                         inFavourOf: req.body.inFavourOf,
                         courtType: req.body.courtType,
                         courtSubType: req.body.courtSubType,
+                        rn:req.body.rn,
                         dldId: req.body.postType == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
                       };
                       DataEntry.create(schema, (error: any, result: any) => {
@@ -2539,7 +2540,7 @@ export default class Data1Controller {
                 error: error
               });
             } else {
-              var url = `https://2factor.in/API/V1/cf327688-3edc-11eb-83d4-0200cd936042/BAL/SMS`;
+              var url = `https://2factor.in/API/V1/32b553b3-5359-11ec-b710-0200cd936042/BAL/SMS`;
               request(url, function (error: any, response: any, body: any) {
                 if (!error && response.statusCode == 200) {
                   data['sms'] = JSON.parse(body).Details;
