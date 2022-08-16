@@ -669,7 +669,7 @@ export default class UserController {
                                             userId: mongoose.Types.ObjectId(user._id),
                                         },
                                     },
-                                    { $sort: { _id: -1 } },
+                                    { $sort: { planExpiryDate : 1 } },
                                     { $skip: pageSize * (pageIndex - 1) },
                                     { $limit: pageSize },
                                 ]).exec(function (err: any, notifications: any) {
@@ -1934,7 +1934,7 @@ export default class UserController {
                             )
                                 .limit(pageSize)
                                 .skip(pageSize * (pageIndex - 1))
-                                .sort({ _id: -1 });
+                                .sort({ planExpiryDate : 1 });
                         } else if (
                             !search ||
                             !search.trim() ||
@@ -1974,7 +1974,7 @@ export default class UserController {
                             })
                                 .limit(pageSize)
                                 .skip(pageSize * (pageIndex - 1))
-                                .sort({ _id: -1 });
+                                .sort({ planExpiryDate : 1 });
                         } else {
                             User.find(
                                 {
@@ -2027,7 +2027,7 @@ export default class UserController {
                             )
                                 .limit(pageSize)
                                 .skip(pageSize * (pageIndex - 1))
-                                .sort({ _id: -1 });
+                                .sort({ planExpiryDate : 1 });
                         }
                     } else {
                         return res.send({
