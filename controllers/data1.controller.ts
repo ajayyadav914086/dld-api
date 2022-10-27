@@ -1043,8 +1043,8 @@ export default class Data1Controller {
     var token = req.headers.token;
     var search:string=" ";
     await new ShortCodes().getWordsFromShortCode(req.query.search).then((value)=>{
-      console.log("data",value)
       search = value;
+      console.log("search data",search)
     });
     var dateRange = {};
     var result = {};

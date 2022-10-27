@@ -12,9 +12,9 @@ export class ShortCodes {
     }
 
     async findShortCode(i: any) {
-        await ShortCuts.findOne({ shortcut: this.searchArray[i] }).then((result: any) => {
+        await ShortCuts.findOne({ shortcut: this.searchArray[i].toLowerCase() }).then((result: any) => {
             if (result) {
-                this.searchArray[i] = result.word
+                this.searchArray[i] = result.word;
                 console.log("inside", result.word)
             }
         })
