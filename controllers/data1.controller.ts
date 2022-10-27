@@ -1037,11 +1037,15 @@ export default class Data1Controller {
     }
   }
 
-  searchDatav2 = function (req: any, res: any, next: any) {
+  searchDatav2 = async function (req: any, res: any, next: any) {
     const pageSize = parseInt(req.query.pageSize);
     const pageIndex = parseInt(req.query.pageIndex);
     var token = req.headers.token;
-    var search = new RegExp(req.query.search, 'i');
+    var search:string=" ";
+    await new ShortCodes().getWordsFromShortCode(req.query.search).then((value)=>{
+      console.log("data",value)
+      search = value;
+    });
     var dateRange = {};
     var result = {};
     var type = {};
@@ -1103,7 +1107,7 @@ export default class Data1Controller {
               }
               if (pageIndex > 0) {
                 if (userData?.planType == 2 && userData.courtType == 2) { //change to 2
-                  if (String(req.query.search).trim() == '' || req.query.search == 'null') {
+                  if (String(search).trim() == '' || search == 'null') {
                     DataEntry.aggregate([
                       {
                         "$addFields": {
@@ -1178,8 +1182,8 @@ export default class Data1Controller {
                       {
                         $search: {
                           "phrase": {
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
-                            "query": req.query.search,
+                            'path': ['respondentName','fullJudgement', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            "query": search,
                             "slop": 1000
                           }
                         }
@@ -1265,7 +1269,7 @@ export default class Data1Controller {
                       result: []
                     });
                   }
-                  if (String(req.query.search).trim() == '' || req.query.search == 'null') {
+                  if (String(search).trim() == '' || search == 'null') {
                     DataEntry.aggregate([
                       {
                         "$addFields": {
@@ -1340,8 +1344,8 @@ export default class Data1Controller {
                       {
                         $search: {
                           "phrase": {
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
-                            "query": req.query.search,
+                            'path': ['respondentName','fullJudgement', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            "query": search,
                             "slop": 1000
                           }
                         }
@@ -1428,7 +1432,7 @@ export default class Data1Controller {
                       result: []
                     });
                   }
-                  if (String(req.query.search).trim() == '' || req.query.search == 'null') {
+                  if (String(search).trim() == '' || search == 'null') {
                     DataEntry.aggregate([
                       {
                         "$addFields": {
@@ -1506,8 +1510,8 @@ export default class Data1Controller {
                       {
                         $search: {
                           "phrase": {
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
-                            "query": req.query.search,
+                            'path': ['respondentName','fullJudgement', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            "query": search,
                             "slop": 1000
                           }
                         }
