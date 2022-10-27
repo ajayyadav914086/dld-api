@@ -5,6 +5,7 @@ import * as bcrypt from "bcryptjs";
 var User = require("../models/user.model");
 var Suggestion = require("../models/suggestion.model");
 var generator = require('generate-password');
+var Shortcuts = require("../models/shortcuts.model")
 export default class AdminController {
   createAdmin = function (req: any, res: any) {
     if (req.body.agentId == null || req.body.agentId == undefined) {
@@ -518,6 +519,31 @@ export default class AdminController {
         }
       })
     }
+  }
+
+  addShortcuts = function (req: any, res: any) {
+    var schema = {
+      word: req.body.word,
+      shortcut: req.body.shortcut
+    }
+    Shortcuts.create(schema, (err: any, result: any) => {
+      if (err) {
+        return res.send({
+          message: "Unauthorized DB Error",
+          responseCode: 700,
+          status: 200,
+          error: err,
+        });
+      } else {
+        return res.send({
+          message: "success",
+          responseCode: 700,
+          status: 200,
+          result: result,
+        });
+      }
+    })
+
   }
 }
 

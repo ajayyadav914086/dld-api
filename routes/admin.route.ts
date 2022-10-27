@@ -55,6 +55,10 @@ export default class AdminRoute {
     app.delete('/v1/delete-suggestion', adminController.deleteSuggestion)
   }
 
+  addShortcuts(app: Express){
+    app.post('/v1/add-shortcuts',adminController.addShortcuts)
+  }
+
   adminRoute(app: Express) {
     this.createAdmin(app);
     this.adminLogin(app);
@@ -66,5 +70,6 @@ export default class AdminRoute {
     this.getSuggestion(app);
     this.deleteSuggestion(app);
     this.getAllSuggestion(app);
+    this.addShortcuts(app);
   }
 }

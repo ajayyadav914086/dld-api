@@ -16,6 +16,8 @@ const fs = require("fs");
 var mongoose = require("mongoose");
 const download = require("download");
 import moment = require("moment");
+import { ShortCodes } from "../utilities/getShortcuts";
+//import Shortcuts from "../models/shortcuts.model";
 var dateformat = require("dateformat");
 // import translate from 'google-translate-open-api';
 var translate = require('translate');
@@ -569,11 +571,16 @@ export default class Data1Controller {
     }
   }
 
-  searchData = function (req: any, res: any, next: any) {
+  searchData = async function (req: any, res: any, next: any){
     const pageSize = parseInt(req.query.pageSize);
     const pageIndex = parseInt(req.query.pageIndex);
     var token = req.headers.token;
-    var search = new RegExp(req.query.search, 'i');
+    var search:string=" ";
+    await new ShortCodes().getWordsFromShortCode(req.query.search).then((value)=>{
+      console.log("data",value)
+      search = value;
+    });
+    console.log("outside data",search)
     var dateRange = {};
     var result = {};
     var type = {};
@@ -615,7 +622,7 @@ export default class Data1Controller {
             } else {
               if (pageIndex > 0) {
                 if (userData?.planType == 2 && userData.courtType == 2) { //change to 2
-                  if (String(req.query.search).trim() == '') {
+                  if (String(search).trim() == '') {
                     DataEntry.aggregate([
                       {
                         $match: {
@@ -676,8 +683,8 @@ export default class Data1Controller {
                       {
                         $search: {
                           'text': {
-                            'query': req.query.search,
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                            'query': search,
+                            'path': ['respondentName','fullJudgement','appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
                           }
                         }
                       },
@@ -741,7 +748,7 @@ export default class Data1Controller {
                       });
                   }
                 } else if (userData?.planType == 2) {
-                  if (String(req.query.search).trim() == '') {
+                  if (String(search).trim() == '') {
                     DataEntry.aggregate([
                       {
                         $match: {
@@ -806,8 +813,8 @@ export default class Data1Controller {
                       {
                         $search: {
                           'text': {
-                            'query': req.query.search,
-                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                            'query': search,
+                            'path': ['respondentName','fullJudgement', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
                           }
                         }
                       },
@@ -875,7 +882,7 @@ export default class Data1Controller {
                   // .sort({ 'priority': -1 }).collation({ locale: "en_US", numericOrdering: true });
 
                 } else {
-                  if (String(req.query.search).trim() == '') {
+                  if (String(search).trim() == '') {
                     DataEntry.aggregate([
                       {
                         $match: {
@@ -944,7 +951,7 @@ export default class Data1Controller {
                         $search: {
                           index: 'default',
                           text: {
-                            query: req.query.search,
+                            query: search,
                             path: ['headNote', 'fullJudgement']
                           }
                         }
