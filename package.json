@@ -81,6 +81,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.1",
-    "babel-cli": "^6.26.0"
+    "babel-cli": "^6.26.0",
+    "keyv": "^4.5.1"
   }
 }
