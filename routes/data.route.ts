@@ -114,10 +114,6 @@ export default class DataRoute {
         app.post('/v1/translate', dataController1.translate);
     }
 
-     htmlToPDF(app: Express) {
-         app.post('/v1/html-to-pdf', dataController1.htmlToPDF)
-     }
-
     judgetmentInHTML(app: Express){
         app.get('/v1/html-judgement', dataController1.getFullJudgementInHtml)
     }
@@ -161,7 +157,6 @@ export default class DataRoute {
         this.getAllPost(app);
         this.getPostById(app);
         this.translate(app);
-        this.htmlToPDF(app);
         this.judgetmentInHTML(app);
         this.getFullJudgementById(app);
         this.priorityUpdate(app);
