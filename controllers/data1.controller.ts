@@ -21,6 +21,7 @@ import { ShortCodes } from "../utilities/getShortcuts";
 var dateformat = require("dateformat");
 // import translate from 'google-translate-open-api';
 var translate = require('translate');
+import * as puppeteer from 'puppeteer';
 export default class Data1Controller {
   addPost = function (req: any, res: any) {
     var token = req.headers.token;
@@ -90,7 +91,7 @@ export default class Data1Controller {
                         inFavourOf: req.body.inFavourOf,
                         courtType: req.body.courtType,
                         courtSubType: req.body.courtSubType,
-                        rn:req.body.rn,
+                        rn: req.body.rn,
                         dldId: req.body.postType == 0 ? 'DLD(Civil)-' + String(date.getFullYear()) + '-' + String(count.totalCivil + 1) : 'DLD(Cri)-' + String(date.getFullYear()) + '-' + String(count.totalCriminal + 1)
                       };
                       DataEntry.create(schema, (error: any, result: any) => {
@@ -571,16 +572,16 @@ export default class Data1Controller {
     }
   }
 
-  searchData = async function (req: any, res: any, next: any){
+  searchData = async function (req: any, res: any, next: any) {
     const pageSize = parseInt(req.query.pageSize);
     const pageIndex = parseInt(req.query.pageIndex);
     var token = req.headers.token;
-    var search:string=" ";
-    await new ShortCodes().getWordsFromShortCode(req.query.search).then((value)=>{
-      console.log("data",value)
+    var search: string = " ";
+    await new ShortCodes().getWordsFromShortCode(req.query.search).then((value) => {
+      console.log("data", value)
       search = value;
     });
-    console.log("outside data",search)
+    console.log("outside data", search)
     var dateRange = {};
     var result = {};
     var type = {};
@@ -684,7 +685,7 @@ export default class Data1Controller {
                         $search: {
                           'text': {
                             'query': search,
-                            'path': ['respondentName','fullJudgement','appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                            'path': ['respondentName', 'fullJudgement', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
                           }
                         }
                       },
@@ -814,7 +815,7 @@ export default class Data1Controller {
                         $search: {
                           'text': {
                             'query': search,
-                            'path': ['respondentName','fullJudgement', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
+                            'path': ['respondentName', 'fullJudgement', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati']
                           }
                         }
                       },
@@ -1041,10 +1042,10 @@ export default class Data1Controller {
     const pageSize = parseInt(req.query.pageSize);
     const pageIndex = parseInt(req.query.pageIndex);
     var token = req.headers.token;
-    var search:string=" ";
-    await new ShortCodes().getWordsFromShortCode(req.query.search).then((value)=>{
+    var search: string = " ";
+    await new ShortCodes().getWordsFromShortCode(req.query.search).then((value) => {
       search = value;
-      console.log("search data",search)
+      console.log("search data", search)
     });
     var dateRange = {};
     var result = {};
@@ -1182,7 +1183,7 @@ export default class Data1Controller {
                       {
                         $search: {
                           "phrase": {
-                            'path': ['respondentName','appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
                             "query": search,
                             "slop": 1000
                           }
@@ -1344,7 +1345,7 @@ export default class Data1Controller {
                       {
                         $search: {
                           "phrase": {
-                            'path': ['respondentName','appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
                             "query": search,
                             "slop": 1000
                           }
@@ -1510,7 +1511,7 @@ export default class Data1Controller {
                       {
                         $search: {
                           "phrase": {
-                            'path': ['respondentName','appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
+                            'path': ['respondentName', 'appelentName', 'judges', 'decidedDate', 'importantPoints', 'importantPointsHindi', 'importantPointsMarathi', 'importantPointsGujrati', 'headNote', 'headNoteHindi', 'headNoteGujrati', 'headNoteMarathi', 'result', 'resultHindi', 'resultMarathi', 'resultGujrati'],
                             "query": search,
                             "slop": 1000
                           }
@@ -1991,10 +1992,10 @@ export default class Data1Controller {
                   if (withName == 'true') {
                     name = user.fullName;
                     city = user.city;
-                    dldId = '<head><meta name="viewport" content="width=device-width"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>$(document).ready(function() {$("*").each(function(i, obj) {var type = $(obj).css("margin-left").slice(-2);var px = parseInt($(obj).css("margin-left"));if (px > 0){var newPX = px / 2;$(obj).css("margin-left", newPX +type);}var px = parseInt($(obj).css("margin-right"));if (px > 0) {var newPX = px / 2;$(obj).css("margin-right", newPX +type);}});}); </script><style>iframe{display:none;}p{/*margin-top:0px;margin-bottom:0px;*/overflow-y: hidden;}ol{margin:0px;padding-inline-start: 20px!important;}body{padding: 0px 8px;}table {display: block;overflow-x: auto;}</style><script></script></head><body style="margin-left:60px;margin-right:30px"></body><div style="display:none" id="google_translate_element"></div><script>function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><div class="page-header-space"><table style="width: 100%;"><tr><td rowspan="5" style="padding-right: 10px"><img src="https://admin.dailylawdigest.com/assets/DailyLawDigest.png" height="80"width="80"></td></tr><tr><td class="print-header-data">DAILY LAW DIGEST, POWERED BY TAXPERTS SYSTEM PVT. LTD.</td></tr><tr><td class="print-header-data">This product is licensed to : '+ name+', '+city+'</td></tr><tr><td class="print-header-data">DLD : www.dailylawdigest.com/</td></tr><tr><td class="print-header-data"> @ 2023 Taxperts System Pvt. Ltd., Mumbai</td></tr><tr><td colspan="4"><hr></td></tr></table></div><p style="margin-left:-1px; margin-bottom: 10px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
+                    dldId = '<head><meta name="viewport" content="width=device-width"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>$(document).ready(function() {$("*").each(function(i, obj) {var type = $(obj).css("margin-left").slice(-2);var px = parseInt($(obj).css("margin-left"));if (px > 0){var newPX = px / 2;$(obj).css("margin-left", newPX +type);}var px = parseInt($(obj).css("margin-right"));if (px > 0) {var newPX = px / 2;$(obj).css("margin-right", newPX +type);}});}); </script><style>iframe{display:none;}p{/*margin-top:0px;margin-bottom:0px;*/overflow-y: hidden;}ol{margin:0px;padding-inline-start: 20px!important;}body{padding: 0px 8px;}table {display: block;overflow-x: auto;}</style><script></script></head><body style="margin-left:60px;margin-right:30px"></body><div style="display:none" id="google_translate_element"></div><script>function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><div class="page-header-space"><table style="width: 100%;"><tr><td rowspan="5" style="padding-right: 10px"><img src="https://admin.dailylawdigest.com/assets/DailyLawDigest.png" height="80"width="80"></td></tr><tr><td class="print-header-data">DAILY LAW DIGEST, POWERED BY TAXPERTS SYSTEM PVT. LTD.</td></tr><tr><td class="print-header-data">This product is licensed to : ' + name + ', ' + city + '</td></tr><tr><td class="print-header-data">DLD : www.dailylawdigest.com/</td></tr><tr><td class="print-header-data"> @ 2023 Taxperts System Pvt. Ltd., Mumbai</td></tr><tr><td colspan="4"><hr></td></tr></table></div><p style="margin-left:-1px; margin-bottom: 10px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
                   }
-                  var importantPointsReplace = data.importantPoints.replaceAll('\n\n','<br><br>')
-                  var finalReplace = importantPointsReplace.replace('\n','<br>')
+                  var importantPointsReplace = data.importantPoints.replaceAll('\n\n', '<br><br>')
+                  var finalReplace = importantPointsReplace.replace('\n', '<br>')
                   var importantPoints = '<tbr/><tbr/><p style="margin-left:-1px;text-align:justify"><span id="test" style="font-size:14px"><strong>Important Point:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span><strong>' + finalReplace + '</strong></span></span></span></p><tbr/>';
                   var importantPointsHindi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong>महत्वपूर्ण बिंदु:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPointsHindi + '</span></span></span></p><tbr/>';
                   var importantPointsMarathi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong>महत्त्वाचा मुद्दा:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPointsMarathi + '</span></span></span></p><tbr/>';
@@ -2017,7 +2018,7 @@ export default class Data1Controller {
                   var vs = '<p style="margin-left:-1px; margin-bottom: 10px; margin-top: 10px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p>';
                   var appelentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.appelentName + '-APPELLANT</strong></span></p>';
                   var judges = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>( Before : ' + data.judges + ', JJ. )</strong></span></p>';
-                  var headNoteReplaced = data.headNote.replaceAll('\n','<br>')
+                  var headNoteReplaced = data.headNote.replaceAll('\n', '<br>')
                   var headNote = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">Head Note:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span><strong>' + headNoteReplaced + '</strong></span></span></span></p><tbr/>';
                   var headNoteHindi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">शीर्ष टिप्पणी:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNoteHindi + '</span></span></span></p><tbr/>';
                   var headNoteMarathi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">मुख्य टीप:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNoteMarathi + '</span></span></span></p><tbr/>';
@@ -2062,6 +2063,130 @@ export default class Data1Controller {
                   }
                   res.write(html);
                   res.end();
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+  }
+
+  htmlToPDF = function (req: any, res: any) {
+    var token = req.headers.token;
+    var lg = req.query.lg;
+    var withName = req.query.withName;
+    var onlyEnglish = req.query.onlyEnglish;
+    if (token) {
+      jwt.verify(token, "your_jwt_secret", (err: any, user: any) => {
+        if (err) {
+          return res.send({
+            message: "unauthorized access",
+            responseCode: 700,
+            status: 200,
+            error: err,
+          });
+        } else {
+          Users.findOne({ _id: mongoose.Types.ObjectId(user._id) }, (error: any, userData?: any) => {
+            if (error) {
+              return res.send({
+                message: "unauthorized access",
+                responseCode: 700,
+                status: 200,
+                error: err,
+              });
+            } else {
+              DataEntry.findOne({ _id: mongoose.Types.ObjectId(req.query.postId) }, async (error: any, data: any) => {
+                if (error) {
+                  return res.send({
+                    message: "unauthorized access",
+                    responseCode: 700,
+                    status: 200,
+                    error: err,
+                  });
+                } else {
+                  var name = '';
+                  var city = ''
+                  // <script>setCookie("googtrans", "/en/hi"); function testLoad(){document.getElementById("test").innerHTML = document.cookie;} function setCookie(key, value, expiry){ var expires = new Date();expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));document.cookie = key + "=" + value + ";expires=" + expires.toUTCString();}function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><div id="google_translate_element"></div>'+
+                  var dldId = '<head><meta name="viewport" content="width=device-width"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>$(document).ready(function() {$("*").each(function(i, obj) {var type = $(obj).css("margin-left").slice(-2);var px = parseInt($(obj).css("margin-left"));if (px > 0){var newPX = px / 2;$(obj).css("margin-left", newPX +type);}var px = parseInt($(obj).css("margin-right"));if (px > 0) {var newPX = px / 2;$(obj).css("margin-right", newPX +type);}});}); </script><style>iframe{display:none;}p{/*margin-top:0px;margin-bottom:0px;*/overflow-y: hidden;}ol{margin:0px;padding-inline-start: 20px!important;}body{padding: 0px 8px;}table {display: block;overflow-x: auto;}</style><script> </script></head><body style="margin-left:60px;margin-right:30px"></body><div style="display:none" id="google_translate_element"></div><script>function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>' + '<p style="margin-left:-1px; margin-bottom: 10px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
+                  if (withName == 'true') {
+                    name = user.fullName;
+                    city = user.city;
+                    dldId = '<head><meta name="viewport" content="width=device-width"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>$(document).ready(function() {$("*").each(function(i, obj) {var type = $(obj).css("margin-left").slice(-2);var px = parseInt($(obj).css("margin-left"));if (px > 0){var newPX = px / 2;$(obj).css("margin-left", newPX +type);}var px = parseInt($(obj).css("margin-right"));if (px > 0) {var newPX = px / 2;$(obj).css("margin-right", newPX +type);}});}); </script><style>iframe{display:none;}p{/*margin-top:0px;margin-bottom:0px;*/overflow-y: hidden;}ol{margin:0px;padding-inline-start: 20px!important;}body{padding: 0px 8px;}table {display: block;overflow-x: auto;}</style><script></script></head><body style="margin-left:60px;margin-right:30px"></body><div style="display:none" id="google_translate_element"></div><script>function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><div class="page-header-space"><table style="width: 100%;"><tr><td rowspan="5" style="padding-right: 10px"><img src="https://admin.dailylawdigest.com/assets/DailyLawDigest.png" height="80"width="80"></td></tr><tr><td class="print-header-data">DAILY LAW DIGEST, POWERED BY TAXPERTS SYSTEM PVT. LTD.</td></tr><tr><td class="print-header-data">This product is licensed to : ' + name + ', ' + city + '</td></tr><tr><td class="print-header-data">DLD : www.dailylawdigest.com/</td></tr><tr><td class="print-header-data"> @ 2023 Taxperts System Pvt. Ltd., Mumbai</td></tr><tr><td colspan="4"><hr></td></tr></table></div><p style="margin-left:-1px; margin-bottom: 10px; text-align:center"><span style="font-size:14px"><strong>' + data.dldId + '</strong></span></p>';
+                  }
+                  var importantPointsReplace = data.importantPoints.replaceAll('\n\n', '<br><br>')
+                  var finalReplace = importantPointsReplace.replace('\n', '<br>')
+                  var importantPoints = '<tbr/><tbr/><p style="margin-left:-1px;text-align:justify"><span id="test" style="font-size:14px"><strong>Important Point:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span><strong>' + finalReplace + '</strong></span></span></span></p><tbr/>';
+                  var importantPointsHindi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong>महत्वपूर्ण बिंदु:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPointsHindi + '</span></span></span></p><tbr/>';
+                  var importantPointsMarathi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong>महत्त्वाचा मुद्दा:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPointsMarathi + '</span></span></span></p><tbr/>';
+                  var importantPointsGujrati = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong>મહત્વનો મુદ્દો:&nbsp;&nbsp;</strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#00B200">' + data.importantPointsGujarati + '</span></span></span></p><tbr/>';
+                  var decidedDate = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>Decided on: ' + dateformat(new Date(data.decidedDate), "dd-mm-yyyy") + '</strong></span></p>';
+                  var soi;
+                  if (data.courtType == 0) {
+                    soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>SUPREME COURT OF INDIA</strong></span></p>';
+                  } else if (data.courtType == 1) {
+                    if (data.courtSubType == 0) {
+                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT</strong></span></p>';
+                    } else if (data.courtSubType == 1) {
+                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT <br>(Nagpur Bench)</strong></span></p>';
+                    } else if (data.courtSubType == 2) {
+                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT <br>(Aurangabad Bench)</strong></span></p>';
+                    } else if (data.courtSubType == 3) {
+                      soi = '<p style="margin-left:-1px; text-align:center"><span style="font-size:18px"><strong>BOMBAY HIGH COURT <br>(Goa Bench)</strong></span></p>';
+                    }
+                  }
+                  var vs = '<p style="margin-left:-1px; margin-bottom: 10px; margin-top: 10px; text-align:center"><span style="font-size:14px"><strong>VS</strong></span></p>';
+                  var appelentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.appelentName + '-APPELLANT</strong></span></p>';
+                  var judges = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>( Before : ' + data.judges + ', JJ. )</strong></span></p>';
+                  var headNoteReplaced = data.headNote.replaceAll('\n', '<br>')
+                  var headNote = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">Head Note:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span><strong>' + headNoteReplaced + '</strong></span></span></span></p><tbr/>';
+                  var headNoteHindi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">शीर्ष टिप्पणी:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNoteHindi + '</span></span></span></p><tbr/>';
+                  var headNoteMarathi = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">मुख्य टीप:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNoteMarathi + '</span></span></span></p><tbr/>';
+                  var headNoteGujrati = '<p style="margin-left:-1px;text-align:justify"><span style="font-size:14px"><strong><span style="color:#00000a; font-family:Times New Roman, sans-serif">મુખ્ય નોંધ:&nbsp;</span></strong><span style="font-family:Times New Roman,sans-serif"><span style="color:#ff0000">' + data.headNoteGujarati + '</span></span></span></p><tbr/>';
+                  var respondentName = '<p style="margin-left:-1px; text-align:center"><span style="font-size:14px"><strong>' + data.respondentName + '-RESPONDENT</strong></span></p>';
+                  var result = '<p style="margin-left:-1px;text-align:justify"><strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">Result:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a"><strong>' + data.result + '</strong></span></span></span></p>';
+                  var resultHindi = '<tbr/><p style="margin-left:-1px;text-align:justify"><strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">' + data.resultHindi + '</span></span></span></p>';
+                  var resultMarathi = '<tbr/><p style="margin-left:-1px;text-align:justify"><strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">परिणाम:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">' + data.resultMarathi + '</span></span></span></p>';
+                  var resultGujrati = '<tbr/><p style="margin-left:-1px;text-align:justify"><strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">પરિણામ:&nbsp;</span></span></span></strong><span style="font-size:14px"><span style="font-family:Times New Roman,sans-serif"><span style="color:#00000a">' + data.resultGujarati + '</span></span></span></p>';
+                  var caseRefferedText = '<tbr/><p><span style="font-size:14px"><strong>Case Reffered:&nbsp;</strong></span></p>';
+                  var caseReffered = '<ul>';
+                  var caseRefListTag = '<li><span style="font-size:14px;text-align:justify"></span></li>'
+                  if (data.caseReffered == null || data.caseReffered == null) {
+                    caseReffered = '';
+                  } else {
+                    var caseRef = data.caseReffered.split('\n\n');
+                    var caseRefLenght = Buffer.from(caseRef).length;
+                    for (var i = 0; i < caseRefLenght; i++) {
+                      caseReffered = caseReffered + '<li><span style="font-size:14px">' + String(caseRef[i]) + '</span></li>';
+                    }
+                  }
+                  var postType = '<p style="text-align:center"><span style="font-size:14px"><strong>' + data.postType + '</strong></span></p>';
+                  var type = '<p style="text-align:center"><span style="font-size:16px"><strong>' + data.type + '</strong></span></p>';
+                  var fullJudgement = data.fullJudgement;
+                  var html;
+                  if (userData?.isHindi == true && userData?.isMarathi == true && userData?.isGujarati == true && onlyEnglish) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + String(data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi) + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + String(data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi) + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + String(data.resultMarathi == (undefined || null) ? '' : resultMarathi) + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData?.isHindi == true && userData?.isMarathi == true && onlyEnglish) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + String(data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + String(data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + String(data.resultMarathi == (undefined || null) ? '' : resultMarathi) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData?.isHindi == true && userData?.isGujarati == true && onlyEnglish) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData?.isMarathi == true && userData?.isGujarati == true && onlyEnglish) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi) + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi) + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultMarathi == (undefined || null) ? '' : resultMarathi) + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData?.isMarathi == true && onlyEnglish) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsMarathi == (undefined || null) ? '' : importantPointsMarathi) + headNote + String(data.headNoteMarathi == (undefined || null) ? '' : headNoteMarathi) + result + String(data.resultMarathi == (undefined || null) ? '' : resultMarathi) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData?.isGujarati == true && onlyEnglish) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsGujarati == (undefined || null) ? '' : importantPointsGujrati) + headNote + String(data.headNoteGujarati == (undefined || null) ? '' : headNoteGujrati) + result + String(data.resultGujarati == (undefined || null) ? '' : resultGujrati) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else if (userData?.isHindi == true && onlyEnglish) {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + String(data.importantPointsHindi == (undefined || null) ? '' : importantPointsHindi) + headNote + String(data.headNoteHindi == (undefined || null) ? '' : headNoteHindi) + result + String(data.resultHindi == (undefined || null) ? '' : resultHindi) + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  } else {
+                    html = dldId + soi + appelentName + vs + respondentName + judges + decidedDate + importantPoints + headNote + result + caseRefferedText + caseReffered + '</ul>' + type + fullJudgement;
+                  }
+                  const browser = await puppeteer.launch();
+                  const page = await browser.newPage();
+                  await page.setContent(html, { waitUntil: 'networkidle0' });
+                  const pdfBuffer = await page.pdf();
+                  await browser.close();
+                  res.end(pdfBuffer);
                 }
               })
             }
