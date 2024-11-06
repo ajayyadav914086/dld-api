@@ -495,7 +495,6 @@ export default class Data1Controller {
                     },
                   },
                 ],
-                { allowDiskUse: true },
                 function (error: any, data: any) {
                   if (error) {
                     return res.send({
@@ -545,7 +544,6 @@ export default class Data1Controller {
                     // { $skip: pageSize * (pageIndex - 1) },
                     // { $limit: pageSize }
                   ],
-                  { allowDiskUse: true },
                   function (error: any, data: any) {
                     if (error) {
                       return res.send({
@@ -622,7 +620,6 @@ export default class Data1Controller {
                       },
                     },
                   ],
-                  { allowDiskUse: true },
                   function (error: any, data: any) {
                     if (error) {
                       return res.send({
@@ -1400,7 +1397,7 @@ export default class Data1Controller {
                             $search: {
                               phrase: {
                                 path: [
-                                  "pid",
+                                  "dldId",
                                   "respondentName",
                                   "appelentName",
                                   "judges",
@@ -1607,7 +1604,7 @@ export default class Data1Controller {
                             $search: {
                               phrase: {
                                 path: [
-                                  "pid",
+                                  "dldId",
                                   "respondentName",
                                   "appelentName",
                                   "judges",
@@ -1818,7 +1815,7 @@ export default class Data1Controller {
                             $search: {
                               phrase: {
                                 path: [
-                                  "pid",
+                                  "dldId",
                                   "respondentName",
                                   "appelentName",
                                   "judges",
