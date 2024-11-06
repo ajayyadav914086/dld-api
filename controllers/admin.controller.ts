@@ -4,8 +4,8 @@ var Admin = require("../models/admin.model");
 import * as bcrypt from "bcryptjs";
 var User = require("../models/user.model");
 var Suggestion = require("../models/suggestion.model");
-var generator = require('generate-password');
-var Shortcuts = require("../models/shortcuts.model")
+var generator = require("generate-password");
+var Shortcuts = require("../models/shortcuts.model");
 export default class AdminController {
   createAdmin = function (req: any, res: any) {
     if (req.body.agentId == null || req.body.agentId == undefined) {
@@ -86,7 +86,7 @@ export default class AdminController {
             });
           }
         }
-      })
+      });
     }
   };
 
@@ -142,7 +142,7 @@ export default class AdminController {
   updateAdminEnable = function (req: any, res: any) {
     var token = req.headers.token;
     if (token) {
-      jwt.verify(token, 'your_jwt_secret', (err: any, admin: any) => {
+      jwt.verify(token, "your_jwt_secret", (err: any, admin: any) => {
         if (err) {
           return res.send({
             message: "unauthorized access",
@@ -154,11 +154,11 @@ export default class AdminController {
           Admin.findOneAndUpdate(
             { _id: mongoose.Types.ObjectId(req.body.id) },
             {
-              enabled: req.body.enabled
+              enabled: req.body.enabled,
             },
             {
               returnOriginal: false,
-              new: true
+              new: true,
             },
             (err: any, admin: any) => {
               if (err) {
@@ -179,9 +179,9 @@ export default class AdminController {
             }
           );
         }
-      })
+      });
     }
-  }
+  };
 
   deleteAdmin = function (req: any, res: any) {
     var token = req.headers.token;
@@ -222,19 +222,20 @@ export default class AdminController {
 
   adminLogin = function (req: any, res: any) {
     var email = req.body.email;
-    Admin.findOne(
-      { email: email },
-      (error: any, result: any) => {
-        if (error) {
-          return res.send({
-            message: "Unauthorized DB Error",
-            responseCode: 700,
-            status: 200,
-            error: error,
-          });
-        } else {
-          if (result != null) {
-            bcrypt.compare(req.body.password, result.password, (error: any, hash: any) => {
+    Admin.findOne({ email: email }, (error: any, result: any) => {
+      if (error) {
+        return res.send({
+          message: "Unauthorized DB Error",
+          responseCode: 700,
+          status: 200,
+          error: error,
+        });
+      } else {
+        if (result != null) {
+          bcrypt.compare(
+            req.body.password,
+            result.password,
+            (error: any, hash: any) => {
               if (error) {
                 return res.send({
                   message: "Unauthorized DB Error",
@@ -244,7 +245,10 @@ export default class AdminController {
                 });
               } else {
                 if (hash === true) {
-                  var token = jwt.sign(JSON.stringify(result), "your_jwt_secret");
+                  var token = jwt.sign(
+                    JSON.stringify(result),
+                    "your_jwt_secret"
+                  );
                   return res.send({
                     message: "Admin Logged In",
                     responseCode: 2000,
@@ -260,17 +264,17 @@ export default class AdminController {
                   });
                 }
               }
-            })
-          } else {
-            return res.send({
-              message: "Admin Dont exist",
-              responseCode: 500,
-              status: 200,
-            });
-          }
+            }
+          );
+        } else {
+          return res.send({
+            message: "Admin Dont exist",
+            responseCode: 500,
+            status: 200,
+          });
         }
       }
-    );
+    });
   };
 
   getAdmin = function (req: any, res: any) {
@@ -372,8 +376,8 @@ export default class AdminController {
           });
         } else {
           const schema = {
-            suggestion: req.body.suggestion
-          }
+            suggestion: req.body.suggestion,
+          };
           Suggestion.findOne(schema, (error: any, suggestion: any) => {
             if (error) {
               return res.send({
@@ -387,7 +391,7 @@ export default class AdminController {
                 return res.send({
                   message: "Already Exists",
                   responseCode: 800,
-                  status: 200
+                  status: 200,
                 });
               } else {
                 Suggestion.create(schema, (error: any, result: any) => {
@@ -403,17 +407,17 @@ export default class AdminController {
                       message: "Suggestion Added",
                       responseCode: 2000,
                       status: 200,
-                      result: result
-                    })
+                      result: result,
+                    });
                   }
-                })
+                });
               }
             }
-          })
+          });
         }
-      })
+      });
     }
-  }
+  };
 
   getSuggestion = function (req: any, res: any) {
     var token = req.headers.token;
@@ -427,28 +431,31 @@ export default class AdminController {
             error: err,
           });
         } else {
-          var suggestion = req.query.suggestion
-          Suggestion.find({ suggestion: { '$regex': suggestion, '$options': 'i' } }, (error: any, result: any) => {
-            if (error) {
-              return res.send({
-                message: "unauthorized access",
-                responseCode: 700,
-                status: 200,
-                error: err,
-              });
-            } else {
-              return res.send({
-                message: "Suggestions",
-                responseCode: 2000,
-                status: 200,
-                result: result
-              })
+          var suggestion = req.query.suggestion;
+          Suggestion.find(
+            { suggestion: { $regex: suggestion, $options: "i" } },
+            (error: any, result: any) => {
+              if (error) {
+                return res.send({
+                  message: "unauthorized access",
+                  responseCode: 700,
+                  status: 200,
+                  error: err,
+                });
+              } else {
+                return res.send({
+                  message: "Suggestions",
+                  responseCode: 2000,
+                  status: 200,
+                  result: result,
+                });
+              }
             }
-          })
+          );
         }
-      })
+      });
     }
-  }
+  };
 
   getAllSuggestion = function (req: any, res: any) {
     var token = req.headers.token;
@@ -475,14 +482,14 @@ export default class AdminController {
                 message: "Suggestions",
                 responseCode: 2000,
                 status: 200,
-                result: result
-              })
+                result: result,
+              });
             }
-          })
+          });
         }
-      })
+      });
     }
-  }
+  };
 
   deleteSuggestion = function (req: any, res: any) {
     var token = req.headers.token;
@@ -497,8 +504,8 @@ export default class AdminController {
           });
         } else {
           const schema = {
-            _id: mongoose.Types.ObjectId(req.query.suggestionId)
-          }
+            _id: mongoose.Types.ObjectId(req.query.suggestionId),
+          };
           Suggestion.remove(schema, (error: any, result: any) => {
             if (error) {
               return res.send({
@@ -512,20 +519,20 @@ export default class AdminController {
                 message: "Suggestion Deleted",
                 responseCode: 2000,
                 status: 200,
-                result: result
-              })
+                result: result,
+              });
             }
-          })
+          });
         }
-      })
+      });
     }
-  }
+  };
 
   addShortcuts = function (req: any, res: any) {
     var schema = {
       word: req.body.word,
-      shortcut: req.body.shortcut
-    }
+      shortcut: req.body.shortcut,
+    };
     Shortcuts.create(schema, (err: any, result: any) => {
       if (err) {
         return res.send({
@@ -542,9 +549,8 @@ export default class AdminController {
           result: result,
         });
       }
-    })
-
-  }
+    });
+  };
 }
 
 export const adminController = new AdminController();
