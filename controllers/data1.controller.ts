@@ -2742,10 +2742,58 @@ export default class Data1Controller {
                       var city = "";
                       // <script>setCookie("googtrans", "/en/hi"); function testLoad(){document.getElementById("test").innerHTML = document.cookie;} function setCookie(key, value, expiry){ var expires = new Date();expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));document.cookie = key + "=" + value + ";expires=" + expires.toUTCString();}function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><div id="google_translate_element"></div>'+
                       var dldId =
-                        '<head><meta name="viewport" content="width=device-width"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>$(document).ready(function() {$("*").each(function(i, obj) {var type = $(obj).css("margin-left").slice(-2);var px = parseInt($(obj).css("margin-left"));if (px > 0){var newPX = px / 2;$(obj).css("margin-left", newPX +type);}var px = parseInt($(obj).css("margin-right"));if (px > 0) {var newPX = px / 2;$(obj).css("margin-right", newPX +type);}});}); </script><style>iframe{display:none;}p{/*margin-top:0px;margin-bottom:0px;*/overflow-y: hidden;}ol{margin:0px;padding-inline-start: 20px!important;}body{padding: 0px 8px;}table {display: block;overflow-x: auto;}</style><script> </script></head><body style="margin-left:60px;margin-right:30px"></body><div style="display:none" id="google_translate_element"></div><script>function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: "en"},"google_translate_element");}</script><script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>' +
-                        '<p style="margin-left:-1px; margin-bottom: 10px; text-align:center"><span style="font-size:14px"><strong>' +
+                        '<head><meta name="viewport" content="width=device-width">' +
+                        '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>' +
+                        "<script>" +
+                        "$(document).ready(function() {" +
+                        '  $("*").each(function(i, obj) {' +
+                        '    var type = $(obj).css("margin-left").slice(-2);' +
+                        '    var px = parseInt($(obj).css("margin-left"));' +
+                        "    if (px > 0) {" +
+                        "      var newPX = px / 2;" +
+                        '      $(obj).css("margin-left", newPX + type);' +
+                        "    }" +
+                        '    var px = parseInt($(obj).css("margin-right"));' +
+                        "    if (px > 0) {" +
+                        "      var newPX = px / 2;" +
+                        '      $(obj).css("margin-right", newPX + type);' +
+                        "    }" +
+                        "  });" +
+                        "});" +
+                        "</script>" +
+                        "<style>" +
+                        "iframe { display: none; }" +
+                        "p { overflow-y: hidden; }" +
+                        "ol { margin: 0px; padding-inline-start: 20px!important; }" +
+                        "body { padding: 0px 8px; }" +
+                        "table { display: block; overflow-x: auto; }" +
+                        "</style>" +
+                        "<script>" +
+                        'setCookie("googtrans", "/en/' +
+                        lg +
+                        '");' +
+                        'function testLoad() { document.getElementById("test").innerHTML = document.cookie; }' +
+                        "function setCookie(key, value, expiry) {" +
+                        "  var expires = new Date();" +
+                        "  expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));" +
+                        '  document.cookie = key + "=" + value + ";expires=" + expires.toUTCString();' +
+                        "}" +
+                        "</script>" +
+                        "</head>" +
+                        "<body>" +
+                        "</body>" +
+                        '<div style="display:none" id="google_translate_element"></div>' +
+                        "<script>" +
+                        "function googleTranslateElementInit() {" +
+                        '  new google.translate.TranslateElement({ pageLanguage: "en" }, "google_translate_element");' +
+                        "}" +
+                        "</script>" +
+                        '<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>' +
+                        '<p style="margin-left:-1px; margin-bottom: 10px; text-align:center">' +
+                        '<span style="font-size:14px"><strong>' +
                         data.dldId +
                         "</strong></span></p>";
+
                       if (withName == "true") {
                         name = user.fullName;
                         city = user.city;
